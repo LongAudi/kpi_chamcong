@@ -1,0 +1,58 @@
+.tableContent{
+    width: 35%;
+    height: 800px;
+    margin: auto;
+    border: 1px solid #333;
+    margin-top: 2%;
+    background: rgb(246, 206, 79);
+}
+
+.rowContent{
+    /* text-align: center; */
+    padding: 10px;
+}
+
+.rowContent .ant-row .ant-col{
+    margin-bottom: 20px;
+}
+
+.topContent{
+    margin-top: 10px;
+}
+
+.rowContent .ant-row .ant-col-19{
+    text-align: center !important;
+}
+
+.rowContent .ant-row .ant-col-24{
+    text-align: center !important;
+}
+
+.rightContent{
+    width: 80%;
+}
+
+.textContent{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.UploadTask{
+    display: flex;
+}
+
+.rightUploadContent{
+    margin-left: 59px;
+}
+
+.ant-table.ant-table-middle.ant-table-bordered.ant-table-fixed-header{
+    height: 360px;
+}
+
+.layoutUserLogin{
+    background-image: url("https://anhdepfree.com/wp-content/uploads/2020/11/hinh-nen-xanh-duong.jpg");
+}
+
+.ant-col.ant-col-sm-6 {
+    text-align: center;
+}

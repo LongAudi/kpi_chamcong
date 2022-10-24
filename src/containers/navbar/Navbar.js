@@ -7,13 +7,17 @@ import Logo from "../../images/VBPO_Logo.png";
 import { authAxios } from "../../api/axiosClient";
 import { logout } from "../../app/Actions/auth";
 import { logoutURL } from "../../constants";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const { Header } = Layout;
 
 const cookies = new Cookies();
 
 function Navbar() {
+  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
+
   const logout_new = (e) => {
     cookies.remove("token");
     cookies.remove("refresh");
@@ -27,7 +31,9 @@ function Navbar() {
   return (
     <Header className="wrapper">
       <div className="logo">
-        <img src={Logo} alt="" style={{ height: "50px" }} />
+        <Link to="/home">
+          <img src={Logo} alt="" style={{ height: "50px" }} />
+        </Link>
       </div>
       <Dropdown
         className="navbarUser"
@@ -35,9 +41,9 @@ function Navbar() {
           <Menu>
             <Menu.Item>
               <UserOutlined style={{ marginRight: "5px" }} />
-              <a target="_blank" rel="noopener noreferrer">
-                Xem thông tin tài khoản
-              </a>
+              {/* <a target="_blank"  rel="noopener noreferrer"> */}
+              <Link to={"/personal_information"}>Xem thông tin tài khoản</Link>
+              {/* </a> */}
             </Menu.Item>
             <Menu.Item onClick={() => logout_new()}>
               <LogoutOutlined style={{ marginRight: "5px" }} />
@@ -51,10 +57,10 @@ function Navbar() {
         arrow
       >
         <Row>
-          <span className="name" span="{12}">
-            {/* {userInfo.username} */}
+          <span className="avatarNavbar">
+            <Avatar icon={<UserOutlined />} />
           </span>
-          <Avatar span={12} icon={<UserOutlined />} />
+          <span className="nameNavbar">{userInfo.username}</span>
         </Row>
       </Dropdown>
     </Header>

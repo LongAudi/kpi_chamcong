@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 .tableContent{
     width: 35%;
     height: 800px;
@@ -50,9 +52,29 @@
 }
 
 .layoutUserLogin{
-    background-image: url("https://anhdepfree.com/wp-content/uploads/2020/11/hinh-nen-xanh-duong.jpg");
+    background: url("./images/image_2022_10_24T03_58_02_594Z.png") no-repeat center center;
+    background-size: cover;
 }
 
 .ant-col.ant-col-sm-6 {
     text-align: center;
+}
+
+.login-form-button{
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    padding: 0px 30px;
+}
+
+.login-form-button:hover{
+    color: white;
+    background-color: #008cff;
+}
+
+.logo-login h1{
+    color: white;
+    font-size: 75px;
+    font-weight: 500;
+    font-family: 'Lobster', cursive;
 }

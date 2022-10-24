@@ -6,7 +6,6 @@ import {
     UserOutlined, LockOutlined, CloseCircleOutlined, EyeTwoTone, EyeInvisibleOutlined
 } from '@ant-design/icons';
 import 'antd/dist/antd.css'
-import Logo from "../images/VBPO_Logo.png"
 import { authLogin } from "../app/Actions/auth";
 import { PutForgotPassApi } from "../api/usersApi";
 import { openNotificationWithIcon } from "./Function";
@@ -120,7 +119,7 @@ class LoginForm extends React.Component {
     };
 
     render() {
-        const { error, loading, token } = this.props;
+        const { token } = this.props;
         if (token) {
             // localStorage.setItem("currentSelectedKeys", JSON.stringify(['2']))
             return (
@@ -134,7 +133,8 @@ class LoginForm extends React.Component {
             <div className="content">
                 <div className="login">
                     <div className="logo-login">
-                        <img src={Logo} alt="" style={{ width: "25vh" }} />
+                        {/* <img src={Logo} alt="" style={{ width: "25vh" }} /> */}
+                        <h1>Login</h1>
                     </div>
                     <div className="container loginFormInput">
                         <Form
@@ -144,7 +144,7 @@ class LoginForm extends React.Component {
                             initialValues={{
                                 remember: true,
                                 username:'admin',
-                                password:'admin',
+                                password:'Vbpo@12345',
                             }}
                             onFinish={onFinish}
                         >
@@ -174,14 +174,11 @@ class LoginForm extends React.Component {
                                 />
                             </Form.Item>
                             <Form.Item>
-                                {/* <Form.Item name="remember" valuePropName="checked" noStyle >
-                                    <Checkbox style={{ color: 'white' }}>Ghi nhớ đăng nhập</Checkbox>
-                                </Form.Item> */}
-                                <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot" style={{ cursor: "pointer", color: "#1890ff" }}>Quên mật khẩu ?</span>
+                                <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot" style={{ cursor: "pointer", color: "#0078d7" }}>Forgot Password ?</span>
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" className="login-form-button">
-                                    Đăng nhập
+                                <Button htmlType="submit" className="login-form-button">
+                                    Login
                                 </Button>
                             </Form.Item>
                         </Form>

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Navbar from "../navbar/Navbar";
 import {
   Col,
   Layout,
@@ -10,8 +9,12 @@ import {
   Input,
   Popconfirm,
   Table,
+  Upload,
+  message,
 } from "antd";
 import moment from "moment";
+import { UploadOutlined } from "@ant-design/icons";
+import Footer from "../Footer";
 
 const { Content } = Layout;
 const { RangePicker } = DatePicker;
@@ -97,8 +100,6 @@ const EditableCell = ({
 function Home() {
   const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(1);
-  const defaultPageSize = 10;
-  const [pager, setPager] = useState({ pageSize: defaultPageSize, current: 1 });
 
   const onChange = (value, dateString) => {
     console.log("Selected Time: ", value);
@@ -117,8 +118,28 @@ function Home() {
 
   const handleDelete = (key) => {
     const newData = dataSource.filter((item) => item.key !== key);
+    console.log(newData);
     setDataSource(newData);
   };
+
+  const props = {
+    name: "file",
+    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    headers: {
+      authorization: "authorization-text",
+    },
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
   const defaultColumns = [
     {
       title: "Name",
@@ -130,6 +151,12 @@ function Home() {
       title: "Upload",
       dataIndex: "age",
       width: "30%",
+      render: (_, record) =>
+        dataSource.length >= 1 ? (
+          <Upload {...props}>
+            <Button icon={<UploadOutlined />}>Upload file</Button>
+          </Upload>
+        ) : null,
     },
     // {
     //   title: "address",
@@ -201,7 +228,7 @@ function Home() {
               </Col>
               <Col span={19}>
                 <DatePicker
-                  showTime
+                  // showTime
                   onChange={onChange}
                   onOk={onOk}
                   className="rightContent"
@@ -214,7 +241,7 @@ function Home() {
               </Col>
               <Col span={19}>
                 <DatePicker
-                  showTime
+                  // showTime
                   onChange={onChange}
                   onOk={onOk}
                   className="rightContent"
@@ -227,7 +254,7 @@ function Home() {
               </Col>
               <Col span={19}>
                 <DatePicker
-                  showTime
+                  // showTime
                   onChange={onChange}
                   onOk={onOk}
                   className="rightContent"
@@ -240,7 +267,7 @@ function Home() {
               </Col>
               <Col span={19}>
                 <DatePicker
-                  showTime
+                  // showTime
                   onChange={onChange}
                   onOk={onOk}
                   className="rightContent"
@@ -269,7 +296,7 @@ function Home() {
               <Col span={24}>
                 <Table
                   components={components}
-                  className='tableHome'
+                  className="tableHome"
                   rowClassName={() => "editable-row"}
                   bordered
                   scroll={{ y: 310 }}

@@ -4,7 +4,8 @@
     box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
     display: flex;
     justify-content: center;
-    background: none;
+    background: #008cff;
+    background-size: cover;
 }
 
 .logo{
@@ -12,7 +13,7 @@
 }
 
 .navbarUser{
-    margin-top: 20px;
+    color: white;
 }
 
 .ant-btn {
@@ -23,4 +24,15 @@
     margin-right: 0;
     margin-bottom: 8px;
     margin-left: 8px;
+}
+
+.avatarNavbar{
+    cursor: pointer;
+}
+
+.nameNavbar{
+    margin-left: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
 }

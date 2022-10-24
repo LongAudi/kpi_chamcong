@@ -18,6 +18,7 @@ import { authSuccess } from "../app/Actions/auth";
 import { getUserInfo } from '../app/Reducers/getUserInfo';
 
 import Home from '../containers/component/Home';
+import ThongTinCaNhan from '../containers/component/ThongTinCaNhan';
 
 const cookies = new Cookies();
 
@@ -63,6 +64,17 @@ function Main() {
                     exact
                     layout={CustomLayout}
                     path="/home"
+                    isPrivate={true}
+                    lsPermissions={['']}
+                    permission={['']}
+                    isLogged={auth}
+                    isValid={isValid}
+                />
+                <RouteWithLayout
+                    component={ThongTinCaNhan}
+                    exact
+                    layout={CustomLayout}
+                    path="/personal_information"
                     isPrivate={true}
                     lsPermissions={['']}
                     permission={['']}

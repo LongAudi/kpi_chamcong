@@ -36,7 +36,10 @@
 
 .textContent{
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .UploadTask{
@@ -77,4 +80,9 @@
     font-size: 75px;
     font-weight: 500;
     font-family: 'Lobster', cursive;
+}
+
+.richTextField{
+    width: 100%;
+    background: #fff;
 }

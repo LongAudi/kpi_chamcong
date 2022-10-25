@@ -14,7 +14,8 @@ import {
 } from "antd";
 import moment from "moment";
 import { UploadOutlined } from "@ant-design/icons";
-import Footer from "../Footer";
+import { RichTextField } from "mui-quill";
+import "react-quill/dist/quill.snow.css";
 
 const { Content } = Layout;
 const { RangePicker } = DatePicker;
@@ -100,9 +101,33 @@ const EditableCell = ({
 function Home() {
   const [dataSource, setDataSource] = useState([]);
   const [count, setCount] = useState(1);
+  const [newDay, setNewDay] = useState();
+  const [newDay1, setNewDay1] = useState();
+  const [newDay2, setNewDay2] = useState();
+  const [newDay3, setNewDay3] = useState();
+  const [value, setValue] = useState("");
 
   const onChange = (value, dateString) => {
+    setNewDay(value);
     console.log("Selected Time: ", value);
+    console.log("Formatted Selected Time: ", dateString);
+  };
+
+  const onChange1 = (value1, dateString) => {
+    setNewDay1(value1);
+    console.log("Selected Time: ", value1);
+    console.log("Formatted Selected Time: ", dateString);
+  };
+
+  const onChange2 = (value2, dateString) => {
+    setNewDay2(value2);
+    console.log("Selected Time: ", value2);
+    console.log("Formatted Selected Time: ", dateString);
+  };
+
+  const onChange3 = (value3, dateString) => {
+    setNewDay3(value3);
+    console.log("Selected Time: ", value3);
     console.log("Formatted Selected Time: ", dateString);
   };
 
@@ -110,7 +135,7 @@ function Home() {
     console.log("onOk: ", value);
   };
 
-  const dateFormat = "DD/MM/YYYY HH:mm";
+  const dateFormat = "DD/MM/YYYY HH:mm:ss";
 
   const disabledDate = (current) => {
     return current && current < moment().startOf("day");
@@ -130,7 +155,7 @@ function Home() {
     },
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        // console.log(info.file, info.fileList);
       }
       if (info.file.status === "done") {
         message.success(`${info.file.name} file uploaded successfully`);
@@ -224,7 +249,12 @@ function Home() {
           <div className="rowContent">
             <Row>
               <Col span={5}>
-                <div className="textContent">Login</div>
+                <button
+                  className="textContent"
+                  onClick={() => setNewDay(moment())}
+                >
+                  Login
+                </button>
               </Col>
               <Col span={19}>
                 <DatePicker
@@ -234,49 +264,68 @@ function Home() {
                   className="rightContent"
                   disabledDate={disabledDate}
                   format={dateFormat}
+                  value={newDay}
                 />
               </Col>
               <Col span={5}>
-                <div className="textContent">Text a break</div>
+                <button
+                  className="textContent"
+                  onClick={() => setNewDay1(moment())}
+                >
+                  Text a break
+                </button>
               </Col>
               <Col span={19}>
                 <DatePicker
                   // showTime
-                  onChange={onChange}
+                  onChange={onChange1}
                   onOk={onOk}
                   className="rightContent"
                   disabledDate={disabledDate}
                   format={dateFormat}
+                  value={newDay1}
                 />
               </Col>
               <Col span={5}>
-                <div className="textContent">Restart</div>
+                <button
+                  className="textContent"
+                  onClick={() => setNewDay2(moment())}
+                >
+                  Restart
+                </button>
               </Col>
               <Col span={19}>
                 <DatePicker
                   // showTime
-                  onChange={onChange}
+                  onChange={onChange2}
                   onOk={onOk}
                   className="rightContent"
                   disabledDate={disabledDate}
                   format={dateFormat}
+                  value={newDay2}
                 />
               </Col>
               <Col span={5}>
-                <div className="textContent">Text a break</div>
+                <button
+                  className="textContent"
+                  onClick={() => setNewDay3(moment())}
+                >
+                  Text a break
+                </button>
               </Col>
               <Col span={19}>
                 <DatePicker
                   // showTime
-                  onChange={onChange}
+                  onChange={onChange3}
                   onOk={onOk}
                   className="rightContent"
                   disabledDate={disabledDate}
                   format={dateFormat}
+                  value={newDay3}
                 />
               </Col>
               <Col span={5}>
-                <div className="textContent">Request a leave</div>
+                <button className="textContent">Request a leave</button>
               </Col>
               <Col span={19}>
                 <RangePicker
@@ -294,17 +343,38 @@ function Home() {
                 </Button>
               </Col>
               <Col span={24}>
-                <Table
-                  components={components}
-                  className="tableHome"
-                  rowClassName={() => "editable-row"}
-                  bordered
-                  scroll={{ y: 310 }}
-                  dataSource={dataSource}
-                  columns={columns}
-                  size={"middle"}
+                <RichTextField
+                  className="richTextField"
+                  value={value}
+                  onChange={(nextValue) => setValue(nextValue)}
+                  variant="outlined"
+                  options={{
+                    toolbar: true,
+                  }}
                 />
               </Col>
+              {/* <Col span={24}>
+                <RichTextField
+                  className="richTextField"
+                  value={value}
+                  onChange={(nextValue) => setValue(nextValue)}
+                  variant="outlined"
+                  options={{
+                    toolbar: true,
+                  }}
+                />
+              </Col>
+              <Col span={24}>
+                <RichTextField
+                  className="richTextField"
+                  value={value}
+                  onChange={(nextValue) => setValue(nextValue)}
+                  variant="outlined"
+                  options={{
+                    toolbar: true,
+                  }}
+                />
+              </Col> */}
               <Col span={24}>
                 <Button
                   type="primary"

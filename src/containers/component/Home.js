@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Col,
   Layout,
@@ -9,23 +9,21 @@ import {
   message,
   TimePicker,
   Form,
+  PageHeader,
 } from "antd";
 import moment from "moment";
-import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined } from "@ant-design/icons";
 import { useQuill } from "react-quilljs";
 import "react-quill/dist/quill.snow.css";
 
 const { Content } = Layout;
 // const { RangePicker } = DatePicker;
-const { Dragger } = Upload;
 
 function Home() {
-  const [dataSource, setDataSource] = useState([]);
   const [newDay, setNewDay] = useState();
   const [newDay1, setNewDay1] = useState();
   const [newDay2, setNewDay2] = useState();
   const [newDay3, setNewDay3] = useState();
-  const [fileList, setFileList] = useState([]);
 
   const onChange = (value, dateString) => {
     setNewDay(value);
@@ -103,18 +101,159 @@ function Home() {
   };
 
   return (
-    <div>
-      <Content className="contentHome">
-        <div className="rowContent">
-          <Row>
-            <Col span={7}></Col>
-            <Col span={10}>
-              <Form>
-                <Form.Item name="Upload">
-                  <Row>
-                    {/* <Col span={4}></Col> */}
-                    {/* <Col span={16} className="tableContent"> */}
-                    <Row className="tableContent">
+    <Row>
+      {/* <Col span={8}></Col> */}
+      {/* <Col span={8}> */}
+      <div className="FormHome">
+        <Form
+          colon={false}
+          labelCol={{
+            span: 9,
+          }}
+          wrapperCol={{
+            span: 15,
+            // offset:2
+          }}
+        >
+          <Form.Item
+            name="disabled"
+            valuePropName="checked"
+            className="formItemHome"
+            label={
+              <Button
+                className="textContent"
+                type="dashed"
+                onClick={() => setNewDay(moment())}
+                block
+              >
+                Login
+              </Button>
+            }
+          >
+            <DatePicker
+              // showTime
+              onChange={onChange}
+              onOk={onOk}
+              className="rightContent"
+              disabledDate={disabledDate}
+              format={dateFormat}
+              value={newDay}
+              disabled
+            />
+          </Form.Item>
+          <Form.Item
+            name="disabled"
+            valuePropName="checked"
+            className="formItemHome"
+            label={
+              <Button
+                className="textContent"
+                type="dashed"
+                block
+                onClick={() => setNewDay1(moment())}
+              >
+                Text a break
+              </Button>
+            }
+          >
+            <DatePicker
+              // showTime
+              onChange={onChange1}
+              onOk={onOk}
+              className="rightContent"
+              disabledDate={disabledDate}
+              format={dateFormat}
+              value={newDay1}
+            />
+          </Form.Item>
+          <Form.Item
+            name="disabled"
+            valuePropName="checked"
+            className="formItemHome"
+            label={
+              <Button
+                className="textContent"
+                type="dashed"
+                onClick={() => setNewDay2(moment())}
+                block
+              >
+                Restart
+              </Button>
+            }
+          >
+            <DatePicker
+              // showTime
+              onChange={onChange2}
+              onOk={onOk}
+              className="rightContent"
+              disabledDate={disabledDate}
+              format={dateFormat}
+              value={newDay2}
+            />
+          </Form.Item>
+          <Form.Item
+            name="disabled"
+            valuePropName="checked"
+            className="formItemHome"
+            label={
+              <Button
+                className="textContent"
+                type="dashed"
+                onClick={() => setNewDay3(moment())}
+                block
+              >
+                Text a break
+              </Button>
+            }
+          >
+            <DatePicker
+              // showTime
+              onChange={onChange3}
+              onOk={onOk}
+              className="rightContent"
+              disabledDate={disabledDate}
+              format={dateFormat}
+              value={newDay3}
+            />
+          </Form.Item>
+          <Form.Item
+            name="disabled"
+            valuePropName="checked"
+            className="formItemHome"
+            label={
+              <Button
+                className="textContent"
+                type="dashed"
+                onClick={() => setNewDay(moment())}
+                block
+              >
+                Request a leave
+              </Button>
+            }
+          >
+            <TimePicker.RangePicker
+              className="rightContent"
+              use12Hours
+              format="h:mm A"
+            />
+          </Form.Item>
+          <Form.Item
+            name="disabled"
+            valuePropName="checked"
+            className="formItemHomeText"
+          >
+            <div
+              style={{
+                border: "1px solid lightgray",
+                background: "#fff",
+              }}
+            >
+              <div ref={quillRef} />
+            </div>
+          </Form.Item>
+          {/* <Col span={4}></Col> */}
+          {/* <Col span={16} className="tableContent"> */}
+          {/* <Row className="tableContent">
                       <Col span={5}>
                         <button
                           className="textContent"
@@ -237,18 +376,14 @@ function Home() {
                           Send
                         </Button>
                       </Col>
-                    </Row>
-                    {/* </Col> */}
-                    {/* <Col span={4}></Col> */}
-                  </Row>
-                </Form.Item>
-              </Form>
-            </Col>
-            <Col span={7}></Col>
-          </Row>
-        </div>
-      </Content>
-    </div>
+                    </Row> */}
+          {/* </Col> */}
+          {/* <Col span={4}></Col> */}
+        </Form>
+      </div>
+      {/* </Col> */}
+      {/* <Col span={8}></Col> */}
+    </Row>
   );
 }
 

@@ -1,8 +1,8 @@
 .wrapper {
-    box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
+    /* box-shadow: 0px 1px 1px rgb(0 0 0 / 12%); */
     display: flex;
     justify-content: center;
-    background: #008cff;
+    background: transparent;
     background-size: cover;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .navbarUser{
-    color: white;
+    color: #333;
 }
 
 .ant-btn {
@@ -33,4 +33,13 @@
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .nameNavbar{
+        color: #3330;
+    }
+    .navbarUser {
+        margin-left: 70%;
+    }
 }

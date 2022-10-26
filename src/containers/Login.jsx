@@ -86,7 +86,7 @@ class LoginForm extends React.Component {
                 // labelCol={{ span: 8 }}
                 // wrapperCol={{ span: 16 }} 
                 >
-                    <Col sm={24}>
+                    <Col sm={24} > 
                         <Form.Item name='email'
                             rules={[{
                                 required: true,
@@ -119,7 +119,8 @@ class LoginForm extends React.Component {
     };
 
     render() {
-        const { token } = this.props;
+        const { error, loading, token } = this.props;
+        const { loadings } = this.state;
         if (token) {
             // localStorage.setItem("currentSelectedKeys", JSON.stringify(['2']))
             return (
@@ -177,7 +178,7 @@ class LoginForm extends React.Component {
                                 <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot" style={{ cursor: "pointer", color: "#0078d7" }}>Forgot Password ?</span>
                             </Form.Item>
                             <Form.Item>
-                                <Button htmlType="submit" className="login-form-button">
+                                <Button htmlType="submit" className="login-form-button" loading={loading} onClick={() => loadings}>
                                     Login
                                 </Button>
                             </Form.Item>

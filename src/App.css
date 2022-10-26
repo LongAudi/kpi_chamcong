@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
+.container.loginFormInput .ant-form-item-control-input {
+    width: 70%;
+    margin: auto;
+}
+
 .tableContent{
-    width: 35%;
-    height: 800px;
+    width: 100%;
+    /* height: 800px; */
     margin: auto;
     border: 1px solid #333;
-    margin-top: 2%;
+    /* margin-top: 2%; */
     background: rgb(246, 206, 79);
 }
 
@@ -15,7 +20,8 @@
 }
 
 .rowContent .ant-row .ant-col{
-    margin-bottom: 20px;
+    margin: 20px 0;
+    padding: 0 10px;
 }
 
 .topContent{
@@ -31,14 +37,20 @@
 }
 
 .rightContent{
-    width: 80%;
+    width: 50%;
 }
 
 .textContent{
     font-weight: bold;
+    cursor: pointer;
+}
+
+.textContent1{
+    font-weight: bold;
     font-size: 16px;
     background: transparent;
     border: none;
+    /* width: 150px; */
     cursor: pointer;
 }
 
@@ -85,4 +97,16 @@
 .richTextField{
     width: 100%;
     background: #fff;
+}
+
+.OutlinedRichInput-root-1{
+    border-radius: 0px !important;
+}
+
+.RichInputBase-root-20 {
+    height: 300px;
+}
+
+.ql-container.ql-snow{
+    height: 150px;
 }

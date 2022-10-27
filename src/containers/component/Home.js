@@ -105,155 +105,162 @@ function Home() {
       {/* <Col span={8}></Col> */}
       {/* <Col span={8}> */}
       <div className="FormHome">
-        <Form
-          colon={false}
-          labelCol={{
-            span: 9,
-          }}
-          wrapperCol={{
-            span: 15,
-            // offset:2
-          }}
-        >
-          <Form.Item
-            name="disabled"
-            valuePropName="checked"
-            className="formItemHome"
-            label={
-              <Button
-                className="textContent"
-                type="dashed"
-                onClick={() => setNewDay(moment())}
-                block
-              >
-                Login
-              </Button>
-            }
-          >
-            <DatePicker
-              // showTime
-              onChange={onChange}
-              onOk={onOk}
-              className="rightContent"
-              disabledDate={disabledDate}
-              format={dateFormat}
-              value={newDay}
-              disabled
-            />
-          </Form.Item>
-          <Form.Item
-            name="disabled"
-            valuePropName="checked"
-            className="formItemHome"
-            label={
-              <Button
-                className="textContent"
-                type="dashed"
-                block
-                onClick={() => setNewDay1(moment())}
-              >
-                Text a break
-              </Button>
-            }
-          >
-            <DatePicker
-              // showTime
-              onChange={onChange1}
-              onOk={onOk}
-              className="rightContent"
-              disabledDate={disabledDate}
-              format={dateFormat}
-              value={newDay1}
-            />
-          </Form.Item>
-          <Form.Item
-            name="disabled"
-            valuePropName="checked"
-            className="formItemHome"
-            label={
-              <Button
-                className="textContent"
-                type="dashed"
-                onClick={() => setNewDay2(moment())}
-                block
-              >
-                Restart
-              </Button>
-            }
-          >
-            <DatePicker
-              // showTime
-              onChange={onChange2}
-              onOk={onOk}
-              className="rightContent"
-              disabledDate={disabledDate}
-              format={dateFormat}
-              value={newDay2}
-            />
-          </Form.Item>
-          <Form.Item
-            name="disabled"
-            valuePropName="checked"
-            className="formItemHome"
-            label={
-              <Button
-                className="textContent"
-                type="dashed"
-                onClick={() => setNewDay3(moment())}
-                block
-              >
-                Text a break
-              </Button>
-            }
-          >
-            <DatePicker
-              // showTime
-              onChange={onChange3}
-              onOk={onOk}
-              className="rightContent"
-              disabledDate={disabledDate}
-              format={dateFormat}
-              value={newDay3}
-            />
-          </Form.Item>
-          <Form.Item
-            name="disabled"
-            valuePropName="checked"
-            className="formItemHome"
-            label={
-              <Button
-                className="textContent"
-                type="dashed"
-                onClick={() => setNewDay(moment())}
-                block
-              >
-                Request a leave
-              </Button>
-            }
-          >
-            <TimePicker.RangePicker
-              className="rightContent"
-              use12Hours
-              format="h:mm A"
-            />
-          </Form.Item>
-          <Form.Item
-            name="disabled"
-            valuePropName="checked"
-            className="formItemHomeText"
-          >
-            <div
-              style={{
-                border: "1px solid lightgray",
-                background: "#fff",
+        <div className="FormHome1">
+          <div className="FormHome2">
+            <Form
+              colon={false}
+              labelCol={{
+                span: 9,
+              }}
+              wrapperCol={{
+                span: 15,
+                // offset:2
               }}
             >
-              <div ref={quillRef} />
-            </div>
-          </Form.Item>
-          {/* <Col span={4}></Col> */}
-          {/* <Col span={16} className="tableContent"> */}
-          {/* <Row className="tableContent">
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+                label={
+                  <Button
+                    className="textContent"
+                    type="dashed"
+                    onClick={() => setNewDay(moment())}
+                    block
+                  >
+                    Login
+                  </Button>
+                }
+                style={{ marginBottom: "24px" }}
+              >
+                <DatePicker
+                  // showTime
+                  onChange={onChange}
+                  onOk={onOk}
+                  className="rightContent"
+                  disabledDate={disabledDate}
+                  format={dateFormat}
+                  value={newDay}
+                  disabled
+                />
+              </Form.Item>
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+                label={
+                  <Button
+                    className="textContent"
+                    type="dashed"
+                    block
+                    onClick={() => setNewDay1(moment())}
+                  >
+                    Text a break
+                  </Button>
+                }
+                style={{ marginBottom: "24px" }}
+              >
+                <DatePicker
+                  // showTime
+                  onChange={onChange1}
+                  onOk={onOk}
+                  className="rightContent"
+                  disabledDate={disabledDate}
+                  format={dateFormat}
+                  value={newDay1}
+                />
+              </Form.Item>
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+                label={
+                  <Button
+                    className="textContent"
+                    type="dashed"
+                    onClick={() => setNewDay2(moment())}
+                    block
+                  >
+                    Resume
+                  </Button>
+                }
+                style={{ marginBottom: "24px" }}
+              >
+                <DatePicker
+                  // showTime
+                  onChange={onChange2}
+                  onOk={onOk}
+                  className="rightContent"
+                  disabledDate={disabledDate}
+                  format={dateFormat}
+                  value={newDay2}
+                />
+              </Form.Item>
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+                label={
+                  <Button
+                    className="textContent"
+                    type="dashed"
+                    onClick={() => setNewDay3(moment())}
+                    block
+                  >
+                    Text a break
+                  </Button>
+                }
+                style={{ marginBottom: "24px" }}
+              >
+                <DatePicker
+                  // showTime
+                  onChange={onChange3}
+                  onOk={onOk}
+                  className="rightContent"
+                  disabledDate={disabledDate}
+                  format={dateFormat}
+                  value={newDay3}
+                />
+              </Form.Item>
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+                label={
+                  <Button
+                    className="textContent"
+                    type="dashed"
+                    onClick={() => setNewDay(moment())}
+                    block
+                  >
+                    Leaves
+                  </Button>
+                }
+                style={{ marginBottom: "24px" }}
+              >
+                <TimePicker.RangePicker
+                  className="rightContent"
+                  use12Hours
+                  format="h:mm A"
+                />
+              </Form.Item>
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHomeText"
+              >
+                <div
+                  style={{
+                    border: "1px solid lightgray",
+                    background: "#fff",
+                  }}
+                >
+                  <div ref={quillRef} />
+                </div>
+              </Form.Item>
+              {/* <Col span={4}></Col> */}
+              {/* <Col span={16} className="tableContent"> */}
+              {/* <Row className="tableContent">
                       <Col span={5}>
                         <button
                           className="textContent"
@@ -377,9 +384,11 @@ function Home() {
                         </Button>
                       </Col>
                     </Row> */}
-          {/* </Col> */}
-          {/* <Col span={4}></Col> */}
-        </Form>
+              {/* </Col> */}
+              {/* <Col span={4}></Col> */}
+            </Form>
+          </div>
+        </div>
       </div>
       {/* </Col> */}
       {/* <Col span={8}></Col> */}

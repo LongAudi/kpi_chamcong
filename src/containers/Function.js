@@ -18,3 +18,17 @@ export const validateMessages = {
     },
 };
 
+export const errorHandle = (err) =>{
+  let dataError
+  if (!err.data) {
+      return;
+  }
+  if (err.status === 500) {
+      dataError = "Dữ liệu có vấn đề, vui lòng kiểm tra lại"
+  }
+  if (err.status === 400) {
+      dataError = err.data.error
+  }
+  // const dataError = Object.entries(err.data).map(([key, value]) => <p>{value}</p>)
+  openNotificationWithIcon('error', 'Lỗi', dataError)
+}

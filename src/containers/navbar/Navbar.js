@@ -1,6 +1,6 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Dropdown, Menu, Row, Avatar, Layout } from "antd";
+import { Dropdown, Menu, Row, Avatar, Layout, Col } from "antd";
 import "./navbar.css";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import Logo from "../../images/VBPO_Logo.png";
@@ -30,39 +30,59 @@ function Navbar() {
   };
   return (
     <Header className="wrapper">
-      <div className="logo">
-        <Link to="/home">
-          <img src={Logo} alt="" style={{ height: "50px" }} />
-        </Link>
-      </div>
-      <Dropdown
-        className="navbarUser"
-        overlay={
-          <Menu>
+      <Row style={{ width: "100%" }}>
+        <Col span={2}>
+          <div className="logo">
+            <Link to="/home">
+              <img src={Logo} alt="" style={{ height: "50px" }} />
+            </Link>
+          </div>
+        </Col>
+        <Col span={20}>
+          <Menu
+            mode="horizontal"
+            defaultSelectedKeys={["mail"]}
+            className="menuNavbar"
+          >
             <Menu.Item>
-              <UserOutlined style={{ marginRight: "5px" }} />
-              {/* <a target="_blank"  rel="noopener noreferrer"> */}
-              <Link to={"/personal_information"}>Xem thông tin tài khoản</Link>
-              {/* </a> */}
-            </Menu.Item>
-            <Menu.Item onClick={() => logout_new()}>
-              <LogoutOutlined style={{ marginRight: "5px" }} />
-              <a target="_blank" rel="noopener noreferrer">
-                Đăng xuất
-              </a>
+              <span>Admin</span>
+              <Link to="/users"></Link>
             </Menu.Item>
           </Menu>
-        }
-        placement="bottomLeft"
-        arrow
-      >
-        <Row>
-          <span className="avatarNavbar">
-            <Avatar icon={<UserOutlined />} />
-          </span>
-          <span className="nameNavbar">{userInfo.username}</span>
-        </Row>
-      </Dropdown>
+        </Col>
+        <Col span={2}>
+          <Dropdown
+            className="navbarUser"
+            overlay={
+              <Menu>
+                <Menu.Item>
+                  <UserOutlined style={{ marginRight: "5px" }} />
+                  {/* <a target="_blank"  rel="noopener noreferrer"> */}
+                  <Link to={"/personal_information"}>
+                    Xem thông tin tài khoản
+                  </Link>
+                  {/* </a> */}
+                </Menu.Item>
+                <Menu.Item onClick={() => logout_new()}>
+                  <LogoutOutlined style={{ marginRight: "5px" }} />
+                  <a target="_blank" rel="noopener noreferrer">
+                    Đăng xuất
+                  </a>
+                </Menu.Item>
+              </Menu>
+            }
+            placement="bottomLeft"
+            arrow
+          >
+            <Row>
+              <span className="avatarNavbar">
+                <Avatar icon={<UserOutlined />} />
+              </span>
+              <span className="nameNavbar">{userInfo.username}</span>
+            </Row>
+          </Dropdown>
+        </Col>
+      </Row>
     </Header>
   );
 }

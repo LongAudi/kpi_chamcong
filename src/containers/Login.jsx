@@ -157,6 +157,7 @@ class LoginForm extends React.Component {
                                         message: 'Vui lòng nhập Tên người dùng!',
                                     },
                                 ]}
+                                className="FormItem"
                             >
                                 <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Đăng nhập" />
                             </Form.Item>
@@ -167,17 +168,19 @@ class LoginForm extends React.Component {
                                         required: true,
                                         message: 'Vui lòng nhập Mật khẩu!',
                                     },
-                                ]}>
+                                ]}
+                                className="FormItem"
+                                >
                                 <Input.Password
                                     prefix={<LockOutlined className="site-form-item-icon" />}
                                     placeholder="Mật khẩu"
                                     iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                                 />
                             </Form.Item>
-                            <Form.Item>
-                                <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot" style={{ cursor: "pointer", color: "#0078d7" }}>Forgot Password ?</span>
+                            <Form.Item className="FormItem">
+                                <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot " style={{ cursor: "pointer", color: "#0078d7" }}>Forgot Password ?</span>
                             </Form.Item>
-                            <Form.Item>
+                            <Form.Item className="FormItem">
                                 <Button htmlType="submit" className="login-form-button" loading={loading} onClick={() => loadings}>
                                     Login
                                 </Button>

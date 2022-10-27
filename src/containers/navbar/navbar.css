@@ -6,8 +6,13 @@
     background-size: cover;
 }
 
-.logo{
-    width: 80%;
+.wrapper{
+    justify-content: left;
+    width: 100%;
+}
+
+.menuNavbar{
+    background: none;
 }
 
 .navbarUser{

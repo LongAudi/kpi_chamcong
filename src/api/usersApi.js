@@ -1,6 +1,6 @@
 import {authAxios} from "../api/axiosClient";
 // import Cookies from 'universal-cookie';
-import {listUserURL, userEditURL} from "../constants";
+import { manageUserURL, userEditURL} from "../constants";
 
 export const usersApi = {
     getAll: (params) => {
@@ -10,8 +10,13 @@ export const usersApi = {
 }
 
 export const GetListUserApi =(params={})=> {
-    const url = listUserURL;
+    const url = manageUserURL;
     return authAxios().get(url,{params});
+}
+
+export const PostUserApi = (params={})=>{
+    const url = manageUserURL;
+    return authAxios().post(url,params);
 }
 
 export const PutChangePassApi =(id, params={})=> {
@@ -19,8 +24,8 @@ export const PutChangePassApi =(id, params={})=> {
     return authAxios().put(url(id), params );
 }
 
-
 export const PutForgotPassApi =(id, params={})=> {
     const url = userEditURL;
     return authAxios().put(url(id), params );
 }
+

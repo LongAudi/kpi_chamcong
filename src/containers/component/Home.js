@@ -10,6 +10,7 @@ import {
   TimePicker,
   Form,
   PageHeader,
+  TreeSelect,
 } from "antd";
 import moment from "moment";
 import { UploadOutlined } from "@ant-design/icons";
@@ -106,17 +107,55 @@ function Home() {
       {/* <Col span={8}> */}
       <div className="FormHome">
         <div className="FormHome1">
+          {/* <h1>Hello</h1> */}
           <div className="FormHome2">
             <Form
               colon={false}
               labelCol={{
                 span: 9,
               }}
-              wrapperCol={{
-                span: 15,
-                // offset:2
-              }}
+              wrapperCol={
+                {
+                  // span: 15,
+                  // offset:2
+                }
+              }
             >
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+                style={{ marginBottom: "24px" }}
+              >
+                <Row>
+                  <Col span={16}>
+                    <TreeSelect
+                      treeDataSimpleMode
+                      dropdownStyle={{
+                        maxHeight: 400,
+                        overflow: "auto",
+                        minWidth: 300,
+                      }}
+                      placeholder="
+                      Please select project name"
+                      onChange={onChange}
+                    />
+                  </Col>
+                  <Col span={6} offset={2}>
+                    <TreeSelect
+                      treeDataSimpleMode
+                      dropdownStyle={{
+                        maxHeight: 400,
+                        overflow: "auto",
+                        minWidth: 150,
+                      }}
+                      placeholder="Please choose a session"
+                      onChange={onChange}
+                      className="TreeSelectHomeTime"
+                    />
+                  </Col>
+                </Row>
+              </Form.Item>
               <Form.Item
                 name="disabled"
                 valuePropName="checked"
@@ -142,6 +181,7 @@ function Home() {
                   format={dateFormat}
                   value={newDay}
                   disabled
+                  placeholder=""
                 />
               </Form.Item>
               <Form.Item
@@ -155,7 +195,7 @@ function Home() {
                     block
                     onClick={() => setNewDay1(moment())}
                   >
-                    Text a break
+                    Take a break
                   </Button>
                 }
                 style={{ marginBottom: "24px" }}
@@ -168,6 +208,8 @@ function Home() {
                   disabledDate={disabledDate}
                   format={dateFormat}
                   value={newDay1}
+                  open={false}
+                  placeholder=""
                 />
               </Form.Item>
               <Form.Item
@@ -194,6 +236,8 @@ function Home() {
                   disabledDate={disabledDate}
                   format={dateFormat}
                   value={newDay2}
+                  open={false}
+                  placeholder=""
                 />
               </Form.Item>
               <Form.Item
@@ -207,7 +251,7 @@ function Home() {
                     onClick={() => setNewDay3(moment())}
                     block
                   >
-                    Text a break
+                    Take a break
                   </Button>
                 }
                 style={{ marginBottom: "24px" }}
@@ -220,6 +264,8 @@ function Home() {
                   disabledDate={disabledDate}
                   format={dateFormat}
                   value={newDay3}
+                  open={false}
+                  placeholder=""
                 />
               </Form.Item>
               <Form.Item
@@ -248,16 +294,65 @@ function Home() {
                 name="disabled"
                 valuePropName="checked"
                 className="formItemHomeText"
+                style={{ marginBottom: "24px" }}
               >
-                <div
-                  style={{
-                    border: "1px solid lightgray",
-                    background: "#fff",
-                  }}
-                >
-                  <div ref={quillRef} />
-                </div>
+                <Row>
+                  <Col span={24}>
+                    <div
+                      style={
+                        {
+                          // border: "1px solid lightgray",
+                          // background: "#fff",
+                        }
+                      }
+                    >
+                      {/* <div ref={quillRef} /> */}
+                      <input
+                        type="text"
+                        style={{
+                          width: "100%",
+                          minHeight: "80px",
+                          borderRadius: "10px",
+                          border: "none",
+                        }}
+                        placeholder="Hello"
+                      />
+                    </div>
+                  </Col>
+                </Row>
               </Form.Item>
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+                style={{ marginBottom: "24px" }}
+              >
+                <Upload
+                  name="uploadFile"
+                  beforeUpload={beforeUpload}
+                  accept="image/png, image/jpeg, .pdf"
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                >
+                  <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                </Upload>
+              </Form.Item>
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+              >
+                <Col span={24}>
+                  <Button
+                    type="primary"
+                    shape="round"
+                    className="btnSendHome"
+                    // icon={<DownloadOutlined />}
+                  >
+                    Send
+                  </Button>
+                </Col>
+              </Form.Item>
+
               {/* <Col span={4}></Col> */}
               {/* <Col span={16} className="tableContent"> */}
               {/* <Row className="tableContent">

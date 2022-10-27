@@ -11,5 +11,6 @@ export const token_refresh_URL = `${endpoint}/token/refresh/`;
 export const logoutURL = `${endpoint}/logout/`;
 
 export const userInfoURL = `${endpoint}/infor-user/`;
-export const listUserURL = `${endpoint}/infor-all-user/`;
 export const userEditURL =  id => `${endpoint}/user/${id}`;
+
+export const manageUserURL = `${endpoint}/manage-user/`;

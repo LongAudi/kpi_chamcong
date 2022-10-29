@@ -41,12 +41,12 @@ function Navbar() {
         <Col span={20}>
           <Menu
             mode="horizontal"
-            defaultSelectedKeys={["mail"]}
+            defaultSelectedKeys={["Menu"]}
             className="menuNavbar"
           >
-            <Menu.Item>
+            <Menu.Item key="Admin">
               <span>Admin</span>
-              <Link to="/users"></Link>
+              <Link to="/admin"></Link>
             </Menu.Item>
           </Menu>
         </Col>
@@ -68,6 +68,7 @@ function Navbar() {
                   <a target="_blank" rel="noopener noreferrer">
                     Đăng xuất
                   </a>
+                  
                 </Menu.Item>
               </Menu>
             }

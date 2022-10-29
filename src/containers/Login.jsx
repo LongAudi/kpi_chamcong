@@ -11,10 +11,10 @@ import { PutForgotPassApi } from "../api/usersApi";
 import { openNotificationWithIcon } from "./Function";
 
 const validateMessages = {
-    required: 'Vui lòng nhập ${label} !',
+    required: 'Please enter your registered ${label} !',
     types: {
-      email: '${label} không đúng định dạng email!',
-      number: '${label} không phải số!',
+      email: '${label} is not in the correct email format!',
+      number: '${label} not numbers!',
     },
     number: {
       range: '${label} must be between ${min} and ${max}',
@@ -72,7 +72,7 @@ class LoginForm extends React.Component {
         return (
             <Modal
                 destroyOnClose
-                title="Đặt lại mật khẩu"
+                title="Reset your password"
                 visible={modalVisibleRestPass}
                 onCancel={this.handleModalCancel}
                 footer={null}
@@ -86,31 +86,20 @@ class LoginForm extends React.Component {
                 // labelCol={{ span: 8 }}
                 // wrapperCol={{ span: 16 }} 
                 >
-                    <Col sm={24} > 
+                    <Col sm={24} style={{marginBottom: "20px"}}> 
                         <Form.Item name='email'
                             rules={[{
                                 required: true,
                                 type: 'email'
                             },]}
-                            label={"Email đã đăng ký"}
+                            label={"Email"}
                         >
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col sm={24}>
-                        <Form.Item name='tenND'
-                            rules={[{
-                                required: true,
-                                type: 'tenND'
-                            },]}
-                            label={"Tên người dùng"}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Row style={{ paddingBottom: '10px' }}>
+                    <Row>
                         <Col span={24} style={{ textAlign: "center" }}>
-                            <Button shape="round" size="default" type="primary" htmlType="submit">Đặt lại mật khẩu </Button>
+                            <Button shape="round" size="default" type="primary" htmlType="submit">Reset Password</Button>
                         </Col>
                     </Row>
                 </Form>
@@ -154,26 +143,26 @@ class LoginForm extends React.Component {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Vui lòng nhập Tên người dùng!',
+                                        message: 'Please enter Username!',
                                     },
                                 ]}
                                 className="FormItem"
                             >
-                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Đăng nhập" />
+                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
                             </Form.Item>
                             <Form.Item
                                 name="password"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Vui lòng nhập Mật khẩu!',
+                                        message: 'Please enter Password!',
                                     },
                                 ]}
                                 className="FormItem"
                                 >
                                 <Input.Password
                                     prefix={<LockOutlined className="site-form-item-icon" />}
-                                    placeholder="Mật khẩu"
+                                    placeholder="Password"
                                     iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                                 />
                             </Form.Item>
@@ -181,6 +170,7 @@ class LoginForm extends React.Component {
                                 <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot " style={{ cursor: "pointer", color: "#0078d7" }}>Forgot Password ?</span>
                             </Form.Item>
                             <Form.Item className="FormItem">
+                                
                                 <Button htmlType="submit" className="login-form-button" loading={loading} onClick={() => loadings}>
                                     Login
                                 </Button>

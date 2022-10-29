@@ -180,7 +180,7 @@ function Home() {
                   disabledDate={disabledDate}
                   format={dateFormat}
                   value={newDay}
-                  disabled
+                  // disabled
                   placeholder=""
                 />
               </Form.Item>

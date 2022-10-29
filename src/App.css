@@ -146,6 +146,11 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover{
 
 .btnAddUser{
     float: right;
+    margin-left: 10px;
+}
+
+.DateBirthdayUser{
+    width: 100%;
 }
 
 @media (max-width: 768px) {

@@ -59,11 +59,11 @@ export const authLogin = (username, password) => {
             .catch(err => {
                 // openNotificationWithIcon('error', 'Lỗi kết nối', 'Lỗi kết nối, kiểm tra kết nối tới server !!!')
                 if (err.request.status === 401) {
-                    openNotificationWithIcon('error', 'Lỗi', 'Vui lòng kiểm tra thông tin đăng nhâp.')
+                    openNotificationWithIcon('error', 'ERROR', 'Please check your login information.')
                     // message.error('Lỗi kết nối, kiểm tra kết nối tới server !!!', 10);
                 }
                 if (err.request.status === 0) {
-                    openNotificationWithIcon('error', 'Lỗi kết nối', 'Lỗi kết nối, kiểm tra kết nối tới server !!!')
+                    openNotificationWithIcon('error', 'CONNECTION ERROR', 'Please check the connection to the server !!!')
                     // message.error('Lỗi kết nối, kiểm tra kết nối tới server !!!', 10);
                 }
                 dispatch(authFail(err));

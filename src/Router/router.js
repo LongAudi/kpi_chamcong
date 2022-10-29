@@ -86,7 +86,7 @@ function Main() {
                     component={User}
                     exact
                     layout={CustomLayout}
-                    path="/users"
+                    path="/admin"
                     isPrivate={true}
                     lsPermissions={['']}
                     permission={['']}

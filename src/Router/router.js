@@ -20,6 +20,7 @@ import { getUserInfo } from '../app/Reducers/getUserInfo';
 import Home from '../containers/component/Home';
 import ThongTinCaNhan from '../containers/component/ThongTinCaNhan';
 import User from '../containers/component/User';
+import WorkingDetails from '../containers/component/WorkingDetails';
 
 const cookies = new Cookies();
 
@@ -87,6 +88,17 @@ function Main() {
                     exact
                     layout={CustomLayout}
                     path="/admin"
+                    isPrivate={true}
+                    lsPermissions={['']}
+                    permission={['']}
+                    isLogged={auth}
+                    isValid={isValid}
+                />
+                <RouteWithLayout
+                    component={WorkingDetails}
+                    exact
+                    layout={CustomLayout}
+                    path="/working_details"
                     isPrivate={true}
                     lsPermissions={['']}
                     permission={['']}

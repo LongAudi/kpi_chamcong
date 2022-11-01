@@ -44,13 +44,21 @@ function Navbar() {
             defaultSelectedKeys={["Menu"]}
             className="menuNavbar"
           >
+          {userInfo.group_role == 1 ? 
             <Menu.Item key="Admin">
               <span>Admin</span>
               <Link to="/admin"></Link>
             </Menu.Item>
+            : ""}
+          {userInfo.group_role == 3 ? 
+            <Menu.Item key="WorkingDetails">
+              <span>Working Details</span>
+              <Link to="/working_details"></Link>
+            </Menu.Item>
+            : ""}
           </Menu>
         </Col>
-        <Col span={2}>
+        <Col span={2} >
           <Dropdown
             className="navbarUser"
             overlay={

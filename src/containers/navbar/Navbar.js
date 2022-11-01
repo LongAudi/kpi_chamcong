@@ -19,11 +19,11 @@ function Navbar() {
   const userInfo = useSelector((state) => state.getUserInfo.userInfo);
 
   const logout_new = (e) => {
-    cookies.remove("token");
-    cookies.remove("refresh");
-    authAxios()
+    authAxios(cookies.get("token"))
       .get(logoutURL)
       .then((res) => {
+        cookies.remove("token");
+        cookies.remove("refresh");
         window.location = "/login";
       });
     logout();
@@ -68,7 +68,6 @@ function Navbar() {
                   <a target="_blank" rel="noopener noreferrer">
                     Đăng xuất
                   </a>
-                  
                 </Menu.Item>
               </Menu>
             }

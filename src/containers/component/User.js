@@ -11,6 +11,8 @@ import {
   Select,
   DatePicker,
   Tag,
+  Drawer,
+  TimePicker,
 } from "antd";
 import { errorHandle, openNotificationWithIcon } from "../Function";
 import {
@@ -21,7 +23,13 @@ import {
   PutUserApi,
 } from "../../api/usersApi";
 import moment from "moment";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+import { GetProjectApi } from "../../api/projectApi";
 
 const { Option } = Select;
 const validateMessages = {
@@ -48,6 +56,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
       email: values.email,
       last_name: values.last_name,
       first_name: values.first_name,
+      group_role: values.group_role,
     })
       .then((res) => {
         if (res.data.error) {
@@ -217,70 +226,290 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item wrapperCol={{ offset: 10, span: 12 }}>
-          <Button type="success" htmlType="submit" className={"m-2"}>
-            Thêm
+        <Form.Item style={{ marginTop: "20px", textAlign: "center" }}>
+          <Button
+            type="success"
+            htmlType="submit"
+            className={"m-2"}
+            style={{ marginRight: "20px" }}
+          >
+            Upload
           </Button>
-          <Button onClick={onCloseModal}>Thoát</Button>
+          <Button onClick={onCloseModal}>Exit</Button>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-const ModalAddProject = ({ visible, onCancel }) => {
+const ModalAddProject = ({ visible, onCancel, dataInforUser,lsNameUser }) => {
   const [form] = Form.useForm();
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const defaultPageSize = 10;
+  const [pager, setPager] = useState({
+    pageSize: defaultPageSize,
+    count: 0,
+    current: 1,
+  });
+
+  const fetchDataProject = (params = {}) => {
+    setLoading(true);
+    GetProjectApi(params)
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+        setPager({
+          current: params.page,
+          pageSize: params.page_size,
+          count: res.data.count,
+        });
+        setLoading(false);
+      })
+      .catch((err) => {
+        errorHandle(err);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchDataProject();
+  }, []);
 
   const columns = [
     {
       title: "Project",
-      dataIndex: "Project",
-      key: "Project",
+      dataIndex: "name",
+      key: "name",
+      filterKey: "name",
+      align: "center",
+      type: "text",
+      canSearch: true,
+      width: 150,
     },
     {
-      title: "Shifts Working",
-      dataIndex: "working_time",
-      key: "working_time",
+      title: "Number of members",
+      dataIndex: "Number_of_members",
+      key: "Number_of_members",
+      filterKey: "Number_of_members",
+      align: "center",
+      type: "text",
+      canSearch: true,
+      width: 150,
+    },
+    {
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
+      filterKey: "Action",
+      align: "center",
+      type: "text",
+      canSearch: true,
+      width: 150,
+      render: (record) => (
+        <div
+          className="btngroup1"
+          style={{ display: "flex", marginLeft: "55px" }}
+        >
+          <div className="btnBack" style={{ marginRight: "10px" }}>
+            <Tooltip placement="bottom" title="Sửa" arrowPointAtCenter>
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<EditOutlined />}
+                onClick={() => {
+                  showDrawer(record);
+                }}
+              />
+            </Tooltip>
+          </div>
+        </div>
+      ),
     },
   ];
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const onCloseModal = () => {
     form.resetFields();
     onCancel();
   };
 
-  const data = [
-    {
-      key: "1",
-      Project: "John Brown",
-      working_time: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
+  const CardTaoTeam = () => {
+    const [form] = Form.useForm();
+    const [size, setSize] = useState("middle");
+    const [timeStart, setTimeStart] = useState(null);
+    const [timeEnd, setTimeEnd] = useState(null);
+
+    // const children = [];
+    // for (let i = 10; i < 36; i++) {
+    //   children.push(
+    //     <Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>
+    //   );
+    // }
+
+    // const getDisableHourOut = () => {
+    //   const timeIn = timeStart ? timeStart._d.getHours() : 0;
+    //   let arrCheck = [...Array(24).keys()];
+    //   return arrCheck.filter((item) => item < timeIn);
+    // };
+    // const getDisableHourIn = () => {
+    //   const timeIn = timeEnd ? timeEnd._d.getHours() : 24;
+    //   let arrCheck = [...Array(24).keys()];
+    //   return arrCheck.filter((item) => item > timeIn);
+    // };
+
+    return (
+      <>
+        <Form
+          form={form}
+          name="basic"
+          layout={"vertical"}
+          initialValues={{ remember: true }}
+          // onFinish={onFinish}
+          // onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          validateMessages={validateMessages}
+        >
+          <Row>
+            <Col span={24}>
+              <Form.Item label="Project Name" rules={[{ required: true }]}>
+                <Input maxLength={100} />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item label="Working shift" rules={[{ required: true }]}>
+                <Input></Input>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={10}>
+              <Form.Item
+                label="Time in"
+                name="gioVao"
+                rules={[{ required: true }]}
+              >
+                <TimePicker
+                  format="HH:mm"
+                  placeholder={"Time in"}
+                  // onSelect={(value) => onSelectTimeStart(value)}
+                  value={timeStart}
+                  style={{ width: "100%" }}
+                  minuteStep={15}
+                  allowClear={false}
+                  // disabledHours={getDisableHourIn}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={4}></Col>
+            <Col span={10}>
+              <Form.Item
+                label="Time out"
+                name="gioRa"
+                rules={[{ required: true }]}
+              >
+                <TimePicker
+                  format="HH:mm"
+                  placeholder={"Time out"}
+                  // onSelect={(value) => onSelectTimeEnd(value)}
+                  value={timeEnd}
+                  style={{ width: "100%" }}
+                  minuteStep={15}
+                  // disabledHours={getDisableHourOut}
+                  allowClear={false}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item label="Name Member">
+                <Select
+                  mode="multiple"
+                  placeholder="Please select"
+                  size={size}
+                  style={{
+                    width: "100%",
+                  }}
+                  allowClear
+                >
+                  {/* {children} */}
+                  {lsNameUser.map((item, index) => (
+                    // console.log(item.id)
+                    <Option key={item.name} value={item.id}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item
+            // wrapperCol={{ offset: 6, span: 12 }}
+            style={{ marginTop: "20px", textAlign: "center" }}
+          >
+            <Button
+              type="success"
+              htmlType="submit"
+              style={{ marginRight: "20px" }}
+              className={"m-2"}
+            >
+              Add new
+            </Button>
+            <Button onClick={onClose}>Exit</Button>
+          </Form.Item>
+        </Form>
+      </>
+    );
+  };
 
   return (
     <Modal
-      title="Basic Modal"
+      title="Add time working"
       visible={visible}
       onCancel={onCloseModal}
       width={1000}
+      footer={false}
+      className={"site-drawer-render-in-current-wrapper ModalAddTimeWorking"}
     >
-      <Table columns={columns} dataSource={data} />
+      <Button
+        type="primary"
+        style={{ marginBottom: "20px" }}
+        onClick={showDrawer}
+      >
+        Add new
+      </Button>
+      <Drawer
+        title="Add Project"
+        placement="right"
+        // width={400}
+        size={"large"}
+        onClose={onClose}
+        visible={open}
+        keyboard
+        className="styleDrawer"
+        // bodyStyle={{padding: "5px 6px"}}
+        closeIcon={<CloseCircleOutlined title="Thoát (ESC)" />}
+        style={{ position: "absolute" }}
+        getContainer={false}
+      >
+        <CardTaoTeam />
+      </Drawer>
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+        scroll={{ y: 400 }}
+      />
     </Modal>
   );
 };
@@ -291,7 +520,7 @@ const ModalEditUser = ({
   dataInforUser,
   pager,
   fetchData,
-  lsRole
+  lsRole,
 }) => {
   const [form] = Form.useForm();
 
@@ -310,7 +539,7 @@ const ModalEditUser = ({
   }, [visible]);
 
   const onFinish = (values) => {
-    PutUserApi({
+    PutUserApi(dataInforUser.id, {
       username: values.username,
       email: values.email,
       last_name: values.last_name,
@@ -433,19 +662,21 @@ const ModalEditUser = ({
             </Form.Item>
           </Col>
           <Col span={11} offset={2}>
-            <Form.Item
-              name="birthday"
-              label="Birthday"
-            >
+            <Form.Item name="birthday" label="Birthday">
               <Input placeholder="Birthday" disabled></Input>
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item wrapperCol={{ offset: 10, span: 12 }}>
-          <Button type="success" htmlType="submit" className={"m-2"}>
-            Thêm
+        <Form.Item style={{ marginTop: "20px", textAlign: "center" }}>
+          <Button
+            type="success"
+            htmlType="submit"
+            className={"m-2"}
+            style={{ marginRight: "20px" }}
+          >
+            Upload
           </Button>
-          <Button onClick={onCloseModal}>Thoát</Button>
+          <Button onClick={onCloseModal}>Exit</Button>
         </Form.Item>
       </Form>
     </Modal>
@@ -467,6 +698,7 @@ function User() {
   const [lsRole, setLsRole] = useState([]);
   const [isShowAddProject, setIsShowAddProject] = useState(false);
   const [dataInforUser, setDataInforUser] = useState([]);
+  const [lsNameUser, setLsNameUser] = useState([]);
 
   const showModalAddUser = () => {
     setIsModalVisible(true);
@@ -497,10 +729,17 @@ function User() {
     });
   };
 
+  const fetchListUserName = ()=>{
+    GetListUserApi().then((res) =>{
+      setLsNameUser(res.data)
+    })
+  }
+
   useEffect(() => {
     // console.log(1);
     fetchData({ page: pager.current, page_size: pager.pageSize, search });
     fetchListChucVu();
+    fetchListUserName();
   }, []);
 
   const onShowModalEdit = (record) => {
@@ -519,9 +758,9 @@ function User() {
   const columns = [
     {
       title: "ID",
-      dataIndex: "id",
-      key: "id",
-      filterKey: "id",
+      dataIndex: "index",
+      key: "index",
+      filterKey: "index",
       align: "center",
       render: (value, item, index) =>
         ((pager.current || 1) - 1) * pager.pageSize + index + 1,
@@ -568,21 +807,13 @@ function User() {
     },
     {
       title: "Role",
-      dataIndex: "group_role",
-      key: "group_role",
-      filterKey: "group_role",
+      dataIndex: "group_name",
+      key: "group_name",
+      filterKey: "group_name",
       align: "center",
       type: "text",
       canSearch: true,
       width: 150,
-      render: (tags) => {
-        if (tags == "1") {
-          return "Leader";
-        }
-        if (tags == "2") {
-          return "Member";
-        }
-      },
     },
     {
       title: "Date Join",
@@ -634,10 +865,18 @@ function User() {
     },
   ];
 
-  // const listRole = [
-  //   { value: "1", name: "Leader" },
-  //   { value: "2", name: "Member" },
-  // ];
+  const handleChange = (pagination) => {
+    const currentPager = { ...pager };
+    currentPager.current = pagination.current;
+    currentPager.pageSize = pagination.pageSize;
+    setPager({ ...currentPager });
+    fetchData({
+      status: currentPager.status,
+      page_size: pagination.pageSize,
+      page: pagination.current,
+      search,
+    });
+  };
 
   return (
     <div className="formUser">
@@ -674,6 +913,14 @@ function User() {
             size="middle"
             loading={loading}
             scroll={{ x: 500 }}
+            onChange={handleChange}
+            pagination={{
+              current: pager.current,
+              pageSize: pager.pageSize,
+              total: data.count,
+              showSizeChanger: true,
+              pageSizeOptions: ["10", "15", "25", "50"],
+            }}
           />
         </div>
       </div>
@@ -687,6 +934,8 @@ function User() {
       <ModalAddProject
         visible={isShowAddProject}
         onCancel={() => setIsShowAddProject(false)}
+        dataInforUser={dataInforUser}
+        lsNameUser={lsNameUser}
       />
       <ModalEditUser
         visible={isEditing}

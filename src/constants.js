@@ -15,3 +15,4 @@ export const userEditURL =  id => `${endpoint}/infor-user-detail/${id}`;
 export const listChucVuURL = `${endpoint}/group-role/`;
 
 export const manageUserURL = `${endpoint}/manage-user/`;
+export const manageProjectURL =`${endpoint}/manage-project/`

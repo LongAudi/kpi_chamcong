@@ -24,20 +24,20 @@ div#layout-wrapper {
     border-radius: 1.5rem;
 }
 
-.FormHome1{
+.FormHome1 {
     width: 80%;
     margin: auto;
     padding: 70px 0;
 }
 
-.FormHome2{
+.FormHome2 {
     background: rgba(0, 0, 0, 0.534);
     padding: 50px;
     border-radius: 1.5rem;
     box-shadow: 5px 5px 10px #78257b96;
 }
 
-.ant-row.ant-form-item.FormItem{
+.ant-row.ant-form-item.FormItem {
     margin-bottom: 20px;
 }
 
@@ -114,7 +114,7 @@ div#layout-wrapper {
     width: 100%;
 }
 
-button.ant-btn.ant-btn-dashed.ant-btn-block.textContent{
+button.ant-btn.ant-btn-dashed.ant-btn-block.textContent {
     background: rgba(0, 0, 0, 0.541);
     color: #fff;
     border-radius: 9999px;
@@ -122,41 +122,49 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent{
     font-weight: bold;
 }
 
-button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover{
+button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     background: #fff;
     color: #000;
 }
 
-.showModal{
+.showModal {
     width: 200px;
 }
 
-.formUser{
+.formUser {
     width: 100%;
 }
-.formUser1{
+.formUser1 {
     width: 90%;
     margin: auto;
     margin-top: 40px;
 }
 
-.HeaderContentUser{
+.HeaderContentUser {
     display: flex;
 }
 
-.btnAddUser{
+.btnAddUser {
     float: right;
     margin-left: 10px;
 }
 
-.DateBirthdayUser{
+.DateBirthdayUser {
     width: 100%;
+}
+
+.site-drawer-render-in-current-wrapper {
+    overflow: hidden;
+}
+
+.ModalAddTimeWorking .ant-modal-content {
+    height: 600px;
 }
 
 @media (max-width: 768px) {
     .ant-row.ant-form-item.formItemHome,
-    .ant-col.ant-col-9.ant-form-item-label, 
-    .ant-col.ant-col-15.ant-form-item-control{
+    .ant-col.ant-col-9.ant-form-item-label,
+    .ant-col.ant-col-15.ant-form-item-control {
         flex: 0 0 50%;
         max-width: 100%;
     }
@@ -169,7 +177,7 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover{
     .ant-form-item-label > label .ant-btn.ant-btn-block {
         width: 95%;
     }
-    button.ant-btn.ant-btn-dashed.ant-btn-block.textContent{
+    button.ant-btn.ant-btn-dashed.ant-btn-block.textContent {
         font-size: 10px;
     }
     .ant-col.FormLogin.ant-col-sm-6 {
@@ -178,13 +186,13 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover{
 }
 
 @media (max-width: 992px) {
-    .FormHome{
+    .FormHome {
         width: 100% !important;
     }
 }
 
 @media (max-width: 1400px) {
-    .FormHome{
+    .FormHome {
         width: 100% !important;
     }
 }

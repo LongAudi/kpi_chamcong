@@ -180,7 +180,7 @@ function Home() {
                   disabledDate={disabledDate}
                   format={dateFormat}
                   value={newDay}
-                  // disabled
+                  disabled
                   placeholder=""
                 />
               </Form.Item>
@@ -288,6 +288,34 @@ function Home() {
                   className="rightContent"
                   use12Hours
                   format="h:mm A"
+                />
+              </Form.Item>
+              <Form.Item
+                name="disabled"
+                valuePropName="checked"
+                className="formItemHome"
+                label={
+                  <Button
+                    className="textContent"
+                    type="dashed"
+                    onClick={() => setNewDay(moment())}
+                    block
+                  >
+                    Logout
+                  </Button>
+                }
+                style={{ marginBottom: "24px" }}
+              >
+                <DatePicker
+                  // showTime
+                  onChange={onChange}
+                  onOk={onOk}
+                  className="rightContent"
+                  disabledDate={disabledDate}
+                  format={dateFormat}
+                  value={newDay}
+                  disabled
+                  placeholder=""
                 />
               </Form.Item>
               <Form.Item

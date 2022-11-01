@@ -1,0 +1,198 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.container.loginFormInput .ant-form-item-control-input {
+    width: 70%;
+    margin: auto;
+}
+
+div#layout-wrapper {
+    background: url("./images/image_2022_10_24T03_58_02_594Z.png") no-repeat center center;
+    background-size: cover;
+    /* background: #000; */
+}
+
+.FormHome {
+    margin: auto;
+    width: 45%;
+    margin-top: 20px;
+    background: linear-gradient(90.13deg, #d1aad7 0.11%, #c88bc4 25.06%, #7b8fdd 50%, #86bff2 74.8%, #bbdef2 99.76%);
+    border-radius: 1.5rem;
+}
+
+.FormHome1 {
+    width: 80%;
+    margin: auto;
+    padding: 70px 0;
+}
+
+.FormHome2 {
+    background: rgba(0, 0, 0, 0.534);
+    padding: 50px;
+    border-radius: 1.5rem;
+    box-shadow: 5px 5px 10px #78257b96;
+}
+
+.ant-row.ant-form-item.FormItem {
+    margin-bottom: 20px;
+}
+
+.ant-form-item {
+    margin-bottom: 0px;
+}
+
+.label.ant-form-item-no-colon {
+    width: 100%;
+}
+
+.rightContent {
+    width: 100%;
+}
+
+.UploadTask {
+    display: flex;
+}
+
+.rightUploadContent {
+    margin-left: 59px;
+}
+
+.ant-table.ant-table-middle.ant-table-bordered.ant-table-fixed-header {
+    height: 360px;
+}
+
+.layoutUserLogin {
+    background: url("./images/image_2022_10_24T03_58_02_594Z.png") no-repeat center center;
+    background-size: cover;
+}
+
+.ant-col.ant-col-sm-6 {
+    text-align: center;
+}
+
+.login-form-button {
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    padding: 0px 30px;
+}
+
+.login-form-button:hover {
+    color: white;
+    background-color: #008cff;
+}
+
+.logo-login h1 {
+    color: white;
+    font-size: 75px;
+    font-weight: 500;
+    font-family: "Lobster", cursive;
+}
+
+.richTextField {
+    width: 100%;
+    background: #fff;
+}
+
+.OutlinedRichInput-root-1 {
+    border-radius: 0px !important;
+}
+
+.RichInputBase-root-20 {
+    height: 300px;
+}
+
+.ql-container.ql-snow {
+    height: 150px;
+}
+
+.ant-form-item-label > label {
+    width: 100%;
+}
+
+button.ant-btn.ant-btn-dashed.ant-btn-block.textContent {
+    background: rgba(0, 0, 0, 0.541);
+    color: #fff;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
+    background: #fff;
+    color: #000;
+}
+
+.showModal {
+    width: 200px;
+}
+
+.formUser {
+    width: 100%;
+}
+.formUser1 {
+    width: 90%;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.HeaderContentUser {
+    display: flex;
+}
+
+.btnAddUser {
+    float: right;
+    margin-left: 10px;
+}
+
+.DateBirthdayUser {
+    width: 100%;
+}
+
+.site-drawer-render-in-current-wrapper {
+    overflow: hidden;
+}
+
+.ModalAddTimeWorking .ant-modal-content {
+    height: 600px;
+}
+
+@media (max-width: 768px) {
+    .ant-row.ant-form-item.formItemHome,
+    .ant-col.ant-col-9.ant-form-item-label,
+    .ant-col.ant-col-15.ant-form-item-control {
+        flex: 0 0 50%;
+        max-width: 100%;
+    }
+    .ant-row.ant-form-item.formItemHomeText .ant-form-item-control-input {
+        width: 100%;
+    }
+    .FormHome {
+        width: 100%;
+    }
+    .ant-form-item-label > label .ant-btn.ant-btn-block {
+        width: 95%;
+    }
+    button.ant-btn.ant-btn-dashed.ant-btn-block.textContent {
+        font-size: 10px;
+    }
+    .ant-col.FormLogin.ant-col-sm-6 {
+        width: 80%;
+    }
+}
+
+@media (max-width: 992px) {
+    .FormHome {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 1400px) {
+    .FormHome {
+        width: 100% !important;
+    }
+}

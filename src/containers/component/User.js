@@ -29,11 +29,11 @@ import {
   CloseCircleOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import { GetProjectApi } from "../../api/projectApi";
+import { GetProjectApi, PostProjectApi } from "../../api/projectApi";
 
 const { Option } = Select;
 const validateMessages = {
-  required: "Please enter your registered ${label} !",
+  required: "Please enter your ${label} !",
   types: {
     email: "${label} is not in the correct email format!",
     number: "${label} not numbers!",
@@ -242,7 +242,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
   );
 };
 
-const ModalAddProject = ({ visible, onCancel, dataInforUser,lsNameUser }) => {
+const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -354,16 +354,51 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser,lsNameUser }) => {
     //   );
     // }
 
-    // const getDisableHourOut = () => {
-    //   const timeIn = timeStart ? timeStart._d.getHours() : 0;
-    //   let arrCheck = [...Array(24).keys()];
-    //   return arrCheck.filter((item) => item < timeIn);
-    // };
-    // const getDisableHourIn = () => {
-    //   const timeIn = timeEnd ? timeEnd._d.getHours() : 24;
-    //   let arrCheck = [...Array(24).keys()];
-    //   return arrCheck.filter((item) => item > timeIn);
-    // };
+    const getDisableHourOut = () => {
+      const timeIn = timeStart ? timeStart._d.getHours() : 0;
+      let arrCheck = [...Array(24).keys()];
+      return arrCheck.filter((item) => item < timeIn);
+    };
+    const getDisableHourIn = () => {
+      const timeIn = timeEnd ? timeEnd._d.getHours() : 24;
+      let arrCheck = [...Array(24).keys()];
+      return arrCheck.filter((item) => item > timeIn);
+    };
+
+    const onSelectTimeStart = (value) => {
+      setTimeStart(value);
+    };
+
+    const onSelectTimeEnd = (value) => {
+      setTimeEnd(value);
+    };
+
+    const onFinish = (values) => {
+      PostProjectApi({
+        name: values.name,
+        custommer: values.custommer,
+        user_lead: values.user_lead,
+        user_member: values.user_member,
+        description: values.description,
+        gioVao: values.gioVao,
+        gioRa: values.gioRa
+      })
+        .then((res) => {
+          if (res.data.error) {
+            openNotificationWithIcon("error", res.data.error);
+          } else {
+            openNotificationWithIcon("success", "Thành công", "");
+            // fetchData({ page: pager.current, page_size: pager.pageSize });
+            onCloseModal();
+            form.resetFields();
+          }
+        })
+        .catch((err) => {
+          if (err.data.error) {
+            openNotificationWithIcon("error", err.data.error);
+          }
+        });
+    };
 
     return (
       <>
@@ -372,22 +407,30 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser,lsNameUser }) => {
           name="basic"
           layout={"vertical"}
           initialValues={{ remember: true }}
-          // onFinish={onFinish}
+          onFinish={onFinish}
           // onFinishFailed={onFinishFailed}
           autoComplete="off"
           validateMessages={validateMessages}
         >
           <Row>
             <Col span={24}>
-              <Form.Item label="Project Name" rules={[{ required: true }]}>
+              <Form.Item
+                label="Project Name"
+                name="name"
+                rules={[{ required: true }]}
+              >
                 <Input maxLength={100} />
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Col span={24}>
-              <Form.Item label="Working shift" rules={[{ required: true }]}>
-                <Input></Input>
+              <Form.Item
+                label="custommer"
+                name="custommer"
+                rules={[{ required: true }]}
+              >
+                <Input maxLength={100} />
               </Form.Item>
             </Col>
           </Row>
@@ -401,12 +444,12 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser,lsNameUser }) => {
                 <TimePicker
                   format="HH:mm"
                   placeholder={"Time in"}
-                  // onSelect={(value) => onSelectTimeStart(value)}
+                  onSelect={(value) => onSelectTimeStart(value)}
                   value={timeStart}
                   style={{ width: "100%" }}
                   minuteStep={15}
                   allowClear={false}
-                  // disabledHours={getDisableHourIn}
+                  disabledHours={getDisableHourIn}
                 />
               </Form.Item>
             </Col>
@@ -420,19 +463,49 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser,lsNameUser }) => {
                 <TimePicker
                   format="HH:mm"
                   placeholder={"Time out"}
-                  // onSelect={(value) => onSelectTimeEnd(value)}
+                  onSelect={(value) => onSelectTimeEnd(value)}
                   value={timeEnd}
                   style={{ width: "100%" }}
                   minuteStep={15}
-                  // disabledHours={getDisableHourOut}
+                  disabledHours={getDisableHourOut}
                   allowClear={false}
                 />
               </Form.Item>
             </Col>
           </Row>
+          {/* <Row>
+            <Col span={24}>
+              <Form.Item
+                label="Name Member"
+                name="user_member"
+                rules={[{ required: true }]}
+              >
+                <Select
+                  mode="multiple"
+                  placeholder="Please select"
+                  size={size}
+                  style={{
+                    width: "100%",
+                  }}
+                  allowClear
+                >
+                  {lsNameUser.map((item, index) => (
+                    // console.log(item.id)
+                    <Option key={item.username} value={item.id}>
+                      {item.username}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row> */}
           <Row>
             <Col span={24}>
-              <Form.Item label="Name Member">
+              <Form.Item
+                label="Name Leader"
+                name="user_lead"
+                rules={[{ required: true }]}
+              >
                 <Select
                   mode="multiple"
                   placeholder="Please select"
@@ -445,11 +518,45 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser,lsNameUser }) => {
                   {/* {children} */}
                   {lsNameUser.map((item, index) => (
                     // console.log(item.id)
-                    <Option key={item.name} value={item.id}>
-                      {item.name}
+                    <Option key={item.username} value={item.id}>
+                      {item.username}
                     </Option>
                   ))}
                 </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item
+                label="Name Member"
+                name="user_member"
+                rules={[{ required: true }]}
+              >
+                <Select
+                  mode="multiple"
+                  placeholder="Please select"
+                  size={size}
+                  style={{
+                    width: "100%",
+                  }}
+                  allowClear
+                >
+                  {/* {children} */}
+                  {lsNameUser.map((item, index) => (
+                    // console.log(item.id)
+                    <Option key={item.username} value={item.id}>
+                      {item.username}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Form.Item label="Description" name="description">
+                <Input></Input>
               </Form.Item>
             </Col>
           </Row>
@@ -508,6 +615,7 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser,lsNameUser }) => {
         columns={columns}
         dataSource={data}
         pagination={false}
+        loading={loading}
         scroll={{ y: 400 }}
       />
     </Modal>
@@ -729,11 +837,11 @@ function User() {
     });
   };
 
-  const fetchListUserName = ()=>{
-    GetListUserApi().then((res) =>{
-      setLsNameUser(res.data)
-    })
-  }
+  const fetchListUserName = () => {
+    GetListUserApi().then((res) => {
+      setLsNameUser(res.data);
+    });
+  };
 
   useEffect(() => {
     // console.log(1);

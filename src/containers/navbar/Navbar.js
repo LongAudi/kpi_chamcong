@@ -167,18 +167,24 @@ function Navbar() {
       <Row style={{ width: "100%" }}>
         <Col span={2}>
           <div className="logo">
-            <Link to="/home">
+            {/* <Link to="/home"> */}
               <img src={Logo} alt="" style={{ height: "50px" }} />
-            </Link>
+            {/* </Link> */}
           </div>
         </Col>
         <Col span={20}>
+          
           <Menu
             mode="horizontal"
             defaultSelectedKeys={["Menu"]}
             className="menuNavbar"
           >
-          {userInfo.group_role == 1 ? 
+            {userInfo.group_role === 3 ?
+            <Menu.Item key="Home">
+              <span>Home</span>
+              <Link to="/home"></Link>
+            </Menu.Item>: " "}
+            {userInfo.group_role === 1 ?
             <Menu.Item key="Admin">
               <span>Admin</span>
               <Link to="/admin"></Link>
@@ -201,7 +207,7 @@ function Navbar() {
             </Menu.Item> */}
           </Menu>
         </Col>
-        <Col span={2} >
+        <Col span={2}>
           <Dropdown
             className="navbarUser"
             overlay={

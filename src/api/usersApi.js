@@ -1,6 +1,6 @@
 import {authAxios} from "../api/axiosClient";
 // import Cookies from 'universal-cookie';
-import { listChucVuURL, manageUserURL, userEditURL} from "../constants";
+import { listChucVuURL, manageUserURL, userEditURL, userInfoURL} from "../constants";
 
 export const usersApi = {
     getAll: (params) => {
@@ -44,3 +44,7 @@ export const PutForgotPassApi =(id, params={})=> {
     return authAxios().put(url(id), params );
 }
 
+export const UserInfoUrlApi =(params={})=> {
+    const url = userInfoURL;
+    return authAxios().get(url,params);
+}

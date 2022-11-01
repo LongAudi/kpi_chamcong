@@ -1,4 +1,10 @@
 import { notification } from "antd";
+import {authAxios} from "../utils";
+import {
+  getPushNotificationURL
+} from "../constants";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies
 
 export function openNotificationWithIcon (type,message,description) {
   notification[type]({
@@ -31,4 +37,9 @@ export const errorHandle = (err) =>{
   }
   // const dataError = Object.entries(err.data).map(([key, value]) => <p>{value}</p>)
   openNotificationWithIcon('error', 'Lỗi', dataError)
+}
+
+export const getPushNotification = () => {
+  return authAxios(cookies.get('token'))
+  .get(getPushNotificationURL)
 }

@@ -209,8 +209,8 @@ function Navbar() {
                       onVisibleChange={e => fetchNotification()}
                     overlayStyle={{height: 400}}
               >
-                  <Button style={{border: 'none', background: 'none', boxShadow: 'none'}}>
-                      <BellFilled style={{fontSize: 16}}/>
+                  <Button className="btnNoti">
+                      <BellFilled  style={{fontSize: 20}}/>
                       <span style={{color: '#ff0000'}}>{countNoti}</span>
                   </Button>
               </Dropdown>
@@ -220,17 +220,7 @@ function Navbar() {
             className="navbarUser"
             overlay={
               <Menu>
-                <Menu.Item key="notification" style={{padding: "0px"}} >
-                  <Dropdown overlay={<NotificationsCard data={lsNotification}/>}
-                          onVisibleChange={e => fetchNotification()}
-                        overlayStyle={{height: 400}}
-                  >
-                      <Button style={{border: 'none', background: 'none', boxShadow: 'none'}}>
-                          <BellFilled style={{fontSize: 16}}/>
-                          <span style={{color: '#ff0000'}}>{countNoti}</span>
-                      </Button>
-                  </Dropdown>
-                </Menu.Item>
+                
                 <Menu.Item>
                   <UserOutlined style={{ marginRight: "5px" }} />
                   {/* <a target="_blank"  rel="noopener noreferrer"> */}

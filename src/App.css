@@ -165,7 +165,12 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     height: 700px;
 }
 
-
+.btnNoti{
+    color: #fff;
+    border: none ;
+    background: none !important;
+    box-shadow: none !important;
+}
 
 @media (max-width: 768px) {
     .ant-row.ant-form-item.formItemHome,

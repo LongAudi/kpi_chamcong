@@ -134,17 +134,29 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
 .formUser {
     width: 100%;
 }
+
 .formUser1 {
     width: 90%;
     margin: auto;
     margin-top: 40px;
 }
 
-.HeaderContentUser {
-    display: flex;
+.formProject1 {
+    width: 100%;
 }
 
-.tableUser{
+.formProject1 {
+    width: 60%;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.HeaderContentUser {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tableUser {
     border-radius: 20px;
 }
 
@@ -165,9 +177,9 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     height: 700px;
 }
 
-.btnNoti{
+.btnNoti {
     color: #fff;
-    border: none ;
+    border: none;
     background: none !important;
     box-shadow: none !important;
 }
@@ -207,4 +219,3 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
         width: 100% !important;
     }
 }
-

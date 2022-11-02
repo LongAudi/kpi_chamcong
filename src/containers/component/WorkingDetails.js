@@ -253,26 +253,7 @@ function WorkingDetails() {
       <div className="formUser1">
         <div className="formUser2">
           <div className="HeaderContentUser">
-            <Row style={{ width: "100%" }}>
-              <Col span={12}>
-              <Alert
-                message="Success Tips"
-                type="success"
-                showIcon
-                action={
-                  <Button size="small" type="text">
-                    WORKING DETAILS
-                  </Button>
-                }
-                closable
-              />
-                <h1 className="h1UserTable">WORKING DETAILS</h1>
-               
-              </Col>
-              <Col span={12}>
-                
-              </Col>
-            </Row>
+            
           </div>
 
           <Table

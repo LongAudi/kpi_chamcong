@@ -16,6 +16,7 @@ export const listChucVuURL = `${endpoint}/group-role/`;
 
 export const manageUserURL = `${endpoint}/manage-user/`;
 export const manageProjectURL =`${endpoint}/manage-project/`
+export const projectEditURL =  id => `${endpoint}/infor-project-detail/${id}`;
 
 
 export const getPushNotificationURL = `${endpoint}/notification_is_sent/`; // Chưa có
@@ -24,6 +25,11 @@ export const ReadAllNotificationURL = `${endpoint}/notification_read_all/`; // C
 export const ReadNotification = `${endpoint}/notification_read/`; // Chưa có
 
 export const manageWorkingShiftsURL =`${endpoint}/manage-working-shifts/`
+
+
+
+
+
 
 
 

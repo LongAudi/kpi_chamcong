@@ -13,6 +13,7 @@ import {
   Tag,
   Drawer,
   TimePicker,
+  Alert,
 } from "antd";
 import { errorHandle, openNotificationWithIcon } from "../Function";
 import {
@@ -254,7 +255,19 @@ function WorkingDetails() {
           <div className="HeaderContentUser">
             <Row style={{ width: "100%" }}>
               <Col span={12}>
+              <Alert
+                message="Success Tips"
+                type="success"
+                showIcon
+                action={
+                  <Button size="small" type="text">
+                    WORKING DETAILS
+                  </Button>
+                }
+                closable
+              />
                 <h1 className="h1UserTable">WORKING DETAILS</h1>
+               
               </Col>
               <Col span={12}>
                 

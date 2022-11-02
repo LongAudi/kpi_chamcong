@@ -2,8 +2,9 @@
     /* box-shadow: 0px 1px 1px rgb(0 0 0 / 12%); */
     display: flex;
     justify-content: center;
-    background: linear-gradient(0.13deg,rgba(255, 255, 255, 0.637),#bbdef2 99.76%);
+    /* background: linear-gradient(0.13deg,rgba(255, 255, 255, 0.637),#bbdef2 99.76%); */
     background-size: cover;
+    background: rgba(16, 13, 13, 1);
 }
 
 .wrapper{
@@ -13,6 +14,13 @@
 
 .menuNavbar{
     background: none;
+    border-bottom: none;
+}
+
+.menuNavbar li.ant-menu-overflow-item.ant-menu-item {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .navbarUser{
@@ -35,6 +43,14 @@
     font-weight: 600;
     cursor: pointer;
 }
+
+/* .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after{
+    border-bottom: none;
+} */
+
+/* .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after{
+    border-bottom: none;
+} */
 
 @media (max-width: 768px) {
     .nameNavbar{

@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import { Dropdown, Menu, Row, Avatar, Layout, Col, Button } from "antd";
 import "./navbar.css";
 import { UserOutlined, LogoutOutlined, BellFilled } from "@ant-design/icons";
-import Logo from "../../images/VBPO_Logo.png";
+import Logo from "../../images/LOGO ITIS.png";
 import { authAxios } from "../../api/axiosClient";
 import { logout } from "../../app/Actions/auth";
 import { logoutURL, ListNotification, ReadAllNotificationURL, ReadNotification } from "../../constants";

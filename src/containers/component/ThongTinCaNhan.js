@@ -105,7 +105,7 @@ export default function ThongTinCaNhan() {
 
   const fetchDataTK = (params = {}) => {
     UserInfoUrlApi(params).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setThongtinTK(res.data);
     });
   };

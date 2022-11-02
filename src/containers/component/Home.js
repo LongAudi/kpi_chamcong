@@ -28,30 +28,30 @@ function Home() {
 
   const onChange = (value, dateString) => {
     setNewDay(value);
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
+    // console.log("Selected Time: ", value);
+    // console.log("Formatted Selected Time: ", dateString);
   };
 
   const onChange1 = (value1, dateString) => {
     setNewDay1(value1);
-    console.log("Selected Time: ", value1);
-    console.log("Formatted Selected Time: ", dateString);
+    // console.log("Selected Time: ", value1);
+    // console.log("Formatted Selected Time: ", dateString);
   };
 
   const onChange2 = (value2, dateString) => {
     setNewDay2(value2);
-    console.log("Selected Time: ", value2);
-    console.log("Formatted Selected Time: ", dateString);
+    // console.log("Selected Time: ", value2);
+    // console.log("Formatted Selected Time: ", dateString);
   };
 
   const onChange3 = (value3, dateString) => {
     setNewDay3(value3);
-    console.log("Selected Time: ", value3);
-    console.log("Formatted Selected Time: ", dateString);
+    // console.log("Selected Time: ", value3);
+    // console.log("Formatted Selected Time: ", dateString);
   };
 
   const onOk = (value) => {
-    console.log("onOk: ", value);
+    // console.log("onOk: ", value);
   };
 
   const dateFormat = "DD/MM/YYYY HH:mm:ss";
@@ -88,7 +88,7 @@ function Home() {
       file.type !== "application/pdf" &&
       file.type !== "image/png" &&
       file.type !== "image/jpeg";
-    console.log(isJpgOrPng);
+    // console.log(isJpgOrPng);
     if (isJpgOrPng) {
       message.error("You can only upload PDF/PNG file!");
     }

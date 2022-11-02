@@ -167,7 +167,7 @@ const ProtectLoginRoute = ({ protect, children, ...rest }) => {
                 children
             ) :
                 (
-                    <Redirect to='/home'></Redirect>
+                    <Redirect to='/personal_information'></Redirect>
                 )
             }
         />

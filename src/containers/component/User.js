@@ -85,7 +85,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
   };
 
   const disabledDate = (current) => {
-    return current && current > moment().startOf("day");
+    return current && current > moment().endOf("day");
   };
 
   return (
@@ -245,6 +245,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
 const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const defaultPageSize = 10;
@@ -253,12 +254,13 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
     count: 0,
     current: 1,
   });
+  const [lsTeamSelected, setLsTeamSelected] = useState([]);
 
   const fetchDataProject = (params = {}) => {
     setLoading(true);
     GetProjectApi(params)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setData(res.data);
         setPager({
           current: params.page,
@@ -275,7 +277,14 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
 
   useEffect(() => {
     fetchDataProject();
+    // setLsTeamSelected(form.getFieldValue("ten_ca_1") || []);
   }, []);
+
+  useEffect(() => {
+    fetchDataProject({
+      idTeam: JSON.stringify(lsTeamSelected),
+    });
+  }, [lsTeamSelected]);
 
   const columns = [
     {
@@ -339,13 +348,18 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
   const onCloseModal = () => {
     form.resetFields();
     onCancel();
+    setOpen(false);
   };
 
   const CardTaoTeam = () => {
     const [form] = Form.useForm();
     const [size, setSize] = useState("middle");
     const [timeStart, setTimeStart] = useState(null);
+    const [timeStart1, setTimeStart1] = useState(null);
     const [timeEnd, setTimeEnd] = useState(null);
+    const [timeEnd1, setTimeEnd1] = useState(null);
+    const [chechTime1, setChechTime1] = useState(false);
+    const [chechTime2, setChechTime2] = useState(false);
 
     // const children = [];
     // for (let i = 10; i < 36; i++) {
@@ -365,23 +379,50 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
       return arrCheck.filter((item) => item > timeIn);
     };
 
+    const getDisableHourOut1 = () => {
+      const timeIn = timeStart1 ? timeStart1._d.getHours() : 0;
+      let arrCheck = [...Array(24).keys()];
+      return arrCheck.filter((item) => item < timeIn);
+    };
+    const getDisableHourIn1 = () => {
+      const timeIn = timeEnd1 ? timeEnd1._d.getHours() : 24;
+      let arrCheck = [...Array(24).keys()];
+      return arrCheck.filter((item) => item > timeIn);
+    };
+
     const onSelectTimeStart = (value) => {
+      form.setFieldsValue({ gio_vao_ca_1: value });
       setTimeStart(value);
     };
 
+    const onSelectTimeStart1 = (value) => {
+      form.setFieldsValue({ gio_vao_ca_2: value });
+      setTimeStart1(value);
+    };
+
     const onSelectTimeEnd = (value) => {
+      form.setFieldsValue({ gio_ra_ca_1: value });
       setTimeEnd(value);
+    };
+
+    const onSelectTimeEnd1 = (value) => {
+      form.setFieldsValue({ gio_ra_ca_2: value });
+      setTimeEnd1(value);
     };
 
     const onFinish = (values) => {
       PostProjectApi({
         name: values.name,
-        custommer: values.custommer,
+        // custommer: values.custommer,
         user_lead: values.user_lead,
         user_member: values.user_member,
         description: values.description,
-        gioVao: values.gioVao,
-        gioRa: values.gioRa
+        ten_ca_1: values.ten_ca_1,
+        gio_vao_ca_1: moment(values.gio_vao_ca_1).format("HH:mm"),
+        gio_ra_ca_1: moment(values.gio_ra_ca_1).format("HH:mm"),
+        ten_ca_2: values.ten_ca_2,
+        gio_vao_ca_2: moment(values.gio_vao_ca_2).format("HH:mm"),
+        gio_ra_ca_2: moment(values.gio_ra_ca_2).format("HH:mm"),
       })
         .then((res) => {
           if (res.data.error) {
@@ -398,6 +439,18 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
             openNotificationWithIcon("error", err.data.error);
           }
         });
+    };
+
+    const onChangeShift1 = (value) => {
+      setChechTime1(value === undefined ? false : true);
+    };
+
+    // const onChangeDescription = (value) => {
+    //   setChechTime2(value === " " ? false : true);
+    // };
+
+    const onChangeShift2 = (value) => {
+      setChechTime2(value === undefined ? false : true);
     };
 
     return (
@@ -426,79 +479,140 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
           <Row>
             <Col span={24}>
               <Form.Item
-                label="custommer"
-                name="custommer"
+                label="Shift 1"
+                name="ten_ca_1"
                 rules={[{ required: true }]}
               >
-                <Input maxLength={100} />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={10}>
-              <Form.Item
-                label="Time in"
-                name="gioVao"
-                rules={[{ required: true }]}
-              >
-                <TimePicker
-                  format="HH:mm"
-                  placeholder={"Time in"}
-                  onSelect={(value) => onSelectTimeStart(value)}
-                  value={timeStart}
-                  style={{ width: "100%" }}
-                  minuteStep={15}
-                  allowClear={false}
-                  disabledHours={getDisableHourIn}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={4}></Col>
-            <Col span={10}>
-              <Form.Item
-                label="Time out"
-                name="gioRa"
-                rules={[{ required: true }]}
-              >
-                <TimePicker
-                  format="HH:mm"
-                  placeholder={"Time out"}
-                  onSelect={(value) => onSelectTimeEnd(value)}
-                  value={timeEnd}
-                  style={{ width: "100%" }}
-                  minuteStep={15}
-                  disabledHours={getDisableHourOut}
-                  allowClear={false}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          {/* <Row>
-            <Col span={24}>
-              <Form.Item
-                label="Name Member"
-                name="user_member"
-                rules={[{ required: true }]}
-              >
-                <Select
-                  mode="multiple"
+                {/* <Select
                   placeholder="Please select"
                   size={size}
                   style={{
                     width: "100%",
                   }}
+                  onChange={onChangeShift1}
                   allowClear
+                  value={lsTeamSelected}
                 >
-                  {lsNameUser.map((item, index) => (
-                    // console.log(item.id)
-                    <Option key={item.username} value={item.id}>
-                      {item.username}
-                    </Option>
-                  ))}
-                </Select>
+                  
+                </Select> */}
+                <Input
+                  value={lsTeamSelected}
+                  onChange={onChangeShift1}
+                  maxLength={100}
+                />
               </Form.Item>
             </Col>
-          </Row> */}
+          </Row>
+          {chechTime1 && (
+            <Row>
+              <Col span={10}>
+                <Form.Item
+                  label="Time in 1"
+                  name="gio_vao_ca_1"
+                  rules={[{ required: true }]}
+                >
+                  <TimePicker
+                    format="HH:mm"
+                    placeholder={"Time in"}
+                    onSelect={(value) => onSelectTimeStart(value)}
+                    value={timeStart}
+                    style={{ width: "100%" }}
+                    minuteStep={15}
+                    allowClear={false}
+                    disabledHours={getDisableHourIn}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={4}></Col>
+              <Col span={10}>
+                <Form.Item
+                  label="Time out 1"
+                  name="gio_ra_ca_1"
+                  rules={[{ required: true }]}
+                >
+                  <TimePicker
+                    format="HH:mm"
+                    placeholder={"Time out"}
+                    onSelect={(value) => onSelectTimeEnd(value)}
+                    value={timeEnd}
+                    style={{ width: "100%" }}
+                    minuteStep={15}
+                    disabledHours={getDisableHourOut}
+                    allowClear={false}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
+
+          <Row>
+            <Col span={24}>
+              <Form.Item
+                label="Shift 2"
+                name="ten_ca_2"
+                // rules={[{ required: true }]}
+              >
+                {/* <Select
+                  placeholder="Please select"
+                  size={size}
+                  style={{
+                    width: "100%",
+                  }}
+                  onChange={onChangeShift2}
+                  allowClear
+                  value={lsTeamSelected}
+                >
+                  
+                </Select> */}
+                <Input
+                  value={lsTeamSelected}
+                  onChange={onChangeShift2}
+                  maxLength={100}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          {chechTime2 && (
+            <Row>
+              <Col span={10}>
+                <Form.Item
+                  label="Time in 2"
+                  name="gio_vao_ca_2"
+                  // rules={[{ required: true }]}
+                >
+                  <TimePicker
+                    format="HH:mm"
+                    placeholder={"Time in"}
+                    onSelect={(value) => onSelectTimeStart1(value)}
+                    value={timeStart1}
+                    style={{ width: "100%" }}
+                    minuteStep={15}
+                    allowClear={false}
+                    disabledHours={getDisableHourIn1}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={4}></Col>
+              <Col span={10}>
+                <Form.Item
+                  label="Time out 2"
+                  name="gio_ra_ca_2"
+                  // rules={[{ required: true }]}
+                >
+                  <TimePicker
+                    format="HH:mm"
+                    placeholder={"Time out"}
+                    onSelect={(value) => onSelectTimeEnd1(value)}
+                    value={timeEnd1}
+                    style={{ width: "100%" }}
+                    minuteStep={15}
+                    disabledHours={getDisableHourOut1}
+                    allowClear={false}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
           <Row>
             <Col span={24}>
               <Form.Item
@@ -507,7 +621,7 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
                 rules={[{ required: true }]}
               >
                 <Select
-                  mode="multiple"
+                  // mode="multiple"
                   placeholder="Please select"
                   size={size}
                   style={{
@@ -555,8 +669,8 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
           </Row>
           <Row>
             <Col span={24}>
-              <Form.Item label="Description" name="description">
-                <Input></Input>
+              <Form.Item label="Description"  name="description">
+                <Input />
               </Form.Item>
             </Col>
           </Row>
@@ -579,9 +693,21 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
     );
   };
 
+  const handleChange = (pagination) => {
+    const currentPager = { ...pager };
+    currentPager.current = pagination.current;
+    currentPager.pageSize = pagination.pageSize;
+    setPager({ ...currentPager });
+    fetchDataProject({
+      status: currentPager.status,
+      page_size: pagination.pageSize,
+      page: pagination.current,
+    });
+  };
+
   return (
     <Modal
-      title="Add time working"
+      title="PROJECT MANAGER"
       visible={visible}
       onCancel={onCloseModal}
       width={1000}
@@ -602,6 +728,24 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
         size={"large"}
         onClose={onClose}
         visible={open}
+        closable={false}
+        keyboard
+        className="styleDrawer"
+        // bodyStyle={{padding: "5px 6px"}}
+        closeIcon={<CloseCircleOutlined title="Thoát (ESC)" />}
+        style={{ position: "absolute" }}
+        getContainer={false}
+      >
+        <CardTaoTeam />
+      </Drawer>
+      <Drawer
+        title="Edit Project"
+        placement="right"
+        // width={400}
+        size={"large"}
+        onClose={onClose}
+        visible={openEdit}
+        closable={false}
         keyboard
         className="styleDrawer"
         // bodyStyle={{padding: "5px 6px"}}
@@ -617,6 +761,7 @@ const ModalAddProject = ({ visible, onCancel, dataInforUser, lsNameUser }) => {
         pagination={false}
         loading={loading}
         scroll={{ y: 400 }}
+        onChange={handleChange}
       />
     </Modal>
   );
@@ -869,29 +1014,29 @@ function User() {
       dataIndex: "index",
       key: "index",
       filterKey: "index",
-      align: "center",
+      // align: "center",
       render: (value, item, index) =>
         ((pager.current || 1) - 1) * pager.pageSize + index + 1,
       sortDirections: ["descend", "ascend", "descend"],
       ellipsis: true,
-      width: 90,
+      width: 50,
     },
     {
       title: "UserName",
       dataIndex: "username",
       key: "username",
       filterKey: "username",
-      align: "center",
+      // align: "center",
       type: "text",
       canSearch: true,
-      width: 150,
+      width: 100,
     },
     {
       title: "Full Name",
       dataIndex: "last_name",
       key: "last_name",
       filterKey: "last_name",
-      align: "center",
+      // align: "center",
       type: "text",
       canSearch: true,
       width: 150,
@@ -908,7 +1053,7 @@ function User() {
       dataIndex: "email",
       key: "email",
       filterKey: "email",
-      align: "center",
+      // align: "center",
       type: "text",
       canSearch: true,
       width: 150,
@@ -922,6 +1067,7 @@ function User() {
       type: "text",
       canSearch: true,
       width: 150,
+      
     },
     {
       title: "Date Join",
@@ -959,15 +1105,18 @@ function User() {
               />
             </Tooltip>
           </div>
-          {/* <div className='btnDelete' style={{ marginRight: "10px" }}>
+          <div className="btnDelete" style={{ marginRight: "10px" }}>
             <Tooltip placement="bottom" title="Xóa" arrowPointAtCenter>
-              <Button type="primary" shape="circle" icon={<DeleteOutlined />}
-                onClick={() => {
-                  onDeleteNhan(record);
-                }}
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<DeleteOutlined />}
+                // onClick={() => {
+                //   onDeleteNhan(record);
+                // }}
               />
             </Tooltip>
-          </div> */}
+          </div>
         </div>
       ),
     },
@@ -1008,7 +1157,7 @@ function User() {
                   type="primary"
                   onClick={() => setIsShowAddProject(true)}
                 >
-                  Add Project
+                  Project Manager
                 </Button>
               </Col>
             </Row>
@@ -1022,6 +1171,7 @@ function User() {
             loading={loading}
             scroll={{ x: 500 }}
             onChange={handleChange}
+            className="tableUser"
             pagination={{
               current: pager.current,
               pageSize: pager.pageSize,

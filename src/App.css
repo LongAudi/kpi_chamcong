@@ -144,6 +144,10 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     display: flex;
 }
 
+.tableUser{
+    border-radius: 20px;
+}
+
 .btnAddUser {
     float: right;
     margin-left: 10px;
@@ -158,8 +162,10 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
 }
 
 .ModalAddTimeWorking .ant-modal-content {
-    height: 600px;
+    height: 700px;
 }
+
+
 
 @media (max-width: 768px) {
     .ant-row.ant-form-item.formItemHome,

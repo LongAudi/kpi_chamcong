@@ -22,3 +22,8 @@ export const getPushNotificationURL = `${endpoint}/notification_is_sent/`; // Ch
 export const ListNotification = `${endpoint}/list_notification/`; // Chưa có
 export const ReadAllNotificationURL = `${endpoint}/notification_read_all/`; // Chưa có
 export const ReadNotification = `${endpoint}/notification_read/`; // Chưa có
+
+export const manageWorkingShiftsURL =`${endpoint}/manage-working-shifts/`
+
+
+

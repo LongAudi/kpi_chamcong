@@ -231,7 +231,7 @@ function Navbar() {
             ) : (
               ""
             )}
-            {userInfo.group_role === 3 ? (
+            {userInfo.group_role === 2 ? (
               <Menu.Item key="home">
                 <span>Home</span>
                 <Link to="/home"></Link>
@@ -240,7 +240,7 @@ function Navbar() {
               ""
             )}
 
-            {userInfo.group_role === 3 ? (
+            {userInfo.group_role === 2 ? (
               <Menu.Item key="WorkingDetails">
                 <span>Working Details</span>
                 <Link to="/working_details"></Link>

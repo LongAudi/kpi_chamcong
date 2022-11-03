@@ -19,8 +19,9 @@ import moment from "moment";
 import { UploadOutlined, SendOutlined } from "@ant-design/icons";
 import { useQuill } from "react-quilljs";
 import "react-quill/dist/quill.snow.css";
-import { errorHandle } from "../Function";
-import { GetProjectWithUserAPI, GetWorkingShiftsUserAPI } from "../../api/homeAPI";
+import { errorHandle, openNotificationWithIcon } from "../Function";
+import { GetProjectWithUserAPI, GetWorkingShiftsUserAPI, PostReportApi, PostTimeBreak_ShiftApi, PostTimeEnd_ShiftApi, PostTimeLeaves_ShiftApi, PostTimeResume_ShiftApi, PostTimeStart_ShiftApi } from "../../api/homeAPI";
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
 const { Content } = Layout;
 // const { RangePicker } = DatePicker;
@@ -33,9 +34,11 @@ function Home () {
   const [checkShifts, setCheckShifts] = useState(false);
   const [lsProjectWithUser, setLsProjectWithUser] = useState([]);
   const [selectProjectID, setSelectProjectID] = useState();
+  const [selectShiftsID, setselectShiftsID] = useState();
   const [fileUpload, setFileUpload] = useState([]);
   const [form] = Form.useForm();
   const [dataWorkingShifts, setDataWorkingShifts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchProjectWithUser = (params = {}) => {
     GetProjectWithUserAPI()
@@ -56,39 +59,23 @@ function Home () {
   const fetchWorkingShiftsUser = (params = {}) => {
       GetWorkingShiftsUserAPI(params)
         .then((res) => {
-          console.log(res.data);
-          setDataWorkingShifts(res.data);
+          console.log(res.data[0]);
+          // console.log( moment(res.data[0].created_at).moment(res.data[0].time_break, 'HH:mm:ss').format('HH:mm'));
+          setDataWorkingShifts(res.data[0]);
+          form.setFieldsValue({
+            time_login:  res.data[0].time_start != null ? moment(res.data[0].time_start) : res.data[0].time_start ,
+            time_break: res.data[0].time_break != null ? moment(res.data[0].time_break) : res.data[0].time_break ,
+            time_resume: res.data[0].time_resume != null ? moment(res.data[0].time_resume) : res.data[0].time_resume ,
+            time_leaves: res.data[0].time_leaves_start != null ? [moment(res.data[0].time_leaves_start) , moment(res.data[0].time_leaves_end)] : null,
+            time_logout: res.data[0].time_end != null ? moment(res.data[0].time_end) : res.data[0].time_end
+          })
         })
         .catch((err) => {
           errorHandle(err);
         });
     };
 
-    const postWorkingShiftsUser = (params = {}) => {
-      // setLoading(true);
-      // PutRoleUserApi({
-      //     userId: dataInforUser.id,
-      //     lsGroupRole: lsGroupUpdate,
-      //     listRole: lsTeam
-      // })
-      // .then(res=>{
-      //     if (res.data.error) {
-      //         openNotificationWithIcon('error', res.data.error)
-      //     } else {
-      //         fetchData({page:pager.current,page_size:pager.pageSize});
-      //         onCancelModal();
-      //     };
-      //     setLoading(false);
-      //     setLoading_NQ(false);
-      // })
-      // .catch(err=>{
-      //     if (err.data.error) {
-      //         openNotificationWithIcon('error', err.data.error)
-      //     };
-      //     setLoading(false);
-      //     setLoading_NQ(false);
-      // });
-      };
+    
 
     const putWorkingShiftsUser = (params = {}) => {
       // setLoading(true);
@@ -117,18 +104,18 @@ function Home () {
     };
 
     const onChangeProject = (value) => {
-      // console.log(value);
       setSelectProjectID(value);
-      // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
+      setselectShiftsID([]);
+    form.resetFields();
+    // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
     };
 
     const onChangeShifts = (value) => {
-      console.log(value);
-      setSelectProjectID(value);
-      // fetchWorkingShiftsUser({
-      //   project_id:
-      //   thoigianlam_id:
-      // })
+      setselectShiftsID(value);
+      fetchWorkingShiftsUser({
+        project_id: selectProjectID,
+        thoigianlam_id: value
+      })
       // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
     };
 
@@ -182,7 +169,6 @@ function Home () {
     const { quillRef } = useQuill({ theme, modules, formats, placeholder });
 
     const beforeUpload = (file) => {
-      console.log(file);
       const isJpgOrPng =
         file.type !== "application/pdf" &&
         file.type !== "image/png" &&
@@ -201,66 +187,163 @@ function Home () {
       }
 
       return isJpgOrPng && isLt2M;
+      // return isJpgOrPng && isLt2M;
     };
 
     const onFinishShifts = (values) => {
       console.log(values)
       console.log(form.getFieldValue("time_login"))
-      
+      setLoading(true);
+      var FormData = require('form-data');
+      var data = new FormData();
+      data.append('project_id', selectProjectID)
+      data.append('shift_id', selectShiftsID)
+      data.append('name', '')
+      data.append('comment', values.comment)
+      console.log(fileUpload);
+      if (fileUpload != undefined && fileUpload.length != 0) {
+        fileUpload.forEach(element => {
+          data.append('file_report', element.originFileObj)
+        })
+      } else {
+        data.append('file_report', "")
+      }
+      PostReportApi(data)
+      .then(res=>{
+          if (res.data.error) {
+              openNotificationWithIcon('error', res.data.error)
+          } else {
+              form.setFieldsValue({
+                comment: ""
+              })
+            openNotificationWithIcon('success', "Submit success report", "");
+            setFileUpload([]);
 
-      // setLoading(true);
-      // PutRoleUserApi({
-      //     userId: dataInforUser.id,
-      //     lsGroupRole: lsGroupUpdate,
-      //     listRole: lsTeam
-      // })
-      // .then(res=>{
-      //     if (res.data.error) {
-      //         openNotificationWithIcon('error', res.data.error)
-      //     } else {
-      //         fetchData({page:pager.current,page_size:pager.pageSize});
-      //         onCancelModal();
-      //     };
-      //     setLoading(false);
-      //     setLoading_NQ(false);
-      // })
-      // .catch(err=>{
-      //     if (err.data.error) {
-      //         openNotificationWithIcon('error', err.data.error)
-      //     };
-      //     setLoading(false);
-      //     setLoading_NQ(false);
-      // });
+          };
+          setLoading(false);
+      })
+      .catch(err=>{
+          openNotificationWithIcon('error', "The report could not be sent. Please try again")
+          setFileUpload([]);
+          setLoading(false);
+      });
     };
 
     const onFinishShiftsFailed = (errorInfo) => {
       console.log('Failed:', errorInfo);
     };
 
-    const checkLogin = (values) => {
-      console.log(values)
-      postWorkingShiftsUser()
+    const checkLogin = () => {
+      PostTimeStart_ShiftApi({
+        project_id: selectProjectID,
+        thoigianlam_id: selectShiftsID
+      })
+        .then((res) => {
+          console.log(res);
+          fetchWorkingShiftsUser({
+            project_id: selectProjectID,
+            thoigianlam_id: selectShiftsID
+          })
+          openNotificationWithIcon('success', "Create time to Login success", "");
+
+        })
+        .catch((err) => {
+          errorHandle(err);
+        });
     };
 
-    const checkBreak = (values) => {
-      console.log(values)
-      putWorkingShiftsUser()
+    const checkBreak = () => {
+      PostTimeBreak_ShiftApi({
+        project_id: selectProjectID,
+        thoigianlam_id: selectShiftsID
+      })
+        .then((res) => {
+          console.log(res);
+          fetchWorkingShiftsUser({
+            project_id: selectProjectID,
+            thoigianlam_id: selectShiftsID
+          })
+          openNotificationWithIcon('success', "Create time to Break success", "");
+        })
+        .catch((err) => {
+          errorHandle(err);
+        });
     };
 
-    const checkResume = (values) => {
-      console.log(values)
-      putWorkingShiftsUser()
+    const checkResume = () => {
+      PostTimeResume_ShiftApi({
+        project_id: selectProjectID,
+        thoigianlam_id: selectShiftsID
+      })
+        .then((res) => {
+          console.log(res);
+          fetchWorkingShiftsUser({
+            project_id: selectProjectID,
+            thoigianlam_id: selectShiftsID
+          })
+          openNotificationWithIcon('success', "Create time to Resume success", "");
+        })
+        .catch((err) => {
+          errorHandle(err);
+        });
     };
 
-    const checkLeaves = (values) => {
-      console.log(values)
-      putWorkingShiftsUser()
+    const checkLeaves = () => {
+      var lsCheck = []
+      if (form.getFieldValue('time_login') === undefined) {
+        lsCheck.push('login') 
+      }
+      if (form.getFieldValue('time_leave') === undefined) {
+        lsCheck.push('leave') 
+      }
+      if (lsCheck.length != 0){
+        openNotificationWithIcon('warning', "Warning", "Please choose a time to " + lsCheck.join(', '))
+        return false
+      }
+      // click check empty value
+      PostTimeLeaves_ShiftApi({
+        project_id: selectProjectID,
+        thoigianlam_id: selectShiftsID,
+        time_leaves_start: form.getFieldValue('time_leave')[0],
+        time_leaves_end: form.getFieldValue('time_leave')[1]
+      })
+        .then((res) => {
+          console.log(res);
+          fetchWorkingShiftsUser({
+            project_id: selectProjectID,
+            thoigianlam_id: selectShiftsID
+          })
+          openNotificationWithIcon('success', "Create time to Leaves success", "");
+        })
+        .catch((err) => {
+          errorHandle(err);
+        });
     };
 
-    const checkLogout = (values) => {
-      console.log(values)
-      putWorkingShiftsUser()
+    const checkLogout = () => {
+      if (form.getFieldValue('time_login') === undefined) {
+        openNotificationWithIcon('error', "Error", "Please choose a time to login")
+      }
+      PostTimeEnd_ShiftApi({
+        project_id: selectProjectID,
+        thoigianlam_id: selectShiftsID
+      })
+        .then((res) => {
+          console.log(res);
+          fetchWorkingShiftsUser({
+            project_id: selectProjectID,
+            thoigianlam_id: selectShiftsID
+          })
+          openNotificationWithIcon('success', "Create time to Logout success", "");
+        })
+        .catch((err) => {
+          errorHandle(err);
+        });
     };
+
+    const handleChangeUpload = ({ fileList }) => {
+      setFileUpload(fileList);
+  }
 
     return (
       <Row>
@@ -280,6 +363,7 @@ function Home () {
                       allowClear
                       style={{ width: "100%" }}
                       onChange={onChangeProject}
+                      placeholder="Please select a project"
                     >
                       {lsProjectWithUser.map((item, index) => (<Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>))}
                     </Select>
@@ -289,6 +373,8 @@ function Home () {
                       allowClear
                       style={{ width: "100%" }}
                       onChange={onChangeShifts}
+                      placeholder="Please select a shift"
+                      value={selectShiftsID}
                     >
                       {selectProjectID && lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map((item, index) => (<Select.Option key={item.id} value={item.id}>{item.gio_vao} - {item.gio_ra}</Select.Option>))}
                     </Select>
@@ -322,6 +408,7 @@ function Home () {
                       type="dashed"
                       onClick={() => checkLogin() }
                       block
+                      disabled={dataWorkingShifts && dataWorkingShifts.time_start != null ? true : false}
                     >
                       Login
                   </Button>
@@ -337,6 +424,7 @@ function Home () {
                 format={dateFormat}
                 // value={newDay}
                 placeholder=""
+                disabled
               />
             </Form.Item>
             <Form.Item
@@ -348,7 +436,8 @@ function Home () {
                   type="dashed"
                   block
                   onClick={() => checkBreak() }
-                >
+                  disabled={ dataWorkingShifts && dataWorkingShifts.time_break != null ? true : false}
+                  >
                   Take a break
                 </Button>
               }
@@ -364,6 +453,7 @@ function Home () {
                 // value={newDay1}
                 open={false}
                 placeholder=""
+                disabled
               />
             </Form.Item>
             <Form.Item
@@ -375,6 +465,7 @@ function Home () {
                   type="dashed"
                   onClick={() => checkResume() }
                   block
+                  disabled={dataWorkingShifts && dataWorkingShifts.time_resume != null ? true : false}
                 >
                   Resume
                 </Button>
@@ -391,6 +482,7 @@ function Home () {
                 // value={newDay2}
                 open={false}
                 placeholder=""
+                disabled
               />
             </Form.Item>
             <Form.Item
@@ -400,8 +492,9 @@ function Home () {
                 <Button
                   className="textContent"
                   type="dashed"
-                  onClick={() => checkLeaves() }
+                  onClick={checkLeaves}
                   block
+                  disabled={dataWorkingShifts && dataWorkingShifts.time_leaves_start != null ? true : false}
                 >
                   Leaves
                 </Button>
@@ -412,6 +505,10 @@ function Home () {
                 className="rightContent"
                 use12Hours
                 format="h:mm A"
+                onChange={(value) => form.setFieldsValue({time_leave:value})}
+                disabled={dataWorkingShifts && dataWorkingShifts.time_leaves_start != null ? true : false}
+                // defaultValue={[moment('12:08:23', 'HH:mm:ss'),moment('12:08:23', 'HH:mm:ss')]}
+                // disabled 
               />
             </Form.Item>
             <Form.Item
@@ -423,7 +520,8 @@ function Home () {
                   type="dashed"
                   onClick={() => checkLogout() }
                   block
-                >
+                  disabled={dataWorkingShifts && dataWorkingShifts.time_end != null ? true : false}
+                  >
                   Logout
                 </Button>
               }
@@ -438,10 +536,11 @@ function Home () {
                 format={dateFormat}
                 // value={newDay}
                 placeholder=""
+                disabled
               />
             </Form.Item>
             <Form.Item
-              name="disabled"
+              name="comment"
               className="formItemHomeText"
               style={{ marginBottom: "24px" }}
             >
@@ -478,6 +577,7 @@ function Home () {
             >
               <Upload
                 name="uploadFile"
+                onChange={handleChangeUpload}
                 beforeUpload={beforeUpload}
                 maxCount={1}
                 fileList={fileUpload}
@@ -511,7 +611,7 @@ function Home () {
                 htmlType="submit"
                 icon={<SendOutlined />}
               >
-                Send
+                Submit
               </Button>
             </Form.Item>
 
@@ -643,7 +743,7 @@ function Home () {
                     </Row> */}
             {/* </Col> */}
             {/* <Col span={4}></Col> */}
-          </Form>
+              </Form>
         </div>
       </div>
       </div >

@@ -14,8 +14,8 @@ class BlankLayout extends React.Component {
                 status="403"
                 title="403"
                 className={'not-found-page'}
-                subTitle="Bạn không có quyền truy cập trang này."
-                extra={<Link to={'/ca-nhan'}><Button type="primary">Về trang chủ</Button></Link>}
+                subTitle="You can not access this page."
+                extra={<Link to={'/'}><Button type="primary">Back to the home page</Button></Link>}
               />
         );
     }

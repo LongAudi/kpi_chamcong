@@ -25,6 +25,7 @@ import {
 import { EditOutlined } from "@ant-design/icons";
 import { GetListUserApi } from "../../api/usersApi";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
@@ -40,6 +41,7 @@ const ModalAddProject = ({
   const [timeEnd, setTimeEnd] = useState(null);
   const [timeStart1, setTimeStart1] = useState(null);
   const [timeEnd1, setTimeEnd1] = useState(null);
+  const [selectIDCusLead, setSelectIDCusLead] = useState('');
 
   const onCloseModal = () => {
     form.resetFields();
@@ -238,11 +240,12 @@ const ModalAddProject = ({
                   width: "100%",
                 }}
                 allowClear
+                // onChange={(value)=>console.log(lsNameUser.filter((item)=>item.id=value)[0])}
               >
                 {/* {children} */}
                 {lsNameUser.map((item, index) => (
                   // console.log(item.id)
-                  <Option key={item.username} value={item.id}>
+                  <Option key={item.id} value={item.id}>
                     {item.username}
                   </Option>
                 ))}
@@ -267,7 +270,7 @@ const ModalAddProject = ({
                 {/* {children} */}
                 {lsNameUser.map((item, index) => (
                   // console.log(item.id)
-                  <Option key={item.username} value={item.id}>
+                  <Option key={item.id} value={item.id}>
                     {item.username}
                   </Option>
                 ))}
@@ -363,14 +366,16 @@ const ModalEditProject = ({
   };
 
   useEffect(() => {
-    form.resetFields();
+    // form.resetFields();
     if (visible) {
+    console.log(dataInforUser);
+      var getTime_2 = dataInforUser.thoi_gian_lam.filter((item)=> item.ten_ca = '2')
       form.setFieldsValue({
         name: dataInforUser.name,
-        gio_vao_ca_1: dataInforUser.gio_vao_ca_1,
-        gio_ra_ca_1: dataInforUser.gio_ra_ca_1,
-        gio_vao_ca_2: dataInforUser.gio_vao_ca_2,
-        gio_ra_ca_2: dataInforUser.gio_ra_ca_2,
+        gio_vao_ca_1: moment(dataInforUser.thoi_gian_lam.filter((item)=> item.ten_ca = '1')[0].gio_vao, "HH:mm:ss"),
+        gio_ra_ca_1: moment(dataInforUser.thoi_gian_lam.filter((item)=> item.ten_ca = '1')[0].gio_ra, "HH:mm:ss"),
+        gio_vao_ca_2: getTime_2.length == 2 ? moment(getTime_2[1].gio_vao, "HH:mm:ss"): null,
+        gio_ra_ca_2: getTime_2.length == 2 ? moment(getTime_2[1].gio_ra, "HH:mm:ss"): null,
         user_lead: dataInforUser.user_lead,
         user_member: dataInforUser.user_member,
         description: dataInforUser.description,
@@ -594,6 +599,7 @@ function ProjectManagement() {
     count: 0,
     current: 1,
   });
+  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
 
   const fetchDataProject = (params = {}) => {
     setLoading(true);
@@ -633,6 +639,7 @@ function ProjectManagement() {
 
   const fetchListUserName = () => {
     GetListUserApi().then((res) => {
+      // setLsNameUser(res.data.filter((item)=>item.customer==userInfo.customer));
       setLsNameUser(res.data);
     });
   };
@@ -664,6 +671,7 @@ function ProjectManagement() {
       type: "text",
       canSearch: true,
       width: 150,
+      align: "center",
     },
     {
       title: "Number of members",
@@ -674,6 +682,7 @@ function ProjectManagement() {
       type: "text",
       canSearch: true,
       width: 150,
+      render: (value, record) => record.user_member.length + record.user_lead.length,
     },
     {
       title: "Action",
@@ -687,7 +696,7 @@ function ProjectManagement() {
       render: (value, record) => (
         <div
           className="btngroup1"
-          style={{ display: "flex", marginLeft: "55px" }}
+          // style={{ display: "flex", marginLeft: "55px" }}
         >
           <div className="btnBack" style={{ marginRight: "10px" }}>
             <Tooltip placement="bottom" title="Sửa" arrowPointAtCenter>
@@ -706,9 +715,9 @@ function ProjectManagement() {
     },
   ];
   return (
-    <div className="formProject">
-      <div className="formProject1">
-        <div className="formProject2">
+    <div className="FormHomeTable">
+      <div className="FormHome1">
+        <div className="FormHome2" style={{padding: "10px"}}>
           <div className="HeaderContentUser">
             <Row style={{ width: "100%" }}>
               <Col span={12}>{/* <h1 className="h1UserTable"></h1> */}</Col>
@@ -732,6 +741,7 @@ function ProjectManagement() {
             scroll={{ y: 400 }}
             className="tableUser"
             onChange={handleChange}
+            // style={{borderRadius: 20}}
           />
 
           <ModalAddProject

@@ -14,8 +14,8 @@ class NotFoundLayout extends React.Component {
                 status="404"
                 title="404"
                 className={'not-found-page'}
-                subTitle="URL không tồn tại."
-                extra={<Link to={'/ca-nhan'}><Button type="primary">Về trang chủ</Button></Link>}
+                subTitle="URL does not exist."
+                extra={<Link to={'/ca-nhan'}><Button type="primary">Back to the home page</Button></Link>}
               />
         );
     }

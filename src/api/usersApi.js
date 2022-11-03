@@ -1,6 +1,6 @@
 import {authAxios} from "../api/axiosClient";
 // import Cookies from 'universal-cookie';
-import { listChucVuURL, manageUserURL, userEditURL, userInfoURL} from "../constants";
+import { listChucVuURL, manageUserAdminURL, manageUserURL, userEditURL, userInfoURL} from "../constants";
 
 export const usersApi = {
     getAll: (params) => {
@@ -10,7 +10,8 @@ export const usersApi = {
 }
 
 export const GetListUserApi =(params={})=> {
-    const url = manageUserURL;
+    const url = manageUserAdminURL;
+    // const url = manageUserURL;
     return authAxios().get(url,{params});
 }
 
@@ -20,7 +21,8 @@ export const GetUserEditApi =(params={})=> {
 }
 
 export const PostUserApi = (params={})=>{
-    const url = manageUserURL;
+    // const url = manageUserURL;
+    const url = manageUserAdminURL;
     return authAxios().post(url,params);
 }
 

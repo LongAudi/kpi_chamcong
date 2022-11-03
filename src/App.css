@@ -24,6 +24,14 @@ div#layout-wrapper {
     border-radius: 1.5rem;
 }
 
+/* .FormHomeTable {
+    margin: auto;
+    width: 55%;
+    margin-top: 20px;
+    background: linear-gradient(90.13deg, #d1aad7 0.11%, #c88bc4 25.06%, #7b8fdd 50%, #86bff2 74.8%, #bbdef2 99.76%);
+    border-radius: 1.5rem;
+} */
+
 .FormHome1 {
     width: 80%;
     margin: auto;
@@ -182,6 +190,15 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     border: none;
     background: none !important;
     box-shadow: none !important;
+}
+
+.ant-picker-input > input[disabled] {
+    color: rgb(0 0 0 / 78%);
+    background-color: #e7e7e7;
+}
+
+.formItemHome .ant-upload-list {
+    display: inline-block;
 }
 
 @media (max-width: 768px) {

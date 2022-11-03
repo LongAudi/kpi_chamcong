@@ -10,6 +10,7 @@ import UserLayout from "../containers/UserLayout";
 import Login from "../containers/Login";
 import Cookies from "universal-cookie";
 import NotPermission from "../containers/notPermission";
+import LoadingPage from "../containers/loadingpage";
 import NotFoundLayout from "../containers/notfound";
 import { NotValidTime } from "../containers/notValidTime";
 import { CustomLayout } from "../containers/Layout";
@@ -26,9 +27,11 @@ import ProjectManagement from "../containers/component/ProjectManagement";
 const cookies = new Cookies();
 
 function Main() {
-  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const [isValid, setIsValid] = useState(true);
+  const [lsPermissions, setLsPermissions] = useState([]);
+  
   const token = cookies.get("token");
   if (token) {
     dispatch(authSuccess(token));
@@ -44,6 +47,26 @@ function Main() {
     }
   }, [auth, token]);
 
+  useEffect(()=>{
+    if (userInfo){
+      setLsPermissions([userInfo.group_name])
+    //     if (userInfo.team_permissions){
+    //         const arrTeam = userInfo.team_permissions .map((item,index)=>item.phanquyen__ten_pq);
+    //         setLsPermissions([...userInfo.user_permissions, ...new Set(arrTeam)]);
+    //     } else {
+    //         setLsPermissions(userInfo.user_permissions)
+    //     }
+    }
+    // console.log(userInfoURL);
+    // if (userInfo && userInfo.user_permissions) {
+    //     setLsPermissions(userInfo.user_permissions)
+    // }
+    // authAxios().get(userInfoURL).then(r=>{
+    //     console.log(r.data.user_permissions);
+    //     setLsPermissions(r.data.user_permissions);
+    // })
+  },[userInfo])
+
   return (
     <Router>
       <Switch>
@@ -52,29 +75,40 @@ function Main() {
             <Login />
           </UserLayout>
         </ProtectLoginRoute>
-        {userInfo.group_role === 3 ? (
+        {/* {userInfo.group_role === 2 ? (
           <RouteWithLayout
             component={Home}
             exact
             layout={CustomLayout}
             path="/"
             isPrivate={true}
-            lsPermissions={[""]}
-            permission={[""]}
+            lsPermissions={lsPermissions}
+            permission={["Member"]}
             isLogged={auth}
             isValid={isValid}
           />
         ) : (
           ""
-        )}
+        )} */}
+        <RouteWithLayout
+            component={Home}
+            exact
+            layout={CustomLayout}
+            path="/"
+            isPrivate={true}
+            lsPermissions={lsPermissions}
+            permission={["Member"]}
+            isLogged={auth}
+            isValid={isValid}
+          />
         <RouteWithLayout
           component={Home}
           exact
           layout={CustomLayout}
           path="/home"
           isPrivate={true}
-          lsPermissions={[""]}
-          permission={[""]}
+          lsPermissions={lsPermissions}
+          permission={["Member"]}
           isLogged={auth}
           isValid={isValid}
         />
@@ -84,8 +118,8 @@ function Main() {
           layout={CustomLayout}
           path="/personal_information"
           isPrivate={true}
-          lsPermissions={[""]}
-          permission={[""]}
+          lsPermissions={lsPermissions}
+          permission={["Admin",'Member']}
           isLogged={auth}
           isValid={isValid}
         />
@@ -95,8 +129,8 @@ function Main() {
           layout={CustomLayout}
           path="/admin"
           isPrivate={true}
-          lsPermissions={[""]}
-          permission={[""]}
+          lsPermissions={lsPermissions}
+          permission={["Admin"]}
           isLogged={auth}
           isValid={isValid}
         />
@@ -106,8 +140,8 @@ function Main() {
           layout={CustomLayout}
           path="/working_details"
           isPrivate={true}
-          lsPermissions={[""]}
-          permission={[""]}
+          lsPermissions={lsPermissions}
+          permission={['Member']}
           isLogged={auth}
           isValid={isValid}
         />
@@ -117,10 +151,31 @@ function Main() {
           layout={CustomLayout}
           path="/project_management"
           isPrivate={true}
-          lsPermissions={[""]}
-          permission={[""]}
+          lsPermissions={lsPermissions}
+          permission={["Admin"]}
           isLogged={auth}
           isValid={isValid}
+        />
+        <RouteWithLayout
+            component={NotPermission}
+              exact
+              layout={CustomLayout}
+              path="/notpermission"
+              isPrivate={true}
+              lsPermissions={lsPermissions}
+              permission={'403'}
+              isLogged={auth}
+            isValid={isValid}
+        />
+        <RouteWithLayout
+            component={NotFoundLayout}
+              layout={CustomLayout}
+              path="/"
+              lsPermissions={lsPermissions}
+              isPrivate={true}
+              isLogged={auth}
+            permission={'404'}
+            isValid={isValid}
         />
       </Switch>
     </Router>
@@ -145,7 +200,7 @@ const RouteWithLayout = (props) => {
       case "404":
         return <NotFoundLayout />;
       default:
-        return <NotPermission />;
+        return <LoadingPage />;
     }
   };
   return (

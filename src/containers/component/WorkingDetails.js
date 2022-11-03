@@ -32,6 +32,7 @@ import {
 } from "@ant-design/icons";
 import { GetProjectApi } from "../../api/projectApi";
 import { useSelector } from "react-redux";
+import { GetProjectWithUserAPI, GetWorkingShiftsLeadAPI, GetWorkingShiftsUserAPI } from "../../api/homeAPI";
 
 const data = [
   {
@@ -84,33 +85,54 @@ function WorkingDetails() {
   // const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
-
+  const [lsProjectWithUser, setLsProjectWithUser] = useState([]);
+  const [selectProjectID, setSelectProjectID] = useState();
+  const [selectShiftsID, setselectShiftsID] = useState();
   const userInfo = useSelector((state) => state.getUserInfo.userInfo);
+  const [dataWorkingShifts, setDataWorkingShifts] = useState([]);
 
-  const fetchData = (params = {}) => {
-    setLoading(false);
-    // GetListUserApi(params)
-    //   .then((res) => {
-    //     setData(res.data);
-    //     setPager({
-    //       current: params.page,
-    //       pageSize: params.page_size,
-    //       count: res.data.count,
-    //     });
-    //     setLoading(false);
-    //   })
-    //   .catch((err) => {
-    //     errorHandle(err);
-    //     setLoading(false);
-    //   });
+  const fetchProjectWithUser = (params = {}) => {
+    GetProjectWithUserAPI()
+      .then((res) => {
+        setLsProjectWithUser(res.data);
+      })
+      .catch((err) => {
+        errorHandle(err);
+      });
   };
 
- 
-  
+  const fetchWorkingShiftsUser = (params = {}) => {
+    GetWorkingShiftsLeadAPI(params)
+      .then((res) => {
+        console.log(res.data);
+        // console.log( moment(res.data[0].created_at).moment(res.data[0].time_break, 'HH:mm:ss').format('HH:mm'));
+        setDataWorkingShifts(res.data);
+        
+      })
+      .catch((err) => {
+        errorHandle(err);
+      });
+  };
+
   useEffect(() => {
-    fetchData({ page: pager.current, page_size: pager.pageSize, search });
+    fetchProjectWithUser();
   }, []);
 
+  const onChangeProject = (value) => {
+    setSelectProjectID(value);
+    // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
+  };
+
+  const onChangeShifts = (value) => {
+    setselectShiftsID(value);
+    fetchWorkingShiftsUser({
+      project_id: selectProjectID,
+      thoigianlam_id: value
+    })
+    // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
+  };
+ 
+  
   const columns = [
     {
       title: "ID",
@@ -126,35 +148,37 @@ function WorkingDetails() {
     },
     {
       title: "UserName",
-      dataIndex: "username",
-      key: "username",
-      filterKey: "username",
+      dataIndex: "user",
+      key: "user",
+      filterKey: "user",
       align: "center",
       type: "text",
       canSearch: true,
       width: 150,
+      render: (value, record) => value[0].username,
     },
     {
       title: "Project",
-      dataIndex: "project_name",
-      key: "project_name",
-      filterKey: "project_name",
+      dataIndex: "data_project",
+      key: "data_project",
+      filterKey: "data_project",
       align: "center",
       type: "text",
       canSearch: true,
       width: 150,
+      render: (value, record) => value[0].name,
     },
-    {
-      title: "Working Shift",
-      dataIndex: "gio_vaora",
-      key: "gio_vaora",
-      filterKey: "gio_vaora",
-      align: "center",
-      type: "text",
-      canSearch: true,
-      width: 150,
-      render: (value, record) => value.length != 0 ? `${value[0]} - ${value[1]}`: '',
-    },
+    // {
+    //   title: "Working Shift",
+    //   dataIndex: "thoigianlam",
+    //   key: "thoigianlam",
+    //   filterKey: "thoigianlam",
+    //   align: "center",
+    //   type: "text",
+    //   canSearch: true,
+    //   width: 150,
+    //   // render: (value, record) => value.length != 0 ? `${value[0]} - ${value[1]}`: '',
+    // },
     {
       title: "Login",
       dataIndex: "time_start",
@@ -164,6 +188,7 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
+      render: (value, record) => moment(value).format("DD/MM/YYYY hh:mm:ss"),
     },
     {
       title: "Break",
@@ -174,6 +199,7 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
+      render: (value, record) => moment(value).format("DD/MM/YYYY hh:mm:ss"),
     },
     {
       title: "Resume",
@@ -184,6 +210,7 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
+      render: (value, record) => moment(value).format("DD/MM/YYYY hh:mm:ss"),
     },
     {
       title: "Leaves",
@@ -194,7 +221,7 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) => value.length != 0 ? `${value[0]} - ${value[1]}`: '',
+      render: (value, record) => `${moment(record.time_leaves_start).format("DD/MM/YYYY hh:mm:ss")} - ${moment(record.time_leaves_end).format("DD/MM/YYYY hh:mm:ss")}`,
     },
     {
       title: "Logout",
@@ -205,34 +232,35 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
+      render: (value, record) => moment(value).format("DD/MM/YYYY hh:mm:ss"),
     },
-    {
-      title: "Action",
-      key: "Action",
-      filterKey: "Action",
-      fixed: "right",
-      align: "center",
-      width: 100,
-      render: (record) => (
-        <div
-          className="btngroup1"
-          style={{ display: "flex", marginLeft: "55px" }}
-        >
-          <div className="btnBack" style={{ marginRight: "10px" }}>
-            <Tooltip placement="bottom" title="Sửa" arrowPointAtCenter>
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<EditOutlined />}
-                // onClick={() => {
-                //   onShowModalEdit(record);
-                // }}
-              />
-            </Tooltip>
-          </div>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Action",
+    //   key: "Action",
+    //   filterKey: "Action",
+    //   fixed: "right",
+    //   align: "center",
+    //   width: 100,
+    //   render: (record) => (
+    //     <div
+    //       className="btngroup1"
+    //       // style={{ display: "flex", marginLeft: "55px" }}
+    //     >
+    //       <div className="btnBack" style={{ marginRight: "10px" }}>
+    //         <Tooltip placement="bottom" title="Sửa" arrowPointAtCenter>
+    //           <Button
+    //             type="primary"
+    //             shape="circle"
+    //             icon={<EditOutlined />}
+    //             // onClick={() => {
+    //             //   onShowModalEdit(record);
+    //             // }}
+    //           />
+    //         </Tooltip>
+    //       </div>
+    //     </div>
+    //   ),
+    // },
   ];
 
   const handleChange = (pagination) => {
@@ -240,27 +268,49 @@ function WorkingDetails() {
     currentPager.current = pagination.current;
     currentPager.pageSize = pagination.pageSize;
     setPager({ ...currentPager });
-    fetchData({
-      status: currentPager.status,
-      page_size: pagination.pageSize,
-      page: pagination.current,
-      search,
-    });
+    // fetchData({
+    //   status: currentPager.status,
+    //   page_size: pagination.pageSize,
+    //   page: pagination.current,
+    //   search,
+    // });
   };
 
   return (
-    <div className="formUser">
-      <div className="formUser1">
-        <div className="formUser2">
+    <div className="FormHomeTable">
+      <div className="FormHome1">
+        <div className="FormHome2" style={{padding: "10px"}}>
           <div className="HeaderContentUser">
-            
           </div>
+            <Row>
+              <Col span={5}>
+                <Select
+                  allowClear
+                  style={{ width: "100%" }}
+                  onChange={onChangeProject}
+                  placeholder="Please select a project"
+                  >
+                  {lsProjectWithUser.map((item, index) => (<Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>))}
+                </Select>
+              </Col>
+              <Col span={5} offset={1}>
+                <Select
+                  allowClear
+                  style={{ width: "100%" }}
+                  onChange={onChangeShifts}
+                  placeholder="Please select a shift"
+                  >
+                  {selectProjectID && lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map((item, index) => (<Select.Option key={item.id} value={item.id}>{item.gio_vao} - {item.gio_ra}</Select.Option>))}
+                </Select>
 
+              </Col>
+            </Row>
+          <br></br>
           <Table
             rowKey="id"
             columns={columns}
-            dataSource={data}
-            size="middle"
+            dataSource={dataWorkingShifts}
+            size="small"
             loading={loading}
             scroll={{ x: 500 }}
             onChange={handleChange}

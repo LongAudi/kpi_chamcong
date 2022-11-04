@@ -305,6 +305,7 @@ function WorkingDetails() {
                   onChange={onChangeShifts}
                   placeholder="Please select a shift"
                   >
+                    <Select.Option key={"All"} value={"All"}>All</Select.Option>
                   {selectProjectID && lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map((item, index) => (<Select.Option key={item.id} value={item.id}>{item.gio_vao} - {item.gio_ra}</Select.Option>))}
                 </Select>
 

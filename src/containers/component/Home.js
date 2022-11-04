@@ -193,7 +193,6 @@ function Home () {
       PostNotificationApi(params)
         .then((res) => {
           console.log(res.data);
-          openNotificationWithIcon('success', "success")
         })
         .catch((err) => {
           errorHandle(err);
@@ -294,9 +293,9 @@ function Home () {
     };
 
     const checkLogout = () => {
-      if (form.getFieldValue('time_login') === undefined) {
-        openNotificationWithIcon('error', "Error", "Please choose a time to login")
-      }
+      // if (form.getFieldValue('time_login') === undefined) {
+      //   openNotificationWithIcon('error', "Error", "Please choose a time to login")
+      // }
       PostTimeEnd_ShiftApi({
         project_id: selectProjectID,
         thoigianlam_id: selectShiftsID

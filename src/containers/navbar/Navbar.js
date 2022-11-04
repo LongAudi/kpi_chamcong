@@ -76,7 +76,7 @@ function Navbar() {
             };
           }
         });
-      }, 10000); //300000
+      }, 1000000); //300000
     } catch (e) {
       console.log(e);
     }
@@ -134,7 +134,7 @@ function Navbar() {
                 <span>{moment(item.created_at).format("L HH:mm")}</span>
               </Col>
               <Col sm={8}>
-                <span>{moment(item.created_at).format("L HH:mm")}</span>
+                <span>{item.username}</span>
               </Col>
               <Col sm={10}>
                 {item.is_view ? (
@@ -193,7 +193,8 @@ function Navbar() {
         <Col span={22}>
           <Card
             className={"notification-card"}
-            style={{ width: "400px", height: "500px" }}
+            style={{ width: "360px" , height: "410px"}}
+            // onScroll="true"
             title="Thông báo"
             extra={hasReadAll}
             tabList={tabList}
@@ -201,6 +202,7 @@ function Navbar() {
             onTabChange={(key) => {
               onTabChange(key);
             }}
+            bodyStyle={{overflowY: "auto", height: "300px"}}
           >
             {contentList[currentKey]}
           </Card>

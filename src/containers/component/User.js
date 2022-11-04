@@ -62,7 +62,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
         if (res.data.error) {
           openNotificationWithIcon("error", res.data.error);
         } else {
-          openNotificationWithIcon("success", "Thành công", "");
+          openNotificationWithIcon("success", "Success", "");
           fetchData({ page: pager.current, page_size: pager.pageSize });
           onCloseModal();
           form.resetFields();

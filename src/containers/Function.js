@@ -14,7 +14,7 @@ export function openNotificationWithIcon (type,message,description) {
 };
 
 export const validateMessages = {
-    required: 'Vui lòng nhập ${label} !',
+    required: 'Please enter your ${label} !',
     types: {
         email: '${label} không đúng định dạng email!',
         number: '${label} không phải số!',
@@ -29,13 +29,13 @@ export const errorHandle = (err) =>{
   if (!err.data) {
       return;
   }
-  if (err.status === 500) {
-      dataError = "Dữ liệu có vấn đề, vui lòng kiểm tra lại"
-  }
+  // if (err.status === 500) {
+  //     dataError = "Dữ liệu có vấn đề, vui lòng kiểm tra lại"
+  // }
   if (err.status === 400) {
       dataError = err.data.error
   }
   // const dataError = Object.entries(err.data).map(([key, value]) => <p>{value}</p>)
-  openNotificationWithIcon('error', 'Lỗi', dataError)
+  openNotificationWithIcon('error', 'Error', dataError)
 }
 

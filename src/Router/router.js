@@ -201,8 +201,8 @@ const RouteWithLayout = (props) => {
       case "404":
         return <NotFoundLayout />;
       default:
-        return <NotPermission />;
-        // return <LoadingPage />;
+        // return <NotPermission />;
+        return <LoadingPage />;
     }
   };
 
@@ -251,7 +251,7 @@ const ProtectLoginRoute = ({ protect, user_info, children, ...rest }) => {
     <Route
       {...rest}
       render={() =>
-        !protect ? children :<Redirect to="/home"></Redirect>
+        !protect ? children :<Redirect to="/"></Redirect>
       
 
       }

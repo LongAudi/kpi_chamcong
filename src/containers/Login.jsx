@@ -133,8 +133,8 @@ class LoginForm extends React.Component {
                             className="login-form"
                             initialValues={{
                                 remember: true,
-                                username:'admin',
-                                password:'Vbpo@12345',
+                                username:'',
+                                password:'Vbpo@2022',
                             }}
                             onFinish={onFinish}
                         >

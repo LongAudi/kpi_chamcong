@@ -129,6 +129,7 @@ function WorkingDetails() {
       project_id: selectProjectID,
       thoigianlam_id: value
     })
+    
     // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
   };
  
@@ -188,7 +189,7 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) => moment(value).format("DD/MM/YYYY hh:mm:ss"),
+      render: (value, record) =>value? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
     },
     {
       title: "Break",
@@ -199,7 +200,7 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) => moment(value).format("DD/MM/YYYY hh:mm:ss"),
+      render: (value, record) =>value? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
     },
     {
       title: "Resume",
@@ -210,7 +211,7 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) => moment(value).format("DD/MM/YYYY hh:mm:ss"),
+      render: (value, record) =>value? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
     },
     {
       title: "Leaves",
@@ -221,7 +222,7 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) => `${moment(record.time_leaves_start).format("DD/MM/YYYY hh:mm:ss")} - ${moment(record.time_leaves_end).format("DD/MM/YYYY hh:mm:ss")}`,
+      render: (value, record) => `${value ?moment(record.time_leaves_start).format("DD/MM/YYYY hh:mm:ss"):""} - ${value ?moment(record.time_leaves_end).format("DD/MM/YYYY hh:mm:ss"): ""}`,
     },
     {
       title: "Logout",
@@ -232,35 +233,8 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) => moment(value).format("DD/MM/YYYY hh:mm:ss"),
+      render: (value, record) =>value? moment(value).format("DD/MM/YYYY hh:mm:ss") :"",
     },
-    // {
-    //   title: "Action",
-    //   key: "Action",
-    //   filterKey: "Action",
-    //   fixed: "right",
-    //   align: "center",
-    //   width: 100,
-    //   render: (record) => (
-    //     <div
-    //       className="btngroup1"
-    //       // style={{ display: "flex", marginLeft: "55px" }}
-    //     >
-    //       <div className="btnBack" style={{ marginRight: "10px" }}>
-    //         <Tooltip placement="bottom" title="Sửa" arrowPointAtCenter>
-    //           <Button
-    //             type="primary"
-    //             shape="circle"
-    //             icon={<EditOutlined />}
-    //             // onClick={() => {
-    //             //   onShowModalEdit(record);
-    //             // }}
-    //           />
-    //         </Tooltip>
-    //       </div>
-    //     </div>
-    //   ),
-    // },
   ];
 
   const handleChange = (pagination) => {
@@ -279,7 +253,7 @@ function WorkingDetails() {
   return (
     <div className="FormHomeTable">
       <div className="FormHome1">
-        <div className="FormHome2" style={{padding: "10px"}}>
+        <div className="FormHome2">
           <div className="HeaderContentUser">
           </div>
             <Row>

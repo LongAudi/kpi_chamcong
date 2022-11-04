@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import {
   errorHandle,
   openNotificationWithIcon,
-  validateMessages,
+  // validateMessages,
 } from "../Function";
 import {
   GetProjectApi,
@@ -29,11 +29,24 @@ import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
+const validateMessages = {
+  required: "Please enter your ${label} !",
+  types: {
+    email: "${label} is not in the correct email format!",
+    number: "${label} not numbers!",
+    string: "${label} not Chữ!",
+  },
+  number: {
+    range: "${label} must be between ${min} and ${max}",
+  },
+};
+
 const ModalAddProject = ({
   visible,
   onCancel,
   lsNameUser,
   fetchDataProject,
+  loading,
   pager,
 }) => {
   const [form] = Form.useForm();
@@ -41,7 +54,8 @@ const ModalAddProject = ({
   const [timeEnd, setTimeEnd] = useState(null);
   const [timeStart1, setTimeStart1] = useState(null);
   const [timeEnd1, setTimeEnd1] = useState(null);
-  const [selectIDCusLead, setSelectIDCusLead] = useState('');
+  const [nameLeader, setNameLeader] = useState("");
+  const [nameMember, setNameMember] = useState("");
 
   const onCloseModal = () => {
     form.resetFields();
@@ -93,6 +107,8 @@ const ModalAddProject = ({
   };
 
   const onFinish = (values) => {
+    // var getTime_2 = values.thoi_gian_lam.filter((item)=> item.ten_ca = '2')
+    console.log(values.gio_vao_ca_2);
     PostProjectApi({
       name: values.name,
       // custommer: values.custommer,
@@ -103,14 +119,20 @@ const ModalAddProject = ({
       gio_vao_ca_1: moment(values.gio_vao_ca_1).format("HH:mm"),
       gio_ra_ca_1: moment(values.gio_ra_ca_1).format("HH:mm"),
       // ten_ca_2: values.ten_ca_2 || "",
-      gio_vao_ca_2: moment(values.gio_vao_ca_2).format("HH:mm"),
-      gio_ra_ca_2: moment(values.gio_ra_ca_2).format("HH:mm"),
+      gio_vao_ca_2:
+        values.gio_vao_ca_2 === undefined
+          ? null
+          : moment(values.gio_vao_ca_2).format("HH:mm"),
+      gio_ra_ca_2:
+        values.gio_ra_ca_2 === undefined
+          ? null
+          : moment(values.gio_ra_ca_2).format("HH:mm"),
     })
       .then((res) => {
         if (res.data.error) {
           openNotificationWithIcon("error", res.data.error);
         } else {
-          openNotificationWithIcon("success", "Thành công", "");
+          openNotificationWithIcon("success", "Success", "");
           fetchDataProject({ page: pager.current, page_size: pager.pageSize });
           onCloseModal();
           form.resetFields();
@@ -122,6 +144,15 @@ const ModalAddProject = ({
         }
       });
   };
+
+  const handleIDLeader = (id)=>{
+    setNameLeader(id)
+    form.setFieldsValue({user_member: undefined})
+  }
+
+  const handleIDMember = (id)=>{
+    setNameMember(id)
+  }
 
   return (
     <Modal
@@ -147,7 +178,7 @@ const ModalAddProject = ({
             <Form.Item
               label="Project Name"
               name="name"
-              rules={[{ required: true }]}
+              rules={[{ required: true, type: "string" }]}
             >
               <Input maxLength={100} />
             </Form.Item>
@@ -166,6 +197,7 @@ const ModalAddProject = ({
                 style={{ width: "100%" }}
                 minuteStep={15}
                 allowClear={false}
+                showNow={false}
                 disabledHours={getDisableHourIn}
               />
             </Form.Item>
@@ -184,6 +216,7 @@ const ModalAddProject = ({
                 value={timeEnd}
                 style={{ width: "100%" }}
                 minuteStep={15}
+                showNow={false}
                 disabledHours={getDisableHourOut}
                 allowClear={false}
               />
@@ -202,6 +235,7 @@ const ModalAddProject = ({
                 value={timeStart1}
                 style={{ width: "100%" }}
                 minuteStep={15}
+                showNow={false}
                 allowClear={false}
                 disabledHours={getDisableHourIn1}
               />
@@ -221,6 +255,7 @@ const ModalAddProject = ({
                 value={timeEnd1}
                 style={{ width: "100%" }}
                 minuteStep={15}
+                showNow={false}
                 disabledHours={getDisableHourOut1}
                 allowClear={false}
               />
@@ -240,15 +275,16 @@ const ModalAddProject = ({
                   width: "100%",
                 }}
                 allowClear
-                // onChange={(value)=>console.log(lsNameUser.filter((item)=>item.id=value)[0])}
+                onChange={handleIDLeader}
               >
                 {/* {children} */}
-                {lsNameUser.map((item, index) => (
-                  // console.log(item.id)
-                  <Option key={item.id} value={item.id}>
-                    {item.username}
-                  </Option>
-                ))}
+                {lsNameUser.filter((item)=>item.id !== nameMember ).map((item, index) =>
+                  item.group_name === "Admin" ? null : (
+                    <Option key={item.id} value={item.id}>
+                      {item.username}
+                    </Option>
+                  )
+                )}
               </Select>
             </Form.Item>
           </Col>
@@ -266,14 +302,16 @@ const ModalAddProject = ({
                   width: "100%",
                 }}
                 allowClear
+                onChange={handleIDMember}
               >
                 {/* {children} */}
-                {lsNameUser.map((item, index) => (
-                  // console.log(item.id)
-                  <Option key={item.id} value={item.id}>
-                    {item.username}
-                  </Option>
-                ))}
+                {lsNameUser.filter((item)=>item.id !== nameLeader).map((item, index) =>
+                  item.group_name === "Admin" ? null : (
+                    <Option key={item.id} value={item.id}>
+                      {item.username}
+                    </Option>
+                  )
+                )}
               </Select>
             </Form.Item>
           </Col>
@@ -307,7 +345,9 @@ const ModalEditProject = ({
   onCancel,
   dataInforUser,
   lsNameUser,
+  lsNameUser1,
   fetchDataProject,
+  loading,
   pager,
 }) => {
   const [form] = Form.useForm();
@@ -315,6 +355,8 @@ const ModalEditProject = ({
   const [timeEnd, setTimeEnd] = useState(null);
   const [timeStart1, setTimeStart1] = useState(null);
   const [timeEnd1, setTimeEnd1] = useState(null);
+  const [nameLeader, setNameLeader] = useState("");
+  const [nameMember, setNameMember] = useState("");
 
   const onCloseModal = () => {
     form.resetFields();
@@ -368,14 +410,47 @@ const ModalEditProject = ({
   useEffect(() => {
     // form.resetFields();
     if (visible) {
-    console.log(dataInforUser);
-      var getTime_2 = dataInforUser.thoi_gian_lam.filter((item)=> item.ten_ca = '2')
+      // console.log(dataInforUser);
+      // var getTime_2 = dataInforUser.thoi_gian_lam.filter(
+      //   (item) => item.ten_ca === "2"
+      // );
+      // console.log(getTime_2);
+      // form.setFieldsValue({
+      //   name: dataInforUser.name,
+      //   gio_vao_ca_1: moment(
+      //     dataInforUser.thoi_gian_lam.filter((item) => (item.ten_ca = "1"))[0]
+      //       .gio_vao,
+      //     "HH:mm:ss"
+      //   ),
+      //   gio_ra_ca_1: moment(
+      //     dataInforUser.thoi_gian_lam.filter((item) => (item.ten_ca = "1"))[0]
+      //       .gio_ra,
+      //     "HH:mm:ss"
+      //   ),
+      //   gio_vao_ca_2:
+      //     getTime_2.length === 2 ? moment(getTime_2[1].gio_vao, "HH:mm") : null,
+      //   gio_ra_ca_2:
+      //     getTime_2.length === 2 ? moment(getTime_2[1].gio_ra, "HH:mm") : null,
+      //   user_lead: dataInforUser.user_lead,
+      //   user_member: dataInforUser.user_member,
+      //   description: dataInforUser.description,
+      // });
+      var getTime_2 = dataInforUser.thoi_gian_lam;
+      setNameLeader(dataInforUser.user_lead[0])
       form.setFieldsValue({
+
         name: dataInforUser.name,
-        gio_vao_ca_1: moment(dataInforUser.thoi_gian_lam.filter((item)=> item.ten_ca = '1')[0].gio_vao, "HH:mm:ss"),
-        gio_ra_ca_1: moment(dataInforUser.thoi_gian_lam.filter((item)=> item.ten_ca = '1')[0].gio_ra, "HH:mm:ss"),
-        gio_vao_ca_2: getTime_2.length == 2 ? moment(getTime_2[1].gio_vao, "HH:mm:ss"): null,
-        gio_ra_ca_2: getTime_2.length == 2 ? moment(getTime_2[1].gio_ra, "HH:mm:ss"): null,
+        gio_vao_ca_1: moment(
+          dataInforUser.thoi_gian_lam[0].gio_vao,"HH:mm:ss"),
+        gio_ra_ca_1: moment(
+          dataInforUser.thoi_gian_lam[0]
+            .gio_ra,
+          "HH:mm:ss"
+        ),
+        gio_vao_ca_2:
+          getTime_2.length === 2 ? moment(getTime_2[1].gio_vao, "HH:mm") : null,
+        gio_ra_ca_2:
+          getTime_2.length === 2 ? moment(getTime_2[1].gio_ra, "HH:mm") : null,
         user_lead: dataInforUser.user_lead,
         user_member: dataInforUser.user_member,
         description: dataInforUser.description,
@@ -384,12 +459,20 @@ const ModalEditProject = ({
   }, [visible]);
 
   const onFinish = (values) => {
+    console.log(values.gio_vao_ca_2);
     PutProjectEditApi(dataInforUser.id, {
       name: values.name,
-      gio_vao_ca_1: moment(values.gio_vao_ca_1).format("HH:mm") ,
+      gio_vao_ca_1: moment(values.gio_vao_ca_1).format("HH:mm"),
       gio_ra_ca_1: moment(values.gio_ra_ca_1).format("HH:mm"),
-      gio_vao_ca_2: moment(values.gio_vao_ca_2).format("HH:mm") || null,
-      gio_ra_ca_2: moment(values.gio_ra_ca_2).format("HH:mm") || null,
+      gio_vao_ca_2:
+        values.gio_vao_ca_2 === null
+          ? null
+          : moment(values.gio_vao_ca_2).format("HH:mm"),
+      gio_ra_ca_2:
+        values.gio_ra_ca_2 === null
+          ? null
+          : moment(values.gio_ra_ca_2).format("HH:mm"),
+      id_shifts: dataInforUser.thoi_gian_lam.map((item) => item.id),
       user_lead: values.user_lead,
       user_member: values.user_member,
       description: values.description,
@@ -399,7 +482,7 @@ const ModalEditProject = ({
         if (res.data.error) {
           openNotificationWithIcon("error", res.data.error);
         } else {
-          openNotificationWithIcon("success", "Thành công", "");
+          openNotificationWithIcon("success", "Success", "");
           fetchDataProject({ page: pager.current, page_size: pager.pageSize });
           onCancel();
           form.resetFields();
@@ -411,6 +494,15 @@ const ModalEditProject = ({
         }
       });
   };
+
+  const handleIDLeader = (id)=>{
+    setNameLeader(id)
+    form.setFieldsValue({user_member: undefined})
+  }
+
+  const handleIDMember = (id)=>{
+    setNameMember(id)
+  }
 
   return (
     <Modal
@@ -451,6 +543,7 @@ const ModalEditProject = ({
                 style={{ width: "100%" }}
                 minuteStep={15}
                 allowClear={false}
+                showNow={false}
                 disabledHours={getDisableHourIn}
               />
             </Form.Item>
@@ -469,6 +562,7 @@ const ModalEditProject = ({
                 value={timeEnd}
                 style={{ width: "100%" }}
                 minuteStep={15}
+                showNow={false}
                 disabledHours={getDisableHourOut}
                 allowClear={false}
               />
@@ -487,6 +581,7 @@ const ModalEditProject = ({
                 value={timeStart1}
                 style={{ width: "100%" }}
                 minuteStep={15}
+                showNow={false}
                 allowClear={false}
                 disabledHours={getDisableHourIn1}
               />
@@ -506,6 +601,7 @@ const ModalEditProject = ({
                 value={timeEnd1}
                 style={{ width: "100%" }}
                 minuteStep={15}
+                showNow={false}
                 disabledHours={getDisableHourOut1}
                 allowClear={false}
               />
@@ -525,14 +621,16 @@ const ModalEditProject = ({
                   width: "100%",
                 }}
                 allowClear
+                onChange={handleIDLeader}
               >
                 {/* {children} */}
-                {lsNameUser.map((item, index) => (
-                  // console.log(item.id)
-                  <Option key={item.username} value={item.id}>
-                    {item.username}
-                  </Option>
-                ))}
+                {lsNameUser.filter((item)=>item.id !== nameMember ).map((item, index) =>
+                  item.group_name === "Admin" ? null : (
+                    <Option key={item.username} value={item.id}>
+                      {item.username}
+                    </Option>
+                  )
+                )}
               </Select>
             </Form.Item>
           </Col>
@@ -550,14 +648,16 @@ const ModalEditProject = ({
                   width: "100%",
                 }}
                 allowClear
+                onChange={handleIDMember}
+                
               >
-                {/* {children} */}
-                {lsNameUser.map((item, index) => (
-                  // console.log(item.id)
-                  <Option key={item.username} value={item.id}>
-                    {item.username}
-                  </Option>
-                ))}
+                {lsNameUser.filter((item)=>item.id !== nameLeader).map((item, index) =>
+                  item.group_name === "Admin" ? null : (
+                    <Option key={item.username} value={item.id}>
+                      {item.username}
+                    </Option>
+                  )
+                )}
               </Select>
             </Form.Item>
           </Col>
@@ -576,8 +676,9 @@ const ModalEditProject = ({
             htmlType="submit"
             style={{ marginRight: "20px" }}
             className={"m-2"}
+            loading={loading}
           >
-            Add new
+            Update
           </Button>
           <Button onClick={onCloseModal}>Exit</Button>
         </Form.Item>
@@ -599,7 +700,7 @@ function ProjectManagement() {
     count: 0,
     current: 1,
   });
-  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
+  // const userInfo = useSelector((state) => state.getUserInfo.userInfo);
 
   const fetchDataProject = (params = {}) => {
     setLoading(true);
@@ -682,7 +783,8 @@ function ProjectManagement() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) => record.user_member.length + record.user_lead.length,
+      render: (value, record) =>
+        record.user_member.length + record.user_lead.length,
     },
     {
       title: "Action",
@@ -717,7 +819,7 @@ function ProjectManagement() {
   return (
     <div className="FormHomeTable">
       <div className="FormHome1">
-        <div className="FormHome2" style={{padding: "10px"}}>
+        <div className="FormHome2">
           <div className="HeaderContentUser">
             <Row style={{ width: "100%" }}>
               <Col span={12}>{/* <h1 className="h1UserTable"></h1> */}</Col>
@@ -750,14 +852,17 @@ function ProjectManagement() {
             lsNameUser={lsNameUser}
             fetchDataProject={fetchDataProject}
             pager={pager}
+            loading={loading}
           />
           <ModalEditProject
             visible={isEditing}
             onCancel={() => setIsEditing(false)}
             dataInforUser={dataInforUser}
             lsNameUser={lsNameUser}
+            lsNameUser1={lsNameUser}
             fetchDataProject={fetchDataProject}
             pager={pager}
+            loading={loading}
           />
         </div>
       </div>

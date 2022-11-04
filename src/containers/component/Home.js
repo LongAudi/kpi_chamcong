@@ -27,10 +27,6 @@ const { Content } = Layout;
 // const { RangePicker } = DatePicker;
 
 function Home () {
-  // const [newDay, setNewDay] = useState();
-  // const [newDay1, setNewDay1] = useState();
-  // const [newDay2, setNewDay2] = useState();
-  // const [newDay3, setNewDay3] = useState();
   const [checkShifts, setCheckShifts] = useState(false);
   const [lsProjectWithUser, setLsProjectWithUser] = useState([]);
   const [selectProjectID, setSelectProjectID] = useState();
@@ -75,33 +71,6 @@ function Home () {
         });
     };
 
-    
-
-    const putWorkingShiftsUser = (params = {}) => {
-      // setLoading(true);
-      // PutRoleUserApi({
-      //     userId: dataInforUser.id,
-      //     lsGroupRole: lsGroupUpdate,
-      //     listRole: lsTeam
-      // })
-      // .then(res=>{
-      //     if (res.data.error) {
-      //         openNotificationWithIcon('error', res.data.error)
-      //     } else {
-      //         fetchData({page:pager.current,page_size:pager.pageSize});
-      //         onCancelModal();
-      //     };
-      //     setLoading(false);
-      //     setLoading_NQ(false);
-      // })
-      // .catch(err=>{
-      //     if (err.data.error) {
-      //         openNotificationWithIcon('error', err.data.error)
-      //     };
-      //     setLoading(false);
-      //     setLoading_NQ(false);
-      // });
-    };
 
     const onChangeProject = (value) => {
       setSelectProjectID(value);
@@ -118,22 +87,6 @@ function Home () {
       })
       // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
     };
-
-    // const onChange = (value, dateString) => {
-    //   setNewDay(value);
-    // };
-
-    // const onChange1 = (value1, dateString) => {
-    //   setNewDay1(value1);
-    // };
-
-    // const onChange2 = (value2, dateString) => {
-    //   setNewDay2(value2);
-    // };
-
-    // const onChange3 = (value3, dateString) => {
-    //   setNewDay3(value3);
-    // };
 
     const onOk = (value) => {
       // console.log("onOk: ", value);
@@ -191,8 +144,6 @@ function Home () {
     };
 
     const onFinishShifts = (values) => {
-      console.log(values)
-      console.log(form.getFieldValue("time_login"))
       setLoading(true);
       var FormData = require('form-data');
       var data = new FormData();

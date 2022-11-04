@@ -30,7 +30,7 @@ function Main() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const [isValid, setIsValid] = useState(true);
-  const [lsPermissions, setLsPermissions] = useState([]);
+  const [lsPermissions, setLsPermissions] = useState(['Member']);
   
   const token = cookies.get("token");
   if (token) {
@@ -41,6 +41,7 @@ function Main() {
   useEffect(() => {
     if (auth && token) {
       dispatch(getUserInfo());
+      setLsPermissions([userInfo.group_name])
       // dispatch(getSystemInfo(token));
       // dispatch(getSystemStatus(token));
       // dispatch(getSystemOTStatus(token));
@@ -70,8 +71,8 @@ function Main() {
   return (
     <Router>
       <Switch>
-        <ProtectLoginRoute exact path="/Login" protect={auth}>
-          <UserLayout>
+        <ProtectLoginRoute exact path="/Login" protect={auth} user_info={lsPermissions}>
+          <UserLayout >
             <Login />
           </UserLayout>
         </ProtectLoginRoute>
@@ -91,16 +92,16 @@ function Main() {
           ""
         )} */}
         <RouteWithLayout
-            component={Home}
-            exact
-            layout={CustomLayout}
-            path="/"
-            isPrivate={true}
-            lsPermissions={lsPermissions}
-            permission={["Member"]}
-            isLogged={auth}
-            isValid={isValid}
-          />
+          component={Home}
+          exact
+          layout={CustomLayout}
+          path="/"
+          isPrivate={true}
+          lsPermissions={lsPermissions}
+          permission={["Member"]}
+          isLogged={auth}
+          isValid={isValid}
+        />
         <RouteWithLayout
           component={Home}
           exact
@@ -109,17 +110,6 @@ function Main() {
           isPrivate={true}
           lsPermissions={lsPermissions}
           permission={["Member"]}
-          isLogged={auth}
-          isValid={isValid}
-        />
-        <RouteWithLayout
-          component={ThongTinCaNhan}
-          exact
-          layout={CustomLayout}
-          path="/personal_information"
-          isPrivate={true}
-          lsPermissions={lsPermissions}
-          permission={["Admin",'Member']}
           isLogged={auth}
           isValid={isValid}
         />
@@ -153,6 +143,17 @@ function Main() {
           isPrivate={true}
           lsPermissions={lsPermissions}
           permission={["Admin"]}
+          isLogged={auth}
+          isValid={isValid}
+        />
+        <RouteWithLayout
+          component={ThongTinCaNhan}
+          exact
+          layout={CustomLayout}
+          path="/personal_information"
+          isPrivate={true}
+          lsPermissions={lsPermissions}
+          permission={["Admin",'Member']}
           isLogged={auth}
           isValid={isValid}
         />
@@ -200,9 +201,11 @@ const RouteWithLayout = (props) => {
       case "404":
         return <NotFoundLayout />;
       default:
-        return <LoadingPage />;
+        return <NotPermission />;
+        // return <LoadingPage />;
     }
   };
+
   return (
     <Route
       {...rest}
@@ -210,15 +213,16 @@ const RouteWithLayout = (props) => {
         isValid ? (
           isPrivate ? (
             isLogged ? (
-              lsPermissions && lsPermissions.length > 0 ? (
-                lsPermissions.some((r) => permission.includes(r)) ? (
+              lsPermissions && lsPermissions.length > 0 ? 
+                (lsPermissions.some((r) => permission.includes(r)) ? (
                   <Layout isLogged={isLogged}>
                     <Component {...props} />
                   </Layout>
                 ) : (
-                  getRejectRoute(permission)
+                  lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> : getRejectRoute(permission)
                 )
-              ) : (
+                )
+               : (
                 <span></span>
               )
             ) : (
@@ -242,12 +246,14 @@ const RouteWithLayout = (props) => {
   );
 };
 
-const ProtectLoginRoute = ({ protect, children, ...rest }) => {
+const ProtectLoginRoute = ({ protect, user_info, children, ...rest }) => {
   return (
     <Route
       {...rest}
       render={() =>
-        !protect ? children : <Redirect to="/personal_information"></Redirect>
+        !protect ? children :<Redirect to="/home"></Redirect>
+      
+
       }
     />
   );

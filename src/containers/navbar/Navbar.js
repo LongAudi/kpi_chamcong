@@ -65,19 +65,18 @@ function Navbar() {
       setInterval(async () => {
         fetchNotification();
         getPushNotification().then((res) => {
-          console.log(res.data);
           if (res.data.length > 0) {
             const notiData = res.data[0];
             const notification = new Notification("STAFF", {
               body: notiData.content,
               icon: "./VBPO_Logo.png",
             });
-            // notification.onclick = function() {
-            //   window.location.href = '/tickets/' + notiData.ticket_rel_id
-            // };
+            notification.onclick = function() {
+              window.location.href = '/tickets/' + notiData.ticket_rel_id
+            };
           }
         });
-      }, 300000);
+      }, 10000); //300000
     } catch (e) {
       console.log(e);
     }
@@ -102,18 +101,18 @@ function Navbar() {
       authAxios(cookies.get("token"))
         .post(ReadAllNotificationURL)
         .then((res) => {
-          this.fetchNotification();
+          fetchNotification();
         })
         .catch((err) => {
           console.log(err);
         });
     };
-    const ReadNotificationFn = (notiId, ticketId) => {
+    const ReadNotificationFn = (notiId) => {
       authAxios(cookies.get("token"))
         .post(ReadNotification, { notification_id: notiId })
         .then((res) => {
-          // this.fetchNotification()
-          window.location.href = "/tickets/" + ticketId;
+          fetchNotification()
+          // window.location.href = "/tickets/" + ticketId;
         })
         .catch((err) => {
           console.log(err);
@@ -129,17 +128,20 @@ function Navbar() {
                 backgroundColor: "#ffffff",
                 marginBottom: 5,
               }}
-              key={item.id + "_" + index + item.ticket_rel}
+              key={item.id}
             >
               <Col sm={6}>
-                <span>{moment(item.created).format("L")}</span>
+                <span>{moment(item.created_at).format("L HH:mm")}</span>
               </Col>
-              <Col sm={18}>
+              <Col sm={8}>
+                <span>{moment(item.created_at).format("L HH:mm")}</span>
+              </Col>
+              <Col sm={10}>
                 {item.is_view ? (
                   <a
                     style={{ color: "#e0e0e0" }}
                     onClick={(e) =>
-                      ReadNotificationFn(item.id, item.ticket_rel)
+                      ReadNotificationFn(item.id)
                     }
                   >
                     {item.content}
@@ -147,7 +149,7 @@ function Navbar() {
                 ) : (
                   <a
                     onClick={(e) =>
-                      ReadNotificationFn(item.id, item.ticket_rel)
+                      ReadNotificationFn(item.id)
                     }
                   >
                     {item.content}

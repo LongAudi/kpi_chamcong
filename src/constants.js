@@ -20,10 +20,12 @@ export const projectEditURL =  id => `${endpoint}/infor-project-detail/${id}`;
 export const manageUserAdminURL = `${endpoint}/manage-user-admin/`;
 
 
-export const getPushNotificationURL = `${endpoint}/notification_is_sent/`; // Chưa có
-export const ListNotification = `${endpoint}/list_notification/`; // Chưa có
-export const ReadAllNotificationURL = `${endpoint}/notification_read_all/`; // Chưa có
-export const ReadNotification = `${endpoint}/notification_read/`; // Chưa có
+export const getPushNotificationURL = `${endpoint}/notification-is-sent/`; 
+export const ListNotification = `${endpoint}/list-notification/`;
+export const ReadAllNotificationURL = `${endpoint}/notification-read-all/`; 
+export const ReadNotification = `${endpoint}/notification-read/`; 
+export const postNotification = `${endpoint}/send-notification/`; 
+
 
 export const manageWorkingShiftsURL =`${endpoint}/manage-working-shifts/`
 export const manageWorkShifts_LeadURL =`${endpoint}/working-shifts-lead/`

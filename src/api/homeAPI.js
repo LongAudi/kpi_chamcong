@@ -1,6 +1,6 @@
 import {authAxios} from "./axiosClient";
 // import Cookies from 'universal-cookie';
-import { manageBreak_ShiftsURL, manageEnd_ShiftsURL, manageLeaves_ShiftsURL, manageProjectURL, manageResume_ShiftsURL, manageStart_ShiftsURL, manageWorkingShiftsURL, manageWorkShifts_LeadURL, postReportURL} from "../constants";
+import { manageBreak_ShiftsURL, manageEnd_ShiftsURL, manageLeaves_ShiftsURL, manageProjectURL, manageResume_ShiftsURL, manageStart_ShiftsURL, manageWorkingShiftsURL, manageWorkShifts_LeadURL, postNotification, postReportURL} from "../constants";
 
 
 export const GetProjectWithUserAPI =(params={})=> {
@@ -46,4 +46,12 @@ export const PostReportApi = (params={})=>{
     const url = postReportURL;
     return authAxios().post(url,params);
 }
+
+export const PostNotificationApi = (params={})=>{
+    const url = postNotification;
+    return authAxios().post(url,params);
+}
+
+
+
 

@@ -20,7 +20,7 @@ import { UploadOutlined, SendOutlined } from "@ant-design/icons";
 import { useQuill } from "react-quilljs";
 import "react-quill/dist/quill.snow.css";
 import { errorHandle, openNotificationWithIcon } from "../Function";
-import { GetProjectWithUserAPI, GetWorkingShiftsUserAPI, PostReportApi, PostTimeBreak_ShiftApi, PostTimeEnd_ShiftApi, PostTimeLeaves_ShiftApi, PostTimeResume_ShiftApi, PostTimeStart_ShiftApi } from "../../api/homeAPI";
+import { GetProjectWithUserAPI, GetWorkingShiftsUserAPI, PostNotificationApi, PostReportApi, PostTimeBreak_ShiftApi, PostTimeEnd_ShiftApi, PostTimeLeaves_ShiftApi, PostTimeResume_ShiftApi, PostTimeStart_ShiftApi } from "../../api/homeAPI";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
 const { Content } = Layout;
@@ -169,6 +169,11 @@ function Home () {
               })
             openNotificationWithIcon('success', "Submit success report", "");
             setFileUpload([]);
+            postNotification({
+              project_id: selectProjectID,
+              thoigianlam_id:selectShiftsID,
+              content: "Report"
+            })
 
           };
           setLoading(false);
@@ -184,6 +189,17 @@ function Home () {
       console.log('Failed:', errorInfo);
     };
 
+    const postNotification = (params = {}) => {
+      PostNotificationApi(params)
+        .then((res) => {
+          console.log(res.data);
+          openNotificationWithIcon('success', "success")
+        })
+        .catch((err) => {
+          errorHandle(err);
+        });
+    };
+
     const checkLogin = () => {
       PostTimeStart_ShiftApi({
         project_id: selectProjectID,
@@ -195,6 +211,12 @@ function Home () {
             project_id: selectProjectID,
             thoigianlam_id: selectShiftsID
           })
+          postNotification({
+            project_id: selectProjectID,
+            thoigianlam_id:selectShiftsID,
+            content: "Login"
+          })
+
           openNotificationWithIcon('success', "Create time to Login success", "");
 
         })
@@ -284,6 +306,11 @@ function Home () {
           fetchWorkingShiftsUser({
             project_id: selectProjectID,
             thoigianlam_id: selectShiftsID
+          })
+          postNotification({
+            project_id: selectProjectID,
+            thoigianlam_id:selectShiftsID,
+            content: "Logout"
           })
           openNotificationWithIcon('success', "Create time to Logout success", "");
         })
@@ -387,7 +414,7 @@ function Home () {
                   type="dashed"
                   block
                   onClick={() => checkBreak() }
-                  disabled={ dataWorkingShifts && dataWorkingShifts.time_break != null ? true : false}
+                  disabled={ dataWorkingShifts && (dataWorkingShifts.time_break != null || dataWorkingShifts.time_end != null) ? true : false}
                   >
                   Take a break
                 </Button>
@@ -416,7 +443,7 @@ function Home () {
                   type="dashed"
                   onClick={() => checkResume() }
                   block
-                  disabled={dataWorkingShifts && dataWorkingShifts.time_resume != null ? true : false}
+                  disabled={dataWorkingShifts && (dataWorkingShifts.time_resume != null || dataWorkingShifts.time_end != null) ? true : false}
                 >
                   Resume
                 </Button>
@@ -445,7 +472,7 @@ function Home () {
                   type="dashed"
                   onClick={checkLeaves}
                   block
-                  disabled={dataWorkingShifts && dataWorkingShifts.time_leaves_start != null ? true : false}
+                  disabled={dataWorkingShifts && (dataWorkingShifts.time_leaves_start != null || dataWorkingShifts.time_end != null) ? true : false}
                 >
                   Leaves
                 </Button>
@@ -457,7 +484,7 @@ function Home () {
                 use12Hours
                 format="h:mm A"
                 onChange={(value) => form.setFieldsValue({time_leave:value})}
-                disabled={dataWorkingShifts && dataWorkingShifts.time_leaves_start != null ? true : false}
+                disabled={dataWorkingShifts && (dataWorkingShifts.time_leaves_start != null || dataWorkingShifts.time_end != null) ? true : false}
                 // defaultValue={[moment('12:08:23', 'HH:mm:ss'),moment('12:08:23', 'HH:mm:ss')]}
                 // disabled 
               />

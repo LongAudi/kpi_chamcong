@@ -13,6 +13,7 @@ export const logoutURL = `${endpoint}/logout/`;
 export const userInfoURL = `${endpoint}/infor-user/`;
 export const userEditURL =  id => `${endpoint}/infor-user-detail/${id}`;
 export const listChucVuURL = `${endpoint}/group-role/`;
+export const lockUserURL =  id => `${endpoint}/lock-user/${id}`;
 
 export const manageUserURL = `${endpoint}/manage-user/`;
 export const manageProjectURL =`${endpoint}/manage-project/`
@@ -36,6 +37,13 @@ export const manageLeaves_ShiftsURL =`${endpoint}/manage-leaves/`
 export const manageEnd_ShiftsURL =`${endpoint}/manage-end/`
 
 export const postReportURL =`${endpoint}/manage-report/`
+
+
+
+
+
+
+
 
 
 

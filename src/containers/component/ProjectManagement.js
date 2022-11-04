@@ -801,7 +801,7 @@ function ProjectManagement() {
           // style={{ display: "flex", marginLeft: "55px" }}
         >
           <div className="btnBack" style={{ marginRight: "10px" }}>
-            <Tooltip placement="bottom" title="Sửa" arrowPointAtCenter>
+            <Tooltip placement="bottom" title="Edit" arrowPointAtCenter>
               <Button
                 type="primary"
                 shape="circle"

@@ -272,7 +272,8 @@ const ModalEditUser = ({
   }, [visible]);
 
   const onFinish = (values) => {
-    PutUserApi(dataInforUser.id, {
+    console.log(values);
+    PutUserApi( {
       username: values.username,
       email: values.email,
       last_name: values.last_name,
@@ -280,12 +281,14 @@ const ModalEditUser = ({
       group_role: values.group_role,
       birthday: values.birthday,
       block: false,
+      userId: dataInforUser.id
     })
       .then((res) => {
         if (res.data.error) {
           openNotificationWithIcon("error", res.data.error);
         } else {
           fetchData({ page: pager.current, page_size: pager.pageSize });
+            openNotificationWithIcon('success', "Update success", "");
           onCancel();
           form.resetFields();
         }

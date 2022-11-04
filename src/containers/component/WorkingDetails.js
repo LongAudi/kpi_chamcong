@@ -33,6 +33,7 @@ import {
 import { GetProjectApi } from "../../api/projectApi";
 import { useSelector } from "react-redux";
 import { GetProjectWithUserAPI, GetWorkingShiftsLeadAPI, GetWorkingShiftsUserAPI } from "../../api/homeAPI";
+import { localhost } from "../../server";
 
 const data = [
   {
@@ -120,11 +121,13 @@ function WorkingDetails() {
 
   const onChangeProject = (value) => {
     setSelectProjectID(value);
+    setDataWorkingShifts([]);
     // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
   };
 
   const onChangeShifts = (value) => {
     setselectShiftsID(value);
+    setDataWorkingShifts([]);
     fetchWorkingShiftsUser({
       project_id: selectProjectID,
       thoigianlam_id: value
@@ -250,6 +253,34 @@ function WorkingDetails() {
     // });
   };
 
+  const expandedRowRender = (record) => {
+    console.log(record);
+    const columnsReport = [
+      {
+        title: 'comment',
+        dataIndex: 'comment',
+        key: 'comment',
+      },
+      {
+        title: 'namefile',
+        dataIndex: 'namefile',
+        key: 'name',
+      },
+      {
+        title: 'Action',
+        dataIndex: 'file_report',
+        key: 'file_report',
+        render: (value, record) =><a href={localhost + "/media/" + value} target="_blank" download style={{color:'rgb(49 150 245)'}}>{value}</a> ,
+      },
+    ];
+    const dataReport = record.data_report;
+
+
+
+    return <Table columns={columnsReport} dataSource={dataReport} pagination={false} />;
+
+  }
+
   return (
     <div className="FormHomeTable">
       <div className="FormHome1">
@@ -296,17 +327,21 @@ function WorkingDetails() {
               pageSizeOptions: ["10", "15", "25", "50"],
             }}
             expandable={{
-              expandedRowRender: (record) => (
-                <p
-                  style={{
-                    margin: 0,
-                  }}
-                >
-                  {record.comment}
-                </p>
-              ),
-              rowExpandable: (record) => record.comment !== null,
+              expandedRowRender,
+              defaultExpandedRowKeys: ['0'],
             }}
+            // expandable={{
+              // expandedRowRender: (record) => (
+              //   <p
+              //     style={{
+              //       margin: 0,
+              //     }}
+              //   >
+              //     {record.comment}
+              //   </p>
+              // ),
+              // rowExpandable: (record) => record.comment !== null,
+            // }}
           />
         </div>
       </div>

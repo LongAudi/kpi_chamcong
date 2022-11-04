@@ -75,12 +75,14 @@ function Home () {
     const onChangeProject = (value) => {
       setSelectProjectID(value);
       setselectShiftsID([]);
-    form.resetFields();
+      form.resetFields();
     // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
     };
 
     const onChangeShifts = (value) => {
       setselectShiftsID(value);
+      setDataWorkingShifts([]);
+      form.resetFields();
       fetchWorkingShiftsUser({
         project_id: selectProjectID,
         thoigianlam_id: value

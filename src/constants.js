@@ -19,6 +19,7 @@ export const manageUserURL = `${endpoint}/manage-user/`;
 export const manageProjectURL =`${endpoint}/manage-project/`
 export const projectEditURL =  id => `${endpoint}/infor-project-detail/${id}`;
 export const manageUserAdminURL = `${endpoint}/manage-user-admin/`;
+// export const putManageUserAdminURL =  id => `${endpoint}/manage-user-admin/${id}`;
 
 
 export const getPushNotificationURL = `${endpoint}/notification-is-sent/`; 

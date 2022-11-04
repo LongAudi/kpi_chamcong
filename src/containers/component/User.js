@@ -13,6 +13,7 @@ import {
   Tag,
   Drawer,
   TimePicker,
+  Popconfirm,
 } from "antd";
 import { errorHandle, openNotificationWithIcon } from "../Function";
 import {
@@ -20,6 +21,7 @@ import {
   GetRoleApi,
   GetUserEditApi,
   PostUserApi,
+  PutLockUserApi,
   PutUserApi,
 } from "../../api/usersApi";
 import moment from "moment";
@@ -28,8 +30,9 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   EditOutlined,
+  LockOutlined,
+  UnlockOutlined,
 } from "@ant-design/icons";
-import { GetProjectApi, GetProjectEditApi, PostProjectApi } from "../../api/projectApi";
 
 const { Option } = Select;
 const validateMessages = {
@@ -37,6 +40,7 @@ const validateMessages = {
   types: {
     email: "${label} is not in the correct email format!",
     number: "${label} not numbers!",
+    string: "${label} not Chữ!",
   },
   number: {
     range: "${label} must be between ${min} and ${max}",
@@ -62,7 +66,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
         if (res.data.error) {
           openNotificationWithIcon("error", res.data.error);
         } else {
-          openNotificationWithIcon("success", "Success", "");
+          openNotificationWithIcon("success", "Thành công", "");
           fetchData({ page: pager.current, page_size: pager.pageSize });
           onCloseModal();
           form.resetFields();
@@ -94,7 +98,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
       visible={visible}
       onCancel={onCloseModal}
       className="modalAddUser"
-      width={1000}
+      width={700}
       footer={false}
     >
       <Form
@@ -145,6 +149,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
                 onBlur={(e) => {
                   form.setFieldsValue({ email: e.target.value.trim() });
                 }}
+                maxLength={100}
               ></Input>
             </Form.Item>
           </Col>
@@ -306,7 +311,7 @@ const ModalEditUser = ({
       title="EDIT USER"
       visible={visible}
       onCancel={onCloseModal}
-      width={1000}
+      width={700}
       footer={false}
     >
       <Form
@@ -483,6 +488,23 @@ function User() {
       });
   };
 
+  const onLock_Unlock = (record) => {
+    console.log(record.userId);
+    PutLockUserApi({
+      userId: record.id,
+      block: "true",
+      is_active: !record.is_active,
+    })
+      .then((r) => {
+        fetchData({ page: pager.current, page_size: pager.pageSize, search });
+      })
+      .catch((err) => {
+        if (err.data.error) {
+          openNotificationWithIcon("error", err.data.error);
+        }
+      });
+  };
+
   const columns = [
     {
       title: "ID",
@@ -563,35 +585,53 @@ function User() {
       align: "center",
       width: 100,
       render: (record) => (
-        <div
-          className="btngroup1"
-          style={{ display: "flex", marginLeft: "55px" }}
-        >
-          <div className="btnBack" style={{ marginRight: "10px" }}>
-            <Tooltip placement="bottom" title="Sửa" arrowPointAtCenter>
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<EditOutlined />}
-                onClick={() => {
-                  onShowModalEdit(record);
-                }}
-              />
-            </Tooltip>
-          </div>
-          <div className="btnDelete" style={{ marginRight: "10px" }}>
-            <Tooltip placement="bottom" title="Xóa" arrowPointAtCenter>
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<DeleteOutlined />}
-                // onClick={() => {
-                //   onDeleteNhan(record);
-                // }}
-              />
-            </Tooltip>
-          </div>
-        </div>
+        <Row>
+          <Col span={6}></Col>
+          <Col span={4}>
+            <span
+              title="Edit"
+              className={"col-6"}
+              style={{ color: "#4290d3", cursor: "pointer" }}
+              onClick={() => onShowModalEdit(record)}
+            >
+              <EditOutlined />
+            </span>
+          </Col>
+          <Col span={4}></Col>
+          <Col span={4}>
+            {record.is_active === true ? (
+              <span
+                title={"Lock user"}
+                className={"col-6"}
+                style={{ color: "red", cursor: "pointer" }}
+              >
+                <Popconfirm
+                  title="Confirmation key user"
+                  onConfirm={() => onLock_Unlock(record)}
+
+                  okText="Lock"
+                >
+                  <LockOutlined style={{ color: "#ff4d4f" }} />
+                </Popconfirm>
+              </span>
+            ) : (
+              <span
+                title={"Unlock user"}
+                className={"col-6"}
+                style={{ color: "#008000", cursor: "pointer" }}
+              >
+                <Popconfirm
+                  title="Unlock Confirmation user"
+                  onConfirm={() => onLock_Unlock(record)}
+                  okText="Unlock"
+                >
+                  <UnlockOutlined style={{ color: "#008000" }} />
+                </Popconfirm>
+              </span>
+            )}
+          </Col>
+          <Col span={6}></Col>
+        </Row>
       ),
     },
   ];
@@ -610,9 +650,9 @@ function User() {
   };
 
   return (
-    <div className="formUser">
-      <div className="formUser1">
-        <div className="formUser2">
+    <div className="FormHomeTable">
+      <div className="FormHome1">
+        <div className="FormHome2">
           <div className="HeaderContentUser">
             <Row style={{ width: "100%" }}>
               <Col span={12}>{/* <h1 className="h1UserTable"></h1> */}</Col>

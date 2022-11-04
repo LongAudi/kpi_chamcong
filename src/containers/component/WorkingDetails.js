@@ -87,8 +87,8 @@ function WorkingDetails() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [lsProjectWithUser, setLsProjectWithUser] = useState([]);
-  const [selectProjectID, setSelectProjectID] = useState();
-  const [selectShiftsID, setselectShiftsID] = useState();
+  const [selectProjectID, setSelectProjectID] = useState(null);
+  const [selectShiftsID, setselectShiftsID] = useState(null);
   const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const [dataWorkingShifts, setDataWorkingShifts] = useState([]);
 
@@ -121,7 +121,8 @@ function WorkingDetails() {
 
   const onChangeProject = (value) => {
     setSelectProjectID(value);
-    setDataWorkingShifts([]);
+    setselectShiftsID('');
+    setDataWorkingShifts(null);
     // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
   };
 
@@ -257,20 +258,17 @@ function WorkingDetails() {
     console.log(record);
     const columnsReport = [
       {
-        title: 'comment',
+        title: 'Content',
         dataIndex: 'comment',
         key: 'comment',
+        align: "center",
       },
       {
-        title: 'namefile',
+        title: 'Attachments',
         dataIndex: 'namefile',
-        key: 'name',
-      },
-      {
-        title: 'Action',
-        dataIndex: 'file_report',
-        key: 'file_report',
-        render: (value, record) =><a href={localhost + "/media/" + value} target="_blank" download style={{color:'rgb(49 150 245)'}}>{value}</a> ,
+        key: 'namefile',
+        // align: "center",
+        render: (value, record) =><a href={localhost + "/media/" + record.file_repor} target="_blank" download style={{color:'rgb(49 150 245)'}}>{value}</a> ,
       },
     ];
     const dataReport = record.data_report;
@@ -304,6 +302,7 @@ function WorkingDetails() {
                   style={{ width: "100%" }}
                   onChange={onChangeShifts}
                   placeholder="Please select a shift"
+                  value={selectShiftsID}
                   >
                     <Select.Option key={"All"} value={"All"}>All</Select.Option>
                   {selectProjectID && lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map((item, index) => (<Select.Option key={item.id} value={item.id}>{item.gio_vao} - {item.gio_ra}</Select.Option>))}

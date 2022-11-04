@@ -181,7 +181,7 @@ function Home () {
           setLoading(false);
       })
       .catch(err=>{
-          openNotificationWithIcon('error', "The report could not be sent. Please try again")
+          openNotificationWithIcon('error', err.data.error)
           setFileUpload([]);
           setLoading(false);
       });

@@ -13,7 +13,8 @@ import {
   TreeSelect,
   Select,
   Badge,
-  Tooltip
+  Tooltip,
+  Input
 } from "antd";
 import moment from "moment";
 import { UploadOutlined, SendOutlined } from "@ant-design/icons";
@@ -27,7 +28,7 @@ const { Content } = Layout;
 // const { RangePicker } = DatePicker;
 
 function Home () {
-  const [checkShifts, setCheckShifts] = useState(false);
+  const [checkShifts, setCheckShifts] = useState(true);
   const [lsProjectWithUser, setLsProjectWithUser] = useState([]);
   const [selectProjectID, setSelectProjectID] = useState();
   const [selectShiftsID, setselectShiftsID] = useState();
@@ -35,7 +36,7 @@ function Home () {
   const [form] = Form.useForm();
   const [dataWorkingShifts, setDataWorkingShifts] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  
   const fetchProjectWithUser = (params = {}) => {
     GetProjectWithUserAPI()
       .then((res) => {
@@ -87,6 +88,7 @@ function Home () {
         project_id: selectProjectID,
         thoigianlam_id: value
       })
+      setCheckShifts(false)
       // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
     };
 
@@ -146,11 +148,17 @@ function Home () {
     };
 
     const onFinishShifts = (values) => {
+      if (form.getFieldValue('time_login') === undefined) {
+        openNotificationWithIcon('warning', "Warning", "Please choose a time to Login")
+        return false
+      }
+    
       setLoading(true);
       var FormData = require('form-data');
       var data = new FormData();
       data.append('project_id', selectProjectID)
       data.append('shift_id', selectShiftsID)
+      data.append('calamviec_id', dataWorkingShifts["id"])
       data.append('name', '')
       data.append('comment', values.comment)
       console.log(fileUpload);
@@ -166,11 +174,11 @@ function Home () {
           if (res.data.error) {
               openNotificationWithIcon('error', res.data.error)
           } else {
-              form.setFieldsValue({
-                comment: ""
-              })
-            openNotificationWithIcon('success', "Submit success report", "");
+            form.setFieldsValue({
+              comment: undefined
+            })
             setFileUpload([]);
+            openNotificationWithIcon('success', "Submit success report", "");
             postNotification({
               project_id: selectProjectID,
               thoigianlam_id:selectShiftsID,
@@ -295,9 +303,9 @@ function Home () {
     };
 
     const checkLogout = () => {
-      // if (form.getFieldValue('time_login') === undefined) {
-      //   openNotificationWithIcon('error', "Error", "Please choose a time to login")
-      // }
+      if (form.getFieldValue('time_login') === undefined) {
+        openNotificationWithIcon('error', "Error", "Please choose a time to login")
+      }
       PostTimeEnd_ShiftApi({
         project_id: selectProjectID,
         thoigianlam_id: selectShiftsID
@@ -415,7 +423,7 @@ function Home () {
                   type="dashed"
                   block
                   onClick={() => checkBreak() }
-                  disabled={ dataWorkingShifts && (dataWorkingShifts.time_break != null || dataWorkingShifts.time_end != null) ? true : false}
+                  disabled={ dataWorkingShifts && (dataWorkingShifts.time_end != null || dataWorkingShifts.time_break != null) ? true : false}
                   >
                   Take a break
                 </Button>
@@ -485,7 +493,7 @@ function Home () {
                 use12Hours
                 format="h:mm A"
                 onChange={(value) => form.setFieldsValue({time_leave:value})}
-                disabled={dataWorkingShifts && (dataWorkingShifts.time_leaves_start != null || dataWorkingShifts.time_end != null) ? true : false}
+                disabled={dataWorkingShifts && ( dataWorkingShifts.time_leaves_start != null || dataWorkingShifts.time_end != null) ? true : false}
                 // defaultValue={[moment('12:08:23', 'HH:mm:ss'),moment('12:08:23', 'HH:mm:ss')]}
                 // disabled 
               />
@@ -499,7 +507,7 @@ function Home () {
                   type="dashed"
                   onClick={() => checkLogout() }
                   block
-                  disabled={dataWorkingShifts && dataWorkingShifts.time_end != null ? true : false}
+                  disabled={dataWorkingShifts && (dataWorkingShifts.time_start == null || dataWorkingShifts.time_end != null) ? true : false}
                   >
                   Logout
                 </Button>
@@ -523,18 +531,16 @@ function Home () {
               className="formItemHomeText"
               style={{ marginBottom: "24px" }}
             >
-              <Row>
-                <Col span={24}>
-                  <div
-                    style={
-                      {
-                        // border: "1px solid lightgray",
-                        // background: "#fff",
-                      }
-                    }
-                  >
-                    {/* <div ref={quillRef} /> */}
-                    <input
+              <Input.TextArea
+                placeholder="Hello"
+                autoSize={{
+                  minRows: 3,
+                  maxRows: 4,
+                }}  
+                style={{borderRadius: '10px'}}
+                disabled={checkShifts}
+                />
+              {/* <input
                       type="text"
                       style={{
                         width: "100%",
@@ -544,10 +550,7 @@ function Home () {
                       }}
                       placeholder="Hello"
                       disabled={checkShifts}
-                    />
-                  </div>
-                </Col>
-              </Row>
+                    /> */}
             </Form.Item>
             <Form.Item
               name="disabled"
@@ -589,7 +592,8 @@ function Home () {
                 className="btnSendHome"
                 htmlType="submit"
                 icon={<SendOutlined />}
-              >
+                disabled={dataWorkingShifts && (dataWorkingShifts.time_start == null) ? true : false}
+                >
                 Submit
               </Button>
             </Form.Item>

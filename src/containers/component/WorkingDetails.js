@@ -258,6 +258,16 @@ function WorkingDetails() {
     console.log(record);
     const columnsReport = [
       {
+        title: "ID Report",
+        dataIndex: "index",
+        key: "index",
+        filterKey: "index",
+        align: "center",
+        render: (value, item, index) =>
+          ((pager.current || 1) - 1) * pager.pageSize + index + 1,
+        sortDirections: ["descend", "ascend", "descend"],
+      },
+      {
         title: 'Content',
         dataIndex: 'comment',
         key: 'comment',
@@ -268,7 +278,7 @@ function WorkingDetails() {
         dataIndex: 'namefile',
         key: 'namefile',
         // align: "center",
-        render: (value, record) =><a href={localhost + "/media/" + record.file_repor} target="_blank" download style={{color:'rgb(49 150 245)'}}>{value}</a> ,
+        render: (value, record) =><a href={localhost + "/media/" + record.file_report} target="_blank" download style={{color:'rgb(49 150 245)'}}>{value}</a> ,
       },
     ];
     const dataReport = record.data_report;

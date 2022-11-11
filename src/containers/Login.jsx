@@ -9,6 +9,9 @@ import 'antd/dist/antd.css'
 import { authLogin } from "../app/Actions/auth";
 import { PutForgotPassApi } from "../api/usersApi";
 import { openNotificationWithIcon } from "./Function";
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const validateMessages = {
     required: 'Please enter your registered ${label} !',
@@ -123,7 +126,6 @@ class LoginForm extends React.Component {
             <div className="content">
                 <div className="login">
                     <div className="logo-login">
-                        {/* <img src={Logo} alt="" style={{ width: "25vh" }} /> */}
                         <h1>Login</h1>
                     </div>
                     <div className="container loginFormInput">
@@ -148,7 +150,7 @@ class LoginForm extends React.Component {
                                 ]}
                                 className="FormItem"
                             >
-                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                                <Input className="inputPageLogin" prefix={<PersonIcon className="site-form-item-icon" />} placeholder="Username" />
                             </Form.Item>
                             <Form.Item
                                 name="password"
@@ -161,18 +163,19 @@ class LoginForm extends React.Component {
                                 className="FormItem"
                                 >
                                 <Input.Password
-                                    prefix={<LockOutlined className="site-form-item-icon" />}
+                                    prefix={<LockIcon className="site-form-item-icon" />}
+                                    className="inputPageLogin"
                                     placeholder="Password"
-                                    iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                                    iconRender={(visible) => (visible ? <VisibilityOff /> : <Visibility />)}
                                 />
                             </Form.Item>
                             <Form.Item className="FormItem">
-                                <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot " style={{ cursor: "pointer", color: "#0078d7" }}>Forgot Password ?</span>
+                                <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot " style={{ cursor: "pointer", color: "#0078d7" }}>Don't remember your password?</span>
                             </Form.Item>
                             <Form.Item className="FormItem">
                                 
                                 <Button htmlType="submit" className="login-form-button" loading={loading} onClick={() => loadings}>
-                                    Login
+                                    Log In
                                 </Button>
                             </Form.Item>
                         </Form>

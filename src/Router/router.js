@@ -188,8 +188,8 @@ const RouteWithLayout = (props) => {
       case "404":
         return <NotFoundLayout />;
       default:
-        return <NotPermission />;
-        // return <LoadingPage />;
+        // return <NotPermission />;
+        return <LoadingPage />;
     }
   };
 

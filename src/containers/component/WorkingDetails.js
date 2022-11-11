@@ -32,37 +32,42 @@ import {
 } from "@ant-design/icons";
 import { GetProjectApi } from "../../api/projectApi";
 import { useSelector } from "react-redux";
-import { GetProjectWithUserAPI, GetWorkingShiftsLeadAPI, GetWorkingShiftsUserAPI } from "../../api/homeAPI";
+import {
+  GetProjectWithUserAPI,
+  GetWorkingShiftsLeadAPI,
+  GetWorkingShiftsUserAPI,
+} from "../../api/homeAPI";
 import { localhost } from "../../server";
+import { render } from "react-dom";
 
 const data = [
   {
-      "id": 1,
-      "username": "test_member",
-      "project_name": "Staff",
-      "ten_ca": 'Ca 1',
-      "gio_vaora": ['08:15', '08:00'],
-      'time_start':'08:00',
-      'time_break':'09:00',
-      'time_resume':'09:15',
-      "time_leaves": ['10:00', '10:30'],
-      "time_end":'12:00',
-      "comment":'Báo cáo: thời gian làm việc ca 1'
+    id: 1,
+    username: "test_member",
+    project_name: "Staff",
+    ten_ca: "Ca 1",
+    gio_vaora: ["08:15", "08:00"],
+    time_start: "08:00",
+    time_break: "09:00",
+    time_resume: "09:15",
+    time_leaves: ["10:00", "10:30"],
+    time_end: "12:00",
+    comment: "Báo cáo: thời gian làm việc ca 1",
   },
   {
-    "id": 2,
-    "username": "test_member",
-    "project_name": "Staff",
-    "ten_ca": 'Ca 2',
-    "gio_vaora": ['13:00', '17:00'],
-    'time_start':'13:00',
-    'time_break':'14:00',
-    'time_resume':'14:15',
-    "time_leaves": ['15:00', '15:30'],
-    "time_end":'17:00',
-    "comment":'Báo cáo: thời gian làm việc ca 2'
+    id: 2,
+    username: "test_member",
+    project_name: "Staff",
+    ten_ca: "Ca 2",
+    gio_vaora: ["13:00", "17:00"],
+    time_start: "13:00",
+    time_break: "14:00",
+    time_resume: "14:15",
+    time_leaves: ["15:00", "15:30"],
+    time_end: "17:00",
+    comment: "Báo cáo: thời gian làm việc ca 2",
   },
-]
+];
 
 const { Option } = Select;
 const validateMessages = {
@@ -108,7 +113,6 @@ function WorkingDetails() {
         console.log(res.data);
         // console.log( moment(res.data[0].created_at).moment(res.data[0].time_break, 'HH:mm:ss').format('HH:mm'));
         setDataWorkingShifts(res.data);
-        
       })
       .catch((err) => {
         errorHandle(err);
@@ -121,7 +125,7 @@ function WorkingDetails() {
 
   const onChangeProject = (value) => {
     setSelectProjectID(value);
-    setselectShiftsID('');
+    setselectShiftsID("");
     setDataWorkingShifts(null);
     // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
   };
@@ -131,13 +135,12 @@ function WorkingDetails() {
     setDataWorkingShifts([]);
     fetchWorkingShiftsUser({
       project_id: selectProjectID,
-      thoigianlam_id: value
-    })
-    
+      thoigianlam_id: value,
+    });
+
     // console.log(lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map( (item) => item.id ));
   };
- 
-  
+
   const columns = [
     {
       title: "ID",
@@ -193,7 +196,8 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) =>value? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
+      render: (value, record) =>
+        value ? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
     },
     {
       title: "Break",
@@ -204,7 +208,8 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) =>value? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
+      render: (value, record) =>
+        value ? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
     },
     {
       title: "Resume",
@@ -215,7 +220,8 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) =>value? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
+      render: (value, record) =>
+        value ? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
     },
     {
       title: "Leaves",
@@ -226,7 +232,16 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) => `${value ?moment(record.time_leaves_start).format("DD/MM/YYYY hh:mm:ss"):""} - ${value ?moment(record.time_leaves_end).format("DD/MM/YYYY hh:mm:ss"): ""}`,
+      render: (value, record) =>
+        `${
+          value
+            ? moment(record.time_leaves_start).format("DD/MM/YYYY hh:mm:ss")
+            : ""
+        } - ${
+          value
+            ? moment(record.time_leaves_end).format("DD/MM/YYYY hh:mm:ss")
+            : ""
+        }`,
     },
     {
       title: "Logout",
@@ -237,7 +252,8 @@ function WorkingDetails() {
       type: "text",
       canSearch: true,
       width: 150,
-      render: (value, record) =>value? moment(value).format("DD/MM/YYYY hh:mm:ss") :"",
+      render: (value, record) =>
+        value ? moment(value).format("DD/MM/YYYY hh:mm:ss") : "",
     },
   ];
 
@@ -268,58 +284,85 @@ function WorkingDetails() {
         sortDirections: ["descend", "ascend", "descend"],
       },
       {
-        title: 'Content',
-        dataIndex: 'comment',
-        key: 'comment',
+        title: "Content",
+        dataIndex: "comment",
+        key: "comment",
         align: "center",
+        render: (value, record) =>
+        <span>
+          {value.comment === "undefined" ? "undefined" : ""}
+        </span>
       },
       {
-        title: 'Attachments',
-        dataIndex: 'namefile',
-        key: 'namefile',
+        title: "Attachments",
+        dataIndex: "namefile",
+        key: "namefile",
         // align: "center",
-        render: (value, record) =><a href={localhost + "/media/" + record.file_report} target="_blank" download style={{color:'rgb(49 150 245)'}}>{value}</a> ,
+        render: (value, record) => (
+          <a
+            href={localhost + "/media/" + record.file_report}
+            target="_blank"
+            download
+            style={{ color: "rgb(49 150 245)" }}
+          >
+            {value}
+          </a>
+        ),
       },
     ];
     const dataReport = record.data_report;
 
-
-
-    return <Table columns={columnsReport} dataSource={dataReport} pagination={false} />;
-
-  }
+    return (
+      <Table
+        columns={columnsReport}
+        dataSource={dataReport}
+        pagination={false}
+      />
+    );
+  };
 
   return (
     <div className="FormHomeTable">
       <div className="FormHome1">
         <div className="FormHome2">
-          <div className="HeaderContentUser">
-          </div>
-            <Row>
-              <Col span={5}>
-                <Select
-                  allowClear
-                  style={{ width: "100%" }}
-                  onChange={onChangeProject}
-                  placeholder="Please select a project"
-                  >
-                  {lsProjectWithUser.map((item, index) => (<Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>))}
-                </Select>
-              </Col>
-              <Col span={5} offset={1}>
-                <Select
-                  allowClear
-                  style={{ width: "100%" }}
-                  onChange={onChangeShifts}
-                  placeholder="Please select a shift"
-                  value={selectShiftsID}
-                  >
-                    <Select.Option key={"All"} value={"All"}>All</Select.Option>
-                  {selectProjectID && lsProjectWithUser.filter(item => item.id == selectProjectID)[0].thoi_gian_lam.map((item, index) => (<Select.Option key={item.id} value={item.id}>{item.gio_vao} - {item.gio_ra}</Select.Option>))}
-                </Select>
-
-              </Col>
-            </Row>
+          <div className="HeaderContentUser"></div>
+          <Row>
+            <Col span={5}>
+              <Select
+                allowClear
+                style={{ width: "100%" }}
+                onChange={onChangeProject}
+                placeholder="Please select a project"
+              >
+                {lsProjectWithUser.map((item, index) => (
+                  <Select.Option key={item.id} value={item.id}>
+                    {item.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Col>
+            <Col span={5} offset={1}>
+              <Select
+                allowClear
+                style={{ width: "100%" }}
+                onChange={onChangeShifts}
+                placeholder="Please select a shift"
+                value={selectShiftsID}
+              >
+                <Select.Option key={"All"} value={"All"}>
+                  All
+                </Select.Option>
+                {selectProjectID &&
+                  lsProjectWithUser
+                    .filter((item) => item.id == selectProjectID)[0]
+                    .thoi_gian_lam.map((item, index) => (
+                      <Select.Option key={item.id} value={item.id}>
+                        {item.gio_vao} - {item.gio_ra}
+                      </Select.Option>
+                    ))}
+              </Select>
+            </Col>
+          </Row>
           <br></br>
           <Table
             rowKey="id"
@@ -338,19 +381,19 @@ function WorkingDetails() {
             }}
             expandable={{
               expandedRowRender,
-              defaultExpandedRowKeys: ['0'],
+              defaultExpandedRowKeys: ["0"],
             }}
             // expandable={{
-              // expandedRowRender: (record) => (
-              //   <p
-              //     style={{
-              //       margin: 0,
-              //     }}
-              //   >
-              //     {record.comment}
-              //   </p>
-              // ),
-              // rowExpandable: (record) => record.comment !== null,
+            // expandedRowRender: (record) => (
+            //   <p
+            //     style={{
+            //       margin: 0,
+            //     }}
+            //   >
+            //     {record.comment}
+            //   </p>
+            // ),
+            // rowExpandable: (record) => record.comment !== null,
             // }}
           />
         </div>

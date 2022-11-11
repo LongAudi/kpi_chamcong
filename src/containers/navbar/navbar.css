@@ -39,7 +39,7 @@
 
 .nameNavbar{
     margin-left: 5px;
-    font-size: 15px;
+    /* font-size: 15px; */
     font-weight: 600;
     cursor: pointer;
 }
@@ -56,7 +56,5 @@
     .nameNavbar{
         color: #3330;
     }
-    .navbarUser {
-        margin-left: 70%;
-    }
+
 }

@@ -4,7 +4,7 @@ import { Layout } from "antd";
 function Footer() {
   const { Footer } = Layout;
   return (
-    <Footer style={{ textAlign: "center", height: "6vh" }}>
+    <Footer style={{ textAlign: "center", height: "6vh" }} className="FooterLogin">
       VBPO ©{new Date().getFullYear()} Made by DRI Team
     </Footer>
   );

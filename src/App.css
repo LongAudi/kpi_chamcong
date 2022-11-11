@@ -5,6 +5,34 @@
     margin: 0;
 }
 
+.logoLogin{
+    margin-top: 40px;
+}
+
+.login-form-forgot{
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.inputPageLogin{
+    /* background: #edf2f7; */
+    height: 48px;
+    border-radius: 10px;
+}
+
+.login-form-button{
+    width: 100%;
+    height: 48px;
+    border-radius: 10px;
+    background: #333 !important;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.FooterLogin{
+    background: transparent;
+}
+
 .container.loginFormInput .ant-form-item-control-input {
     width: 70%;
     margin: auto;
@@ -35,7 +63,7 @@ div#layout-wrapper {
 .FormHome1 {
     width: 80%;
     margin: auto;
-    padding: 70px 0;
+    padding: 60px 0;
 }
 
 .FormHome2 {
@@ -43,6 +71,12 @@ div#layout-wrapper {
     padding: 24px;
     border-radius: 1.5rem;
     box-shadow: 5px 5px 10px #78257b96;
+}
+
+.FormProject1 {
+    width: 60%;
+    margin: auto;
+    padding: 70px 0;
 }
 
 .ant-row.ant-form-item.FormItem {
@@ -74,7 +108,10 @@ div#layout-wrapper {
 }
 
 .layoutUserLogin {
-    background: url("./images/image_2022_10_24T03_58_02_594Z.png") no-repeat center center;
+    /* background: url("./images/image_2022_10_24T03_58_02_594Z.png") no-repeat center center; */
+    background: radial-gradient(55.87%55.87%at 35.49%-18.37%, #333 0%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(91.61%92.58%at 104.86%-43.36%, #fd9d52 0%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(50.59%55.55%at -2.99%-8.69%, #dd45d3 9.06%, rgba(255, 255, 255, 0) 100%);
     background-size: cover;
 }
 
@@ -95,7 +132,7 @@ div#layout-wrapper {
 }
 
 .logo-login h1 {
-    color: white;
+    color: #333;
     font-size: 75px;
     font-weight: 500;
     font-family: "Lobster", cursive;
@@ -130,9 +167,25 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent {
     font-weight: bold;
 }
 
+button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.btnAddUser.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+    background: rgba(0, 0, 0, 0.541);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #fff;
+}
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.btnAddUser.css-1e6y48t-MuiButtonBase-root-MuiButton-root:hover {
+    background-color: #4895ef;
+    color: #fff;
+    border: 1px solid #4895ef;
+}
+
 button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
-    background: #fff;
-    color: #000;
+    background: #4895ef;
+    color: #fff;
+    border: 1px solid #4895ef;
 }
 
 .showModal {
@@ -186,10 +239,12 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
 }
 
 .btnNoti {
+    width: 100%;
     color: #fff;
     border: none;
     background: none !important;
     box-shadow: none !important;
+    margin: auto;
 }
 
 .ant-picker-input > input[disabled] {
@@ -199,6 +254,50 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
 
 .formItemHome .ant-upload-list {
     display: inline-block;
+}
+
+.ant-upload-list-text-container .ant-upload-span {
+    color: #fff;
+}
+
+.ant-upload-list-text-container .ant-upload-span span.anticon.anticon-paper-clip {
+    color: #fff;
+}
+
+.ant-upload-list-item:hover .ant-upload-list-item-info {
+    background-color: transparent !important;
+}
+
+.ant-upload-list.ant-upload-list-text {
+    margin-left: 20px;
+}
+
+/* mui css */
+
+.tableAdmin {
+    /* height: 400px; */
+    /* height: auto; */
+    width: 100%;
+    background: #fff !important;
+    border-radius: 20px !important;
+}
+
+.tableAdmin .MuiDataGrid-root.MuiDataGrid-autoHeight {
+    border: none !important;
+}
+
+.actionTable {
+    width: 100%;
+    text-align: center;
+}
+
+.MuiDataGrid-root .MuiDataGrid-iconSeparator {
+    color: #fff !important;
+}
+
+.MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.MuiTablePagination-toolbar.css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar
+    p {
+    margin-bottom: 0px !important;
 }
 
 @media (max-width: 768px) {

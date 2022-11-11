@@ -213,7 +213,7 @@ function Navbar() {
 
   return (
     <Header className="wrapper">
-      <Row style={{ width: "100%" }}>
+      <Row style={{ width: "90%" }}>
         <Col span={2}>
           <div className="logo">
             <Link to="/home">
@@ -221,7 +221,7 @@ function Navbar() {
             </Link>
           </div>
         </Col>
-        <Col span={19}>
+        <Col span={18}>
           <Menu
             mode="horizontal"
             defaultSelectedKeys={["Menu"]}
@@ -262,11 +262,12 @@ function Navbar() {
             )}
           </Menu>
         </Col>
-        <Col span={1}>
+        <Col span={2}>
           <Dropdown
             overlay={<NotificationsCard data={lsNotification} />}
             onVisibleChange={(e) => fetchNotification()}
             overlayStyle={{ height: 400 }}
+             
           >
             <Button className="btnNoti">
               <BellFilled style={{ fontSize: 20 }} />

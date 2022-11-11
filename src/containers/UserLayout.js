@@ -5,22 +5,29 @@ import { connect } from "react-redux";
 import Login from "./Login";
 import { logout } from "../app/Actions/auth";
 import Footer from "./Footer";
+import logoLogin from "../images/logo ITIIS.png"
 
 class UserLayout extends React.Component {
   render() {
     return (
-      <Layout className="layoutUserLogin" >
+      <Layout className="layoutUserLogin">
+        <Row >
+          <Col span={10} style={{ textAlign: "center"}} className="logoLogin">
+            <img src={logoLogin} alt="" style={{ height: "60px" }}/>
+          </Col>
+          <Col span={14}></Col>
+        </Row>
         <Row
           type="flex"
           justify="center"
           align="middle"
-          style={{ height: "94vh" }}
+          style={{ height: "80vh" }}
         >
-          <Col sm={6} className="FormLogin" >
-              <Login />
+          <Col sm={6} className="FormLogin">
+            <Login />
           </Col>
         </Row>
-        <Footer/>
+        <Footer />
       </Layout>
     );
   }

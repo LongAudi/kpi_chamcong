@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Table,
   Tooltip,
-  Button,
+  // Button,
   Modal,
   Form,
   Input,
@@ -33,6 +33,9 @@ import {
   LockOutlined,
   UnlockOutlined,
 } from "@ant-design/icons";
+import { DataGrid } from "@mui/x-data-grid";
+import { Grid,Box,Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 const { Option } = Select;
 const validateMessages = {
@@ -47,7 +50,14 @@ const validateMessages = {
   },
 };
 
-const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
+const ModalAddUser = ({
+  visible,
+  onCancel,
+  fetchData,
+  pager,
+  lsRole,
+  loading,
+}) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -61,12 +71,13 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
       last_name: values.last_name,
       first_name: values.first_name,
       group_role: values.group_role,
+      birthday: values.birthday,
     })
       .then((res) => {
         if (res.data.error) {
           openNotificationWithIcon("error", res.data.error);
         } else {
-          openNotificationWithIcon("success", "success", "");
+          openNotificationWithIcon("success", "Success", "");
           fetchData({ page: pager.current, page_size: pager.pageSize });
           onCloseModal();
           form.resetFields();
@@ -108,6 +119,7 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         validateMessages={validateMessages}
+        loading={loading}
         initialValues={{
           remember: true,
         }}
@@ -232,15 +244,16 @@ const ModalAddUser = ({ visible, onCancel, fetchData, pager, lsRole }) => {
           </Col>
         </Row>
         <Form.Item style={{ marginTop: "20px", textAlign: "center" }}>
-          <Button
+          <LoadingButton
             type="success"
-            htmlType="submit"
+            // htmlType="submit"
             className={"m-2"}
             style={{ marginRight: "20px" }}
+            variant="contained"
           >
             Upload
-          </Button>
-          <Button onClick={onCloseModal}>Exit</Button>
+          </LoadingButton>
+          <Button onClick={onCloseModal} color="error" variant="contained">Exit</Button>
         </Form.Item>
       </Form>
     </Modal>
@@ -254,6 +267,7 @@ const ModalEditUser = ({
   pager,
   fetchData,
   lsRole,
+  loading,
 }) => {
   const [form] = Form.useForm();
 
@@ -273,7 +287,7 @@ const ModalEditUser = ({
 
   const onFinish = (values) => {
     console.log(values);
-    PutUserApi( {
+    PutUserApi({
       username: values.username,
       email: values.email,
       last_name: values.last_name,
@@ -281,14 +295,14 @@ const ModalEditUser = ({
       group_role: values.group_role,
       birthday: values.birthday,
       block: false,
-      userId: dataInforUser.id
+      userId: dataInforUser.id,
     })
       .then((res) => {
         if (res.data.error) {
           openNotificationWithIcon("error", res.data.error);
         } else {
           fetchData({ page: pager.current, page_size: pager.pageSize });
-            openNotificationWithIcon('success', "Update success", "");
+          openNotificationWithIcon("success", "Update success", "");
           onCancel();
           form.resetFields();
         }
@@ -323,6 +337,7 @@ const ModalEditUser = ({
         autoComplete="off"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        loading={loading}
       >
         <Row>
           <Col span={11}>
@@ -405,15 +420,16 @@ const ModalEditUser = ({
           </Col>
         </Row>
         <Form.Item style={{ marginTop: "20px", textAlign: "center" }}>
-          <Button
+          <LoadingButton
+            // htmlType="submit"
             type="success"
-            htmlType="submit"
             className={"m-2"}
             style={{ marginRight: "20px" }}
+            variant="contained"
           >
             Upload
-          </Button>
-          <Button onClick={onCloseModal}>Exit</Button>
+          </LoadingButton>
+          <Button onClick={onCloseModal} color="error" variant="contained">Exit</Button>
         </Form.Item>
       </Form>
     </Modal>
@@ -492,7 +508,7 @@ function User() {
   };
 
   const onLock_Unlock = (record) => {
-    console.log(record.userId);
+    console.log(record.id);
     PutLockUserApi({
       userId: record.id,
       block: "true",
@@ -508,89 +524,22 @@ function User() {
       });
   };
 
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "index",
-      key: "index",
-      filterKey: "index",
-      // align: "center",
-      render: (value, item, index) =>
-        ((pager.current || 1) - 1) * pager.pageSize + index + 1,
-      sortDirections: ["descend", "ascend", "descend"],
-      ellipsis: true,
-      width: 50,
-    },
-    {
-      title: "UserName",
-      dataIndex: "username",
-      key: "username",
-      filterKey: "username",
-      // align: "center",
-      type: "text",
-      canSearch: true,
-      width: 100,
-    },
-    {
-      title: "Full Name",
-      dataIndex: "last_name",
-      key: "last_name",
-      filterKey: "last_name",
-      // align: "center",
-      type: "text",
-      canSearch: true,
-      width: 150,
-      render: (text, record) => (
-        <span>
-          {record.first_name
-            ? record.last_name + "  " + record.first_name
-            : record.last_name}
-        </span>
-      ),
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      filterKey: "email",
-      // align: "center",
-      type: "text",
-      canSearch: true,
-      width: 150,
-    },
-    {
-      title: "Role",
-      dataIndex: "group_name",
-      key: "group_name",
-      filterKey: "group_name",
-      align: "center",
-      type: "text",
-      canSearch: true,
-      width: 150,
-    },
-    {
-      title: "Date Join",
-      dataIndex: "date_joined",
-      key: "date_joined",
-      filterKey: "date_joined",
-      width: 120,
-      align: "center",
-      type: "text",
-      canSearch: true,
-      render: (value, record) =>
-        value ? moment(value).format("DD/MM/YYYY") : "N/A",
-    },
-    {
-      title: "Action",
-      key: "Action",
-      filterKey: "Action",
-      fixed: "right",
-      align: "center",
-      width: 100,
-      render: (record) => (
-        <Row>
-          <Col span={6}></Col>
-          <Col span={4}>
+  const renderDetailsButton = (record) => {
+    return (
+      <Box sx={{ width: "100%" }}>
+        <Grid container columns={12}>
+          <Grid
+            xs={3}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          ></Grid>
+          <Grid
+            xs={3}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
             <span
               title="Edit"
               className={"col-6"}
@@ -599,9 +548,13 @@ function User() {
             >
               <EditOutlined />
             </span>
-          </Col>
-          <Col span={4}></Col>
-          <Col span={4}>
+          </Grid>
+          <Grid
+            xs={3}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
             {record.is_active === true ? (
               <span
                 title={"Lock user"}
@@ -611,7 +564,6 @@ function User() {
                 <Popconfirm
                   title="Confirmation key user"
                   onConfirm={() => onLock_Unlock(record)}
-
                   okText="Lock"
                 >
                   <LockOutlined style={{ color: "#ff4d4f" }} />
@@ -632,10 +584,65 @@ function User() {
                 </Popconfirm>
               </span>
             )}
-          </Col>
-          <Col span={6}></Col>
-        </Row>
-      ),
+          </Grid>
+          <Grid
+            xs={3}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          ></Grid>
+        </Grid>
+      </Box>
+    );
+  };
+
+  const columns = [
+    {
+      field: "index",
+      headerName: "ID",
+      width: 100,
+      renderCell: (index) => index.api.getRowIndex(index.row.id) + 1,
+      sortable: false,
+      headerAlign: "center",
+      align: "center",
+    },
+    { field: "username", headerName: "UserName", width: 250, sortable: false },
+    {
+      field: "last_name",
+      headerName: "Full Name",
+      width: 250,
+      valueGetter: (params) =>
+        `${params.row.last_name || ""} ${params.row.first_name || ""}`,
+      sortable: false,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 350,
+      sortable: false,
+    },
+    {
+      field: "group_name",
+      headerName: "Role",
+      width: 150,
+      sortable: false,
+    },
+    {
+      field: "date_joined",
+      headerName: "Date Join",
+      width: 200,
+      valueGetter: (value, record) =>
+        value ? moment(value).format("DD/MM/YYYY") : "N/A",
+      sortable: false,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 150,
+      // align: "center",
+      headerAlign: "center",
+      renderCell: renderDetailsButton,
+      sortable: false,
     },
   ];
 
@@ -662,7 +669,6 @@ function User() {
               <Col span={12}>
                 <Button
                   className="btnAddUser"
-                  type="primary"
                   onClick={showModalAddUser}
                 >
                   Add User
@@ -671,7 +677,7 @@ function User() {
             </Row>
           </div>
 
-          <Table
+          {/* <Table
             rowKey="id"
             columns={columns}
             dataSource={data}
@@ -687,7 +693,18 @@ function User() {
               showSizeChanger: true,
               pageSizeOptions: ["10", "15", "25", "50"],
             }}
-          />
+          /> */}
+          <div className="tableAdmin">
+            <DataGrid
+              loading={loading}
+              rows={data}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+              autoHeight={true}
+              disableColumnMenu={true}
+            />
+          </div>
         </div>
       </div>
       <ModalAddUser
@@ -696,6 +713,7 @@ function User() {
         fetchData={fetchData}
         pager={pager}
         lsRole={lsRole}
+        loading={loading}
       />
       <ModalEditUser
         visible={isEditing}
@@ -704,6 +722,7 @@ function User() {
         pager={pager}
         fetchData={fetchData}
         lsRole={lsRole}
+        loading={loading}
       />
     </div>
   );

@@ -1,14 +1,11 @@
 import {
-  Button,
   Col,
   Form,
   Input,
   Modal,
   Row,
   Select,
-  Table,
   TimePicker,
-  Tooltip,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import {
@@ -25,7 +22,8 @@ import {
 import { EditOutlined } from "@ant-design/icons";
 import { GetListUserApi } from "../../api/usersApi";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { DataGrid } from "@mui/x-data-grid";
+import { Grid,Box,Button } from "@mui/material";
 
 const { Option } = Select;
 
@@ -46,7 +44,6 @@ const ModalAddProject = ({
   onCancel,
   lsNameUser,
   fetchDataProject,
-  loading,
   pager,
 }) => {
   const [form] = Form.useForm();
@@ -56,6 +53,7 @@ const ModalAddProject = ({
   const [timeEnd1, setTimeEnd1] = useState(null);
   const [nameLeader, setNameLeader] = useState("");
   const [nameMember, setNameMember] = useState("");
+  // const [loading, setLoading] = useState(false);
 
   const onCloseModal = () => {
     form.resetFields();
@@ -145,14 +143,14 @@ const ModalAddProject = ({
       });
   };
 
-  const handleIDLeader = (id)=>{
-    setNameLeader(id)
-    form.setFieldsValue({user_member: undefined})
-  }
+  const handleIDLeader = (id) => {
+    setNameLeader(id);
+    form.setFieldsValue({ user_member: undefined });
+  };
 
-  const handleIDMember = (id)=>{
-    setNameMember(id)
-  }
+  const handleIDMember = (id) => {
+    setNameMember(id);
+  };
 
   return (
     <Modal
@@ -278,13 +276,15 @@ const ModalAddProject = ({
                 onChange={handleIDLeader}
               >
                 {/* {children} */}
-                {lsNameUser.filter((item)=>item.id !== nameMember ).map((item, index) =>
-                  item.group_name === "Admin" ? null : (
-                    <Option key={item.id} value={item.id}>
-                      {item.username}
-                    </Option>
-                  )
-                )}
+                {lsNameUser
+                  .filter((item) => item.id !== nameMember)
+                  .map((item, index) =>
+                    item.group_name === "Admin" ? null : (
+                      <Option key={item.id} value={item.id}>
+                        {item.username}
+                      </Option>
+                    )
+                  )}
               </Select>
             </Form.Item>
           </Col>
@@ -305,13 +305,15 @@ const ModalAddProject = ({
                 onChange={handleIDMember}
               >
                 {/* {children} */}
-                {lsNameUser.filter((item)=>item.id !== nameLeader).map((item, index) =>
-                  item.group_name === "Admin" ? null : (
-                    <Option key={item.id} value={item.id}>
-                      {item.username}
-                    </Option>
-                  )
-                )}
+                {lsNameUser
+                  .filter((item) => item.id !== nameLeader)
+                  .map((item, index) =>
+                    item.group_name === "Admin" ? null : (
+                      <Option key={item.id} value={item.id}>
+                        {item.username}
+                      </Option>
+                    )
+                  )}
               </Select>
             </Form.Item>
           </Col>
@@ -436,17 +438,14 @@ const ModalEditProject = ({
       //   description: dataInforUser.description,
       // });
       var getTime_2 = dataInforUser.thoi_gian_lam;
-      setNameLeader(dataInforUser.user_lead[0])
+      setNameLeader(dataInforUser.user_lead[0]);
       form.setFieldsValue({
-
         name: dataInforUser.name,
         gio_vao_ca_1: moment(
-          dataInforUser.thoi_gian_lam[0].gio_vao,"HH:mm:ss"),
-        gio_ra_ca_1: moment(
-          dataInforUser.thoi_gian_lam[0]
-            .gio_ra,
+          dataInforUser.thoi_gian_lam[0].gio_vao,
           "HH:mm:ss"
         ),
+        gio_ra_ca_1: moment(dataInforUser.thoi_gian_lam[0].gio_ra, "HH:mm:ss"),
         gio_vao_ca_2:
           getTime_2.length === 2 ? moment(getTime_2[1].gio_vao, "HH:mm") : null,
         gio_ra_ca_2:
@@ -495,14 +494,14 @@ const ModalEditProject = ({
       });
   };
 
-  const handleIDLeader = (id)=>{
-    setNameLeader(id)
-    form.setFieldsValue({user_member: undefined})
-  }
+  const handleIDLeader = (id) => {
+    setNameLeader(id);
+    form.setFieldsValue({ user_member: undefined });
+  };
 
-  const handleIDMember = (id)=>{
-    setNameMember(id)
-  }
+  const handleIDMember = (id) => {
+    setNameMember(id);
+  };
 
   return (
     <Modal
@@ -517,6 +516,7 @@ const ModalEditProject = ({
         layout="vertical"
         autoComplete="off"
         onFinish={onFinish}
+        loading={loading}
         // onFinishFailed={onFinishFailed}
       >
         <Row>
@@ -624,13 +624,15 @@ const ModalEditProject = ({
                 onChange={handleIDLeader}
               >
                 {/* {children} */}
-                {lsNameUser.filter((item)=>item.id !== nameMember ).map((item, index) =>
-                  item.group_name === "Admin" ? null : (
-                    <Option key={item.username} value={item.id}>
-                      {item.username}
-                    </Option>
-                  )
-                )}
+                {lsNameUser
+                  .filter((item) => item.id !== nameMember)
+                  .map((item, index) =>
+                    item.group_name === "Admin" ? null : (
+                      <Option key={item.username} value={item.id}>
+                        {item.username}
+                      </Option>
+                    )
+                  )}
               </Select>
             </Form.Item>
           </Col>
@@ -649,15 +651,16 @@ const ModalEditProject = ({
                 }}
                 allowClear
                 onChange={handleIDMember}
-                
               >
-                {lsNameUser.filter((item)=>item.id !== nameLeader).map((item, index) =>
-                  item.group_name === "Admin" ? null : (
-                    <Option key={item.username} value={item.id}>
-                      {item.username}
-                    </Option>
-                  )
-                )}
+                {lsNameUser
+                  .filter((item) => item.id !== nameLeader)
+                  .map((item, index) =>
+                    item.group_name === "Admin" ? null : (
+                      <Option key={item.username} value={item.id}>
+                        {item.username}
+                      </Option>
+                    )
+                  )}
               </Select>
             </Form.Item>
           </Col>
@@ -763,62 +766,124 @@ function ProjectManagement() {
       });
   };
 
+  // const columns = [
+  //   {
+  //     title: "Project",
+  //     dataIndex: "name",
+  //     key: "name",
+  //     filterKey: "name",
+  //     type: "text",
+  //     canSearch: true,
+  //     width: 150,
+  //     align: "center",
+  //   },
+  //   {
+  //     title: "Number of members",
+  //     dataIndex: "Number_of_members",
+  //     key: "Number_of_members",
+  //     filterKey: "Number_of_members",
+  //     align: "center",
+  //     type: "text",
+  //     canSearch: true,
+  //     width: 150,
+  //   render: (value, record) =>
+  //     record.user_member.length + record.user_lead.length,
+  // },
+  //   {
+  //     title: "Action",
+  //     dataIndex: "Action",
+  //     key: "Action",
+  //     filterKey: "Action",
+  //     align: "center",
+  //     type: "text",
+  //     canSearch: true,
+  //     width: 150,
+  //     render: (value, record) => (
+  //       <div
+  //         className="btngroup1"
+  //         // style={{ display: "flex", marginLeft: "55px" }}
+  //       >
+  //         <div className="btnBack" style={{ marginRight: "10px" }}>
+  //           <Tooltip placement="bottom" title="Edit" arrowPointAtCenter>
+  //             <Button
+  //               type="primary"
+  //               shape="circle"
+  //               icon={<EditOutlined />}
+  //               onClick={() => {
+  //                 onShowModalEdit(record);
+  //               }}
+  //             />
+  //           </Tooltip>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+  // ];
+  const renderDetailsButton = (record) => {
+    return (
+      <Box sx={{ width: "100%" }}>
+        <Grid container columns={12}>
+          <Grid
+            xs={12}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <span
+              title="Edit"
+              className={"col-6"}
+              style={{ color: "#4290d3", cursor: "pointer" }}
+              onClick={() => onShowModalEdit(record)}
+            >
+              <EditOutlined />
+            </span>
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  };
+
   const columns = [
     {
-      title: "Project",
-      dataIndex: "name",
-      key: "name",
-      filterKey: "name",
-      type: "text",
-      canSearch: true,
-      width: 150,
+      field: "index",
+      headerName: "ID",
+      width: 100,
+      renderCell: (index) => index.api.getRowIndex(index.row.id) + 1,
+      sortable: false,
+      headerAlign: "center",
       align: "center",
     },
     {
-      title: "Number of members",
-      dataIndex: "Number_of_members",
-      key: "Number_of_members",
-      filterKey: "Number_of_members",
+      field: "name",
+      headerName: "Project",
+      headerAlign: "center",
       align: "center",
-      type: "text",
-      canSearch: true,
-      width: 150,
-      render: (value, record) =>
-        record.user_member.length + record.user_lead.length,
+      width: 600,
+      sortable: false,
     },
     {
-      title: "Action",
-      dataIndex: "Action",
-      key: "Action",
-      filterKey: "Action",
+      field: "Number_of_members",
+      headerName: "Number of members",
+      headerAlign: "center",
       align: "center",
-      type: "text",
-      canSearch: true,
-      width: 150,
-      render: (value, record) => (
-        <div
-          className="btngroup1"
-          // style={{ display: "flex", marginLeft: "55px" }}
-        >
-          <div className="btnBack" style={{ marginRight: "10px" }}>
-            <Tooltip placement="bottom" title="Edit" arrowPointAtCenter>
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<EditOutlined />}
-                onClick={() => {
-                  onShowModalEdit(record);
-                }}
-              />
-            </Tooltip>
-          </div>
-        </div>
-      ),
+      width: 250,
+      sortable: false,
+      valueGetter: (params) =>
+        `${params.row.user_member.length + params.row.user_lead.length}`,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      headerAlign: "center",
+      width: 100,
+      sortable: false,
+      renderCell: renderDetailsButton,
     },
   ];
+
   return (
     <div className="FormHomeTable">
-      <div className="FormHome1">
+      <div className="FormProject1">
         <div className="FormHome2">
           <div className="HeaderContentUser">
             <Row style={{ width: "100%" }}>
@@ -834,7 +899,7 @@ function ProjectManagement() {
               </Col>
             </Row>
           </div>
-          <Table
+          {/* <Table
             rowKey="id"
             columns={columns}
             dataSource={data}
@@ -844,7 +909,19 @@ function ProjectManagement() {
             className="tableUser"
             onChange={handleChange}
             // style={{borderRadius: 20}}
-          />
+          /> */}
+
+          <div className="tableAdmin">
+            <DataGrid
+              loading={loading}
+              rows={data}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+              autoHeight={true}
+              disableColumnMenu={true}
+            />
+          </div>
 
           <ModalAddProject
             visible={isShowAddProject}

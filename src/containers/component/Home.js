@@ -40,7 +40,6 @@ function Home () {
   const fetchProjectWithUser = (params = {}) => {
     GetProjectWithUserAPI()
       .then((res) => {
-        console.log(res.data);
         setLsProjectWithUser(res.data);
       })
       .catch((err) => {

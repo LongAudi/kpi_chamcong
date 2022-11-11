@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/static/css/main.11717d23.css",
+    "main.js": "/static/js/main.7256a239.js",
+    "static/media/LOGO ITIS.png": "/static/media/LOGO ITIS.5d3c8c3e875b77b6ecb9.png",
+    "static/media/image_2022_10_24T03_58_02_594Z.png": "/static/media/image_2022_10_24T03_58_02_594Z.b4d9e9f16c3bd00559ee.png",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.11717d23.css",
+    "static/js/main.7256a239.js"
+  ]
+}

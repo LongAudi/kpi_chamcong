@@ -28,7 +28,7 @@ const cookies = new Cookies();
 
 function Main() {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
+  // const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const [isValid, setIsValid] = useState(true);
   const [lsPermissions, setLsPermissions] = useState(['Member']);
   
@@ -37,20 +37,18 @@ function Main() {
     dispatch(authSuccess(token));
   }
   const auth = useSelector((state) => state.auth.token) !== null;
-  // const userInfo = useSelector(state => state.getUserInfo.userInfo);
+  const userInfo = useSelector(state => state.getUserInfo.userInfo);
   useEffect(() => {
     if (auth && token) {
       dispatch(getUserInfo());
-      setLsPermissions([userInfo.group_name])
-      // dispatch(getSystemInfo(token));
-      // dispatch(getSystemStatus(token));
-      // dispatch(getSystemOTStatus(token));
     }
   }, [auth, token]);
 
   useEffect(()=>{
     if (userInfo){
+
       setLsPermissions([userInfo.group_name])
+
     //     if (userInfo.team_permissions){
     //         const arrTeam = userInfo.team_permissions .map((item,index)=>item.phanquyen__ten_pq);
     //         setLsPermissions([...userInfo.user_permissions, ...new Set(arrTeam)]);
@@ -71,26 +69,12 @@ function Main() {
   return (
     <Router>
       <Switch>
-        <ProtectLoginRoute exact path="/Login" protect={auth} user_info={lsPermissions}>
+        <ProtectLoginRoute exact path="/Login" protect={auth} user_info={userInfo}>
           <UserLayout >
             <Login />
           </UserLayout>
         </ProtectLoginRoute>
-        {/* {userInfo.group_role === 2 ? (
-          <RouteWithLayout
-            component={Home}
-            exact
-            layout={CustomLayout}
-            path="/"
-            isPrivate={true}
-            lsPermissions={lsPermissions}
-            permission={["Member"]}
-            isLogged={auth}
-            isValid={isValid}
-          />
-        ) : (
-          ""
-        )} */}
+
         <RouteWithLayout
           component={Home}
           exact
@@ -98,7 +82,7 @@ function Main() {
           path="/"
           isPrivate={true}
           lsPermissions={lsPermissions}
-          permission={["Member"]}
+          permission={["Admin","Member"]}
           isLogged={auth}
           isValid={isValid}
         />
@@ -192,8 +176,11 @@ const RouteWithLayout = (props) => {
     isValid: isValid,
     lsPermissions: lsPermissions,
     permission: permission,
+    path: path,
     ...rest
   } = props;
+
+
   const getRejectRoute = (type) => {
     switch (type) {
       case "403":
@@ -201,8 +188,8 @@ const RouteWithLayout = (props) => {
       case "404":
         return <NotFoundLayout />;
       default:
-        // return <NotPermission />;
-        return <LoadingPage />;
+        return <NotPermission />;
+        // return <LoadingPage />;
     }
   };
 
@@ -215,11 +202,14 @@ const RouteWithLayout = (props) => {
             isLogged ? (
               lsPermissions && lsPermissions.length > 0 ? 
                 (lsPermissions.some((r) => permission.includes(r)) ? (
+                  // Nếu là Admin thì chuyển về /admin
+                  path == "/" && lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> :
                   <Layout isLogged={isLogged}>
                     <Component {...props} />
                   </Layout>
                 ) : (
-                  lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> : getRejectRoute(permission)
+                   getRejectRoute(permission)
+                  // lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> : getRejectRoute(permission)
                 )
                 )
                : (
@@ -248,14 +238,15 @@ const RouteWithLayout = (props) => {
 
 const ProtectLoginRoute = ({ protect, user_info, children, ...rest }) => {
   return (
+    <>
     <Route
       {...rest}
       render={() =>
-        !protect ? children :<Redirect to="/"></Redirect>
-      
-
+        !protect ? children : <Redirect to="/"></Redirect>
       }
     />
+    </>
+
   );
 };
 

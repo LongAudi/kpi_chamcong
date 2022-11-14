@@ -23,6 +23,8 @@ import ThongTinCaNhan from "../containers/component/ThongTinCaNhan";
 import User from "../containers/component/User";
 import WorkingDetails from "../containers/component/WorkingDetails";
 import ProjectManagement from "../containers/component/ProjectManagement";
+import SuperAdminUser from "../containers/component/SuperAdminUser";
+import SuperAdminCustomer from "../containers/component/SuperAdminCustomer";
 
 const cookies = new Cookies();
 
@@ -30,31 +32,30 @@ function Main() {
   const dispatch = useDispatch();
   // const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const [isValid, setIsValid] = useState(true);
-  const [lsPermissions, setLsPermissions] = useState(['Member']);
-  
+  const [lsPermissions, setLsPermissions] = useState(["Member"]);
+
   const token = cookies.get("token");
   if (token) {
     dispatch(authSuccess(token));
   }
   const auth = useSelector((state) => state.auth.token) !== null;
-  const userInfo = useSelector(state => state.getUserInfo.userInfo);
+  const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   useEffect(() => {
     if (auth && token) {
       dispatch(getUserInfo());
     }
   }, [auth, token]);
 
-  useEffect(()=>{
-    if (userInfo){
+  useEffect(() => {
+    if (userInfo) {
+      setLsPermissions([userInfo.group_name]);
 
-      setLsPermissions([userInfo.group_name])
-
-    //     if (userInfo.team_permissions){
-    //         const arrTeam = userInfo.team_permissions .map((item,index)=>item.phanquyen__ten_pq);
-    //         setLsPermissions([...userInfo.user_permissions, ...new Set(arrTeam)]);
-    //     } else {
-    //         setLsPermissions(userInfo.user_permissions)
-    //     }
+      //     if (userInfo.team_permissions){
+      //         const arrTeam = userInfo.team_permissions .map((item,index)=>item.phanquyen__ten_pq);
+      //         setLsPermissions([...userInfo.user_permissions, ...new Set(arrTeam)]);
+      //     } else {
+      //         setLsPermissions(userInfo.user_permissions)
+      //     }
     }
     // console.log(userInfoURL);
     // if (userInfo && userInfo.user_permissions) {
@@ -64,13 +65,18 @@ function Main() {
     //     console.log(r.data.user_permissions);
     //     setLsPermissions(r.data.user_permissions);
     // })
-  },[userInfo])
+  }, [userInfo]);
 
   return (
     <Router>
       <Switch>
-        <ProtectLoginRoute exact path="/Login" protect={auth} user_info={userInfo}>
-          <UserLayout >
+        <ProtectLoginRoute
+          exact
+          path="/Login"
+          protect={auth}
+          user_info={userInfo}
+        >
+          <UserLayout>
             <Login />
           </UserLayout>
         </ProtectLoginRoute>
@@ -82,18 +88,7 @@ function Main() {
           path="/"
           isPrivate={true}
           lsPermissions={lsPermissions}
-          permission={["Admin","Member"]}
-          isLogged={auth}
-          isValid={isValid}
-        />
-        <RouteWithLayout
-          component={Home}
-          exact
-          layout={CustomLayout}
-          path="/home"
-          isPrivate={true}
-          lsPermissions={lsPermissions}
-          permission={["Member"]}
+          permission={["Admin", "Member"]}
           isLogged={auth}
           isValid={isValid}
         />
@@ -109,13 +104,24 @@ function Main() {
           isValid={isValid}
         />
         <RouteWithLayout
-          component={WorkingDetails}
+          component={SuperAdminUser}
           exact
           layout={CustomLayout}
-          path="/working_details"
+          path="/super_admin_user"
           isPrivate={true}
           lsPermissions={lsPermissions}
-          permission={['Member']}
+          permission={["Admin"]}
+          isLogged={auth}
+          isValid={isValid}
+        />
+        <RouteWithLayout
+          component={SuperAdminCustomer}
+          exact
+          layout={CustomLayout}
+          path="/super_admin_customer"
+          isPrivate={true}
+          lsPermissions={lsPermissions}
+          permission={["Admin"]}
           isLogged={auth}
           isValid={isValid}
         />
@@ -131,36 +137,58 @@ function Main() {
           isValid={isValid}
         />
         <RouteWithLayout
+          component={WorkingDetails}
+          exact
+          layout={CustomLayout}
+          path="/working_details"
+          isPrivate={true}
+          lsPermissions={lsPermissions}
+          permission={["Member","Admin"]}
+          isLogged={auth}
+          isValid={isValid}
+        />
+        <RouteWithLayout
+          component={Home}
+          exact
+          layout={CustomLayout}
+          path="/home"
+          isPrivate={true}
+          lsPermissions={lsPermissions}
+          permission={["Member"]}
+          isLogged={auth}
+          isValid={isValid}
+        />
+        <RouteWithLayout
           component={ThongTinCaNhan}
           exact
           layout={CustomLayout}
           path="/personal_information"
           isPrivate={true}
           lsPermissions={lsPermissions}
-          permission={["Admin",'Member']}
+          permission={["Admin", "Member"]}
           isLogged={auth}
           isValid={isValid}
         />
         <RouteWithLayout
-            component={NotPermission}
-              exact
-              layout={CustomLayout}
-              path="/notpermission"
-              isPrivate={true}
-              lsPermissions={lsPermissions}
-              permission={'403'}
-              isLogged={auth}
-            isValid={isValid}
+          component={NotPermission}
+          exact
+          layout={CustomLayout}
+          path="/notpermission"
+          isPrivate={true}
+          lsPermissions={lsPermissions}
+          permission={"403"}
+          isLogged={auth}
+          isValid={isValid}
         />
         <RouteWithLayout
-            component={NotFoundLayout}
-              layout={CustomLayout}
-              path="/"
-              lsPermissions={lsPermissions}
-              isPrivate={true}
-              isLogged={auth}
-            permission={'404'}
-            isValid={isValid}
+          component={NotFoundLayout}
+          layout={CustomLayout}
+          path="/"
+          lsPermissions={lsPermissions}
+          isPrivate={true}
+          isLogged={auth}
+          permission={"404"}
+          isValid={isValid}
         />
       </Switch>
     </Router>
@@ -179,7 +207,6 @@ const RouteWithLayout = (props) => {
     path: path,
     ...rest
   } = props;
-
 
   const getRejectRoute = (type) => {
     switch (type) {
@@ -200,19 +227,21 @@ const RouteWithLayout = (props) => {
         isValid ? (
           isPrivate ? (
             isLogged ? (
-              lsPermissions && lsPermissions.length > 0 ? 
-                (lsPermissions.some((r) => permission.includes(r)) ? (
+              lsPermissions && lsPermissions.length > 0 ? (
+                lsPermissions.some((r) => permission.includes(r)) ? (
                   // Nếu là Admin thì chuyển về /admin
-                  path == "/" && lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> :
-                  <Layout isLogged={isLogged}>
-                    <Component {...props} />
-                  </Layout>
+                  path == "/" && lsPermissions.includes("Admin") ? (
+                    <Redirect to="/admin"></Redirect>
+                  ) : (
+                    <Layout isLogged={isLogged}>
+                      <Component {...props} />
+                    </Layout>
+                  )
                 ) : (
-                   getRejectRoute(permission)
+                  getRejectRoute(permission)
                   // lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> : getRejectRoute(permission)
                 )
-                )
-               : (
+              ) : (
                 <span></span>
               )
             ) : (
@@ -239,14 +268,11 @@ const RouteWithLayout = (props) => {
 const ProtectLoginRoute = ({ protect, user_info, children, ...rest }) => {
   return (
     <>
-    <Route
-      {...rest}
-      render={() =>
-        !protect ? children : <Redirect to="/"></Redirect>
-      }
-    />
+      <Route
+        {...rest}
+        render={() => (!protect ? children : <Redirect to="/"></Redirect>)}
+      />
     </>
-
   );
 };
 

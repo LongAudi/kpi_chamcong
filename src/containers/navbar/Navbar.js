@@ -1,9 +1,23 @@
+// import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+// import { Link } from "react-router-dom";
+
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
-import { Dropdown, Menu, Row, Avatar, Layout, Col, Button, Card } from "antd";
+import { Row, Col, Card, Dropdown, Button } from "antd";
 import "./navbar.css";
-import { UserOutlined, LogoutOutlined, BellFilled } from "@ant-design/icons";
 import Logo from "../../images/LOGO ITIS.png";
+import logoLogin from "../../images/logo ITIIS.png"
 import { authAxios } from "../../api/axiosClient";
 import { logout } from "../../app/Actions/auth";
 import {
@@ -19,12 +33,61 @@ import { Link } from "react-router-dom";
 import { getPushNotification } from "../Function";
 import moment from "moment";
 import { SurroundSoundTwoTone } from "@mui/icons-material";
+import { Drawer } from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import { BellFilled, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import CloseIcon from '@mui/icons-material/Close';
 
-const { Header } = Layout;
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const cookies = new Cookies();
 
+const drawerWidth = 240;
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-start",
+}));
+
 function Navbar() {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  // #################################
   const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const [lsNotification, setLsNotification] = useState([]);
   const [countNoti, setCountNoti] = useState([]);
@@ -71,8 +134,8 @@ function Navbar() {
               body: notiData.content,
               icon: "./VBPO_Logo.png",
             });
-            notification.onclick = function() {
-              window.location.href = '/tickets/' + notiData.ticket_rel_id
+            notification.onclick = function () {
+              window.location.href = "/tickets/" + notiData.ticket_rel_id;
             };
           }
         });
@@ -111,7 +174,7 @@ function Navbar() {
       authAxios(cookies.get("token"))
         .post(ReadNotification, { notification_id: notiId })
         .then((res) => {
-          fetchNotification()
+          fetchNotification();
           // window.location.href = "/tickets/" + ticketId;
         })
         .catch((err) => {
@@ -140,18 +203,12 @@ function Navbar() {
                 {item.is_view ? (
                   <a
                     style={{ color: "#e0e0e0" }}
-                    onClick={(e) =>
-                      ReadNotificationFn(item.id)
-                    }
+                    onClick={(e) => ReadNotificationFn(item.id)}
                   >
                     {item.content}
                   </a>
                 ) : (
-                  <a
-                    onClick={(e) =>
-                      ReadNotificationFn(item.id)
-                    }
-                  >
+                  <a onClick={(e) => ReadNotificationFn(item.id)}>
                     {item.content}
                   </a>
                 )}
@@ -188,12 +245,20 @@ function Navbar() {
       ) : (
         ""
       );
+
+    // useEffect(() => {
+    //   const toggleIcon = document.querySelector(".toggleMenu");
+    //   toggleIcon.addEventListener("click", () => {
+    //     document.querySelector(".menuNavbar").classList.toggle("active");
+    //   });
+    // }, []);
+
     return (
       <>
         <Col span={22}>
           <Card
             className={"notification-card"}
-            style={{ width: "360px" , height: "410px"}}
+            style={{ width: "360px", height: "410px" }}
             // onScroll="true"
             title="Thông báo"
             extra={hasReadAll}
@@ -202,7 +267,7 @@ function Navbar() {
             onTabChange={(key) => {
               onTabChange(key);
             }}
-            bodyStyle={{overflowY: "auto", height: "300px"}}
+            bodyStyle={{ overflowY: "auto", height: "300px" }}
           >
             {contentList[currentKey]}
           </Card>
@@ -212,104 +277,263 @@ function Navbar() {
   };
 
   return (
-    <Header className="wrapper">
-      <Row style={{ width: "90%" }}>
-        <Col span={2}>
-          <div className="logo">
-            <Link to="/home">
-              <img src={Logo} alt="" style={{ height: "50px" }} />
-            </Link>
-          </div>
-        </Col>
-        <Col span={18}>
-          <Menu
-            mode="horizontal"
-            defaultSelectedKeys={["Menu"]}
-            className="menuNavbar"
-          >
+    <AppBar position="static" color="primary">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+          {/* <Link to="/" className="Logo1">
+            <img src={Logo} alt="" style={{ height: "50px" }} />
+          </Link> */}
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          ></Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="end"
+              onClick={handleDrawerOpen}
+              sx={{ ...(open && { display: "none" }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Drawer
+              sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                "& .MuiDrawer-paper": {
+                  width: drawerWidth,
+                },
+              }}
+              variant="persistent"
+              anchor="left"
+              open={open}
+            >
+              <DrawerHeader >
+                <img src={logoLogin} alt=""  className="imgLogoDrawer"/>
+                <IconButton onClick={handleDrawerClose} className="IconButton_ChevronRightIcon">
+                  {theme.direction === "rtl" ? (
+                    <CloseIcon />
+                  ) : (
+                    <CloseIcon />
+                  )}
+                </IconButton>
+              </DrawerHeader>
+              <Divider />
+              <List>
+                {/* {["Inbox", "Starred", "Send email", "Drafts"].map(
+                  (text, index) => (
+                    <ListItem key={text} disablePadding>
+                      <ListItemButton>
+                        <ListItemIcon>
+                          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                      </ListItemButton>
+                    </ListItem>
+                  )
+                )} */}
+                {userInfo.group_role === 1 ? (
+                  <ListItem key="Admin" disablePadding>
+                    <ListItemButton>
+                      <Link to="/admin">Admin</Link>
+                    </ListItemButton>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+                <ListItem key="working_details" disablePadding>
+                  <ListItemButton>
+                    <Link to="/working_details">Working Details</Link>
+                  </ListItemButton>
+                </ListItem>
+                {userInfo.group_role === 2 ? (
+                  <ListItem key="Home" disablePadding>
+                    <ListItemButton>
+                      <Link to="/home">Home</Link>
+                    </ListItemButton>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+                {userInfo.group_role === 1 ? (
+                  <ListItem key="project_management" disablePadding>
+                    <ListItemButton>
+                      <Link to="/project_management">Project Management</Link>
+                    </ListItemButton>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+                {userInfo.group_role === 1 ? (
+                  <ListItem key="super_admin_user" disablePadding>
+                    <ListItemButton>
+                      <Link to="/super_admin_user">Super Admin User</Link>
+                    </ListItemButton>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+                {userInfo.group_role === 1 ? (
+                  <ListItem key="super_admin_customer" disablePadding>
+                    <ListItemButton>
+                      <Link to="/super_admin_customer">Super Admin Customer</Link>
+                    </ListItemButton>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+              </List>
+              <Divider />
+            </Drawer>
+          </Box>
+          <Link to="/">
+            <img src={Logo} alt="" style={{ height: "50px" }} />
+          </Link>
+          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          ></Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {userInfo.group_role === 1 ? (
-              <Menu.Item key="Admin">
-                <span>Admin</span>
-                <Link to="/admin"></Link>
-              </Menu.Item>
+              <MenuItem sx={{ my: 2, color: "white", display: "block" }}>
+                <Link to="/admin">Admin</Link>
+              </MenuItem>
             ) : (
               ""
             )}
             {userInfo.group_role === 2 ? (
-              <Menu.Item key="home">
-                <span>Home</span>
-                <Link to="/home"></Link>
-              </Menu.Item>
+              <MenuItem
+                // onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                <Link to="/home">Home</Link>
+              </MenuItem>
             ) : (
               ""
             )}
 
-            {userInfo.group_role === 2 ? (
-              <Menu.Item key="WorkingDetails">
-                <span>Working Details</span>
-                <Link to="/working_details"></Link>
-              </Menu.Item>
+            <MenuItem
+              // onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              <Link to="/working_details">Working Details</Link>
+            </MenuItem>
+            {userInfo.group_role === 1 ? (
+              <MenuItem
+                // onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                <Link to="/project_management">Project Management</Link>
+              </MenuItem>
             ) : (
               ""
             )}
             {userInfo.group_role === 1 ? (
-              <Menu.Item key="ProjectManagement">
-                <span>Project Management</span>
-                <Link to="/project_management"></Link>
-              </Menu.Item>
+              <MenuItem sx={{ my: 2, color: "white", display: "block" }}>
+                <Link to="/super_admin_user">Super Admin User</Link>
+              </MenuItem>
             ) : (
               ""
             )}
-          </Menu>
-        </Col>
-        <Col span={2}>
-          <Dropdown
-            overlay={<NotificationsCard data={lsNotification} />}
-            onVisibleChange={(e) => fetchNotification()}
-            overlayStyle={{ height: 400 }}
-             
-          >
-            <Button className="btnNoti">
-              <BellFilled style={{ fontSize: 20 }} />
-              <span style={{ color: "#ff0000" }}>{countNoti}</span>
-            </Button>
-          </Dropdown>
-        </Col>
-        <Col span={2}>
-          <Dropdown
-            className="navbarUser"
-            overlay={
-              <Menu>
-                <Menu.Item>
+            {userInfo.group_role === 1 ? (
+              <MenuItem
+                key="SuperAdminCustomer"
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                <Link to="/super_admin_customer">Super Admin Customer</Link>
+              </MenuItem>
+            ) : (
+              ""
+            )}
+          </Box>
+          <Box sx={{ flexGrow: 0 }}>
+            <Dropdown
+              overlay={<NotificationsCard data={lsNotification} />}
+              onVisibleChange={(e) => fetchNotification()}
+              overlayStyle={{ height: 400 }}
+            >
+              <Button className="btnNoti">
+                <BellFilled style={{ fontSize: 20 }} />
+                <span style={{ color: "#ff0000" }}>{countNoti}</span>
+              </Button>
+            </Dropdown>
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {/* {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))} */}
+              <MenuItem>
+                <Typography textAlign="center">
                   <UserOutlined style={{ marginRight: "5px" }} />
-                  {/* <a target="_blank"  rel="noopener noreferrer"> */}
                   <Link to={"/personal_information"}>
                     Xem thông tin tài khoản
                   </Link>
-                  {/* </a> */}
-                </Menu.Item>
-                <Menu.Item onClick={() => logout_new()}>
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={() => logout_new()}>
+                <Typography textAlign="center">
                   <LogoutOutlined style={{ marginRight: "5px" }} />
                   <a target="_blank" rel="noopener noreferrer">
                     Đăng xuất
                   </a>
-                </Menu.Item>
-              </Menu>
-            }
-            placement="bottomLeft"
-            arrow
-          >
-            <Row>
-              <span className="avatarNavbar">
-                <Avatar icon={<UserOutlined />} />
-              </span>
-              <span className="nameNavbar">{userInfo.username}</span>
-            </Row>
-          </Dropdown>
-        </Col>
-      </Row>
-    </Header>
+                </Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
-
 export default Navbar;

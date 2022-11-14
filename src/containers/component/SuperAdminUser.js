@@ -34,7 +34,7 @@ import {
   UnlockOutlined,
 } from "@ant-design/icons";
 import { DataGrid } from "@mui/x-data-grid";
-import { Grid,Box,Button } from "@mui/material";
+import { Grid, Box, Button } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
@@ -105,25 +105,27 @@ const ModalAddUser = ({
 
   const onChangeFields = (event, field, intChoose) => {
     let valueTemp = event.target.value;
-    switch(intChoose) {
-        case 1:
-            // console.log(1);
-            if (event.target.value.charAt(event.target.value.length - 1) === '.' || event.target.value === '-') {
-                valueTemp = event.target.value.slice(0, -1);
-            }
-            let newValue = toSlug(event.target.value);
-            form.setFieldsValue({
-                [field]: newValue,
-                // username: valueTemp.replace(/\s+/, ''),
-            })
-            break;
-        case 2:
-            break;
-        default:
-          // code block
-      }
-
-};
+    switch (intChoose) {
+      case 1:
+        // console.log(1);
+        if (
+          event.target.value.charAt(event.target.value.length - 1) === "." ||
+          event.target.value === "-"
+        ) {
+          valueTemp = event.target.value.slice(0, -1);
+        }
+        let newValue = toSlug(event.target.value);
+        form.setFieldsValue({
+          [field]: newValue,
+          // username: valueTemp.replace(/\s+/, ''),
+        });
+        break;
+      case 2:
+        break;
+      default:
+      // code block
+    }
+  };
 
   return (
     <Modal
@@ -159,7 +161,9 @@ const ModalAddUser = ({
             >
               <Input
                 placeholder="User"
-                onChange={(e) => { onChangeFields(e, 'username', 1); }}
+                onChange={(e) => {
+                  onChangeFields(e, "username", 1);
+                }}
                 // onBlur={(e) => {
                 //   form.setFieldsValue({
                 //     username: e.target.value.trim(),
@@ -278,7 +282,9 @@ const ModalAddUser = ({
           >
             Upload
           </LoadingButton>
-          <Button onClick={onCloseModal} color="error" variant="contained">Exit</Button>
+          <Button onClick={onCloseModal} color="error" variant="contained">
+            Exit
+          </Button>
         </Form.Item>
       </Form>
     </Modal>
@@ -454,14 +460,16 @@ const ModalEditUser = ({
           >
             Upload
           </LoadingButton>
-          <Button onClick={onCloseModal} color="error" variant="contained">Exit</Button>
+          <Button onClick={onCloseModal} color="error" variant="contained">
+            Exit
+          </Button>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-function User() {
+function SuperAdminUser() {
   const defaultPageSize = 10;
   const [pager, setPager] = useState({
     pageSize: defaultPageSize,
@@ -683,7 +691,6 @@ function User() {
       search,
     });
   };
-
   return (
     <div className="FormHomeTable">
       <div className="FormHome1">
@@ -692,33 +699,12 @@ function User() {
             <Row style={{ width: "100%" }}>
               <Col span={12}>{/* <h1 className="h1UserTable"></h1> */}</Col>
               <Col span={12}>
-                <Button
-                  className="btnAddUser"
-                  onClick={showModalAddUser}
-                >
-                  <ControlPointIcon style={{marginRight: "5px"}}/> Add New
+                <Button className="btnAddUser" onClick={showModalAddUser}>
+                <ControlPointIcon style={{marginRight: "5px"}}/> Add New
                 </Button>
               </Col>
             </Row>
           </div>
-
-          {/* <Table
-            rowKey="id"
-            columns={columns}
-            dataSource={data}
-            size="middle"
-            loading={loading}
-            scroll={{ x: 500 }}
-            onChange={handleChange}
-            // className="tableUser"
-            pagination={{
-              current: pager.current,
-              pageSize: pager.pageSize,
-              total: data.count,
-              showSizeChanger: true,
-              pageSizeOptions: ["10", "15", "25", "50"],
-            }}
-          /> */}
           <div className="tableAdmin">
             <DataGrid
               loading={loading}
@@ -753,4 +739,4 @@ function User() {
   );
 }
 
-export default User;
+export default SuperAdminUser;

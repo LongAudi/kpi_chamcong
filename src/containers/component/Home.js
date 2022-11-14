@@ -637,17 +637,6 @@ function Home() {
                   style={{ borderRadius: "10px" }}
                   disabled={checkShifts}
                 />
-                {/* <input
-                      type="text"
-                      style={{
-                        width: "100%",
-                        minHeight: "80px",
-                        borderRadius: "10px",
-                        border: "none",
-                      }}
-                      placeholder="Hello"
-                      disabled={checkShifts}
-                    /> */}
               </Form.Item>
               <Form.Item
                 name="disabled"
@@ -680,7 +669,7 @@ function Home() {
               </Form.Item>
               <Form.Item
                 name="disabled"
-                className="formItemHome"
+                // className="formItemHome"
                 style={{ textAlign: "center" }}
               >
                 <Button

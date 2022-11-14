@@ -11,17 +11,11 @@ class UserLayout extends React.Component {
   render() {
     return (
       <Layout className="layoutUserLogin">
-        <Row >
-          <Col span={10} style={{ textAlign: "center"}} className="logoLogin">
-            <img src={logoLogin} alt="" style={{ height: "60px" }}/>
-          </Col>
-          <Col span={14}></Col>
-        </Row>
         <Row
           type="flex"
           justify="center"
           align="middle"
-          style={{ height: "80vh" }}
+          style={{ height: "92vh" }}
         >
           <Col sm={6} className="FormLogin">
             <Login />

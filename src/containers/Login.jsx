@@ -12,6 +12,7 @@ import { openNotificationWithIcon } from "./Function";
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import logoLogin from "../images/logo ITIIS.png"
 
 const validateMessages = {
     required: 'Please enter your registered ${label} !',
@@ -126,7 +127,7 @@ class LoginForm extends React.Component {
             <div className="content">
                 <div className="login">
                     <div className="logo-login">
-                        <h1>Login</h1>
+                    <img src={logoLogin} alt="" style={{ height: "60px" }}/>
                     </div>
                     <div className="container loginFormInput">
                         <Form

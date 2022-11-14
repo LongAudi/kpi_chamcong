@@ -7,12 +7,16 @@
     background: rgba(16, 13, 13, 1);
 }
 
-.wrapper{
+.RowNavbar {
+    width: 100%;
+}
+
+.wrapper {
     justify-content: left;
     width: 100%;
 }
 
-.menuNavbar{
+.menuNavbar {
     background: none;
     border-bottom: none;
 }
@@ -23,7 +27,7 @@
     font-size: 15px;
 }
 
-.navbarUser{
+.navbarUser {
     color: #fff;
 }
 
@@ -33,28 +37,46 @@
     margin-left: 8px;
 }
 
-.avatarNavbar{
+.avatarNavbar {
     cursor: pointer;
 }
 
-.nameNavbar{
-    margin-left: 5px;
+.nameNavbar {
+    margin-left: 8px;
     /* font-size: 15px; */
     font-weight: 600;
     cursor: pointer;
 }
 
-/* .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after{
-    border-bottom: none;
-} */
+.toggleMenu {
+    transform: rotate(90deg);
+}
 
-/* .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after{
-    border-bottom: none;
-} */
+.toggleMenu .toggleIcon {
+    color: #fff;
+    font-size: 30px !important;
+}
 
-@media (max-width: 768px) {
-    .nameNavbar{
-        color: #3330;
-    }
+.MuiBox-root.css-1t6c9ts a {
+    color: #fff;
+    font-weight: 400;
+}
 
+.MuiBox-root.css-1lvtzne {
+    width: 120px;
+}
+
+.css-hip9hq-MuiPaper-root-MuiAppBar-root {
+    background-color: rgba(16, 13, 13, 1) !important;
+}
+
+.imgLogoDrawer {
+    height: 30px;
+    text-align: center;
+    margin: auto;
+    position: relative;
+}
+
+.IconButton_ChevronRightIcon{
+    position: fixed !important;
 }

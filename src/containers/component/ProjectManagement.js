@@ -24,6 +24,8 @@ import { GetListUserApi } from "../../api/usersApi";
 import moment from "moment";
 import { DataGrid } from "@mui/x-data-grid";
 import { Grid,Box,Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 const { Option } = Select;
 
@@ -327,15 +329,16 @@ const ModalAddProject = ({
           // wrapperCol={{ offset: 6, span: 12 }}
           style={{ marginTop: "20px", textAlign: "center" }}
         >
-          <Button
+          <LoadingButton
             type="success"
-            htmlType="submit"
+            // htmlType="submit"
             style={{ marginRight: "20px" }}
             className={"m-2"}
+            variant="contained"
           >
             Add new
-          </Button>
-          <Button onClick={onCloseModal}>Exit</Button>
+          </LoadingButton>
+          <Button onClick={onCloseModal} color="error" variant="contained">Exit</Button>
         </Form.Item>
       </Form>
     </Modal>
@@ -674,16 +677,16 @@ const ModalEditProject = ({
           // wrapperCol={{ offset: 6, span: 12 }}
           style={{ marginTop: "20px", textAlign: "center" }}
         >
-          <Button
+          <LoadingButton
             type="success"
-            htmlType="submit"
+            // htmlType="submit"
             style={{ marginRight: "20px" }}
             className={"m-2"}
-            loading={loading}
+            variant="contained"
           >
             Update
-          </Button>
-          <Button onClick={onCloseModal}>Exit</Button>
+          </LoadingButton>
+          <Button onClick={onCloseModal} color="error" variant="contained">Exit</Button>
         </Form.Item>
       </Form>
     </Modal>
@@ -894,22 +897,11 @@ function ProjectManagement() {
                   type="primary"
                   onClick={() => setIsShowAddProject(true)}
                 >
-                  Add New Project
+                 <ControlPointIcon style={{marginRight: "5px"}}/> Add New
                 </Button>
               </Col>
             </Row>
           </div>
-          {/* <Table
-            rowKey="id"
-            columns={columns}
-            dataSource={data}
-            pagination={false}
-            loading={loading}
-            scroll={{ y: 400 }}
-            className="tableUser"
-            onChange={handleChange}
-            // style={{borderRadius: 20}}
-          /> */}
 
           <div className="tableAdmin">
             <DataGrid
@@ -931,6 +923,7 @@ function ProjectManagement() {
             pager={pager}
             loading={loading}
           />
+          
           <ModalEditProject
             visible={isEditing}
             onCancel={() => setIsEditing(false)}

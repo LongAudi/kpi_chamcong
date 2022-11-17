@@ -552,15 +552,17 @@ function User() {
   const renderDetailsButton = (record) => {
     return (
       <Box sx={{ width: "100%" }}>
-        <Grid container columns={12}>
+        <Grid item container xs={12}>
           <Grid
             xs={3}
+            item
             display="flex"
             justifyContent="center"
             alignItems="center"
           ></Grid>
           <Grid
             xs={3}
+            item
             display="flex"
             justifyContent="center"
             alignItems="center"
@@ -576,6 +578,7 @@ function User() {
           </Grid>
           <Grid
             xs={3}
+            item
             display="flex"
             justifyContent="center"
             alignItems="center"
@@ -612,6 +615,7 @@ function User() {
           </Grid>
           <Grid
             xs={3}
+            item
             display="flex"
             justifyContent="center"
             alignItems="center"

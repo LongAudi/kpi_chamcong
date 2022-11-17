@@ -301,11 +301,57 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     margin-bottom: 0px !important;
 }
 
-.SelectWorkingDetails{
+.SelectWorkingDetails {
     width: 15%;
 }
 
+.BoxMail {
+    box-shadow: 0px 0px 15px rgb(114, 103, 103);
+}
 
+#customized-dialog-title{
+    font-size: 16px;
+}
+
+.DialogContentMail
+    .MuiInputBase-root.MuiInput-root.MuiInput-underline.MuiInputBase-colorPrimary.MuiInputBase-adornedStart.css-1tcs2i1-MuiInputBase-root-MuiInput-root {
+    width: 100%;
+}
+
+.TextareaAutosizeMail{
+    width: 100%;
+    height: 290px !important;
+    border: none;
+    overflow: auto !important;
+    outline: none !important;
+    resize: none ;
+    cursor: pointer;
+}
+
+.style-6::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.style-6::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+.style-6::-webkit-scrollbar-thumb
+{
+    background-color: #00b7ff;	
+    background-image: -webkit-linear-gradient(45deg,
+                                            rgba(255, 255, 255, .2) 25%,
+                                            transparent 25%,
+                                            transparent 50%,
+                                            rgba(255, 255, 255, .2) 50%,
+                                            rgba(255, 255, 255, .2) 75%,
+                                            transparent 75%,
+                                            transparent)
+}
 
 @media (max-width: 768px) {
     .ant-row.ant-form-item.formItemHome,
@@ -343,11 +389,20 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     .ant-col.FormLogin.ant-col-sm-6 {
         width: 80%;
     }
-    .formItemHome .ant-col.ant-form-item-control{
+    .formItemHome .ant-col.ant-form-item-control {
         flex: 0 0 50% !important;
     }
-    .SelectWorkingDetails{
+    .SelectWorkingDetails {
         width: 40%;
+    }
+    .BoxMail.MuiBox-root.css-1x5v2y {
+        width: 350px;
+        height: 450px;
+    }
+    .TextareaAutosizeMail{
+        width: 100%;
+        height: 240px !important;
+        border: none;
     }
 }
 
@@ -366,7 +421,7 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
         width: 100% !important;
         margin-top: 20px;
     }
-    .FormProject1{
+    .FormProject1 {
         width: 90%;
         margin: auto;
         padding: 40px 0;
@@ -376,8 +431,12 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
         margin: auto;
         padding: 40px 0;
     }
-    .SelectWorkingDetails{
+    .SelectWorkingDetails {
         width: 30%;
+    }
+    .container.loginFormInput .ant-form-item-control-input {
+        width: 100%;
+        margin: none;
     }
 }
 

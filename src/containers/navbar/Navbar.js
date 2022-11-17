@@ -355,13 +355,14 @@ function Navbar() {
             }}
           ></Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }} >
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="end"
               onClick={handleDrawerOpen}
               sx={{ ...(open && { display: "none" }) }}
+              
             >
               <MenuIcon />
             </IconButton>
@@ -490,8 +491,9 @@ function Navbar() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+              key= "Menu"
             >
-              <MenuItem>
+              <MenuItem key="UserOutlined">
                 <Typography textAlign="center">
                   <UserOutlined />
                   <Link
@@ -502,7 +504,7 @@ function Navbar() {
                   </Link>
                 </Typography>
               </MenuItem>
-              <MenuItem onClick={() => logout_new()}>
+              <MenuItem key="LogoutOutlined" onClick={() => logout_new()}>
                 <Typography textAlign="center">
                   <LogoutOutlined />
                   <a

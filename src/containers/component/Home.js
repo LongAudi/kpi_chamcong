@@ -388,12 +388,9 @@ function Home() {
 
   return (
     <Row>
-      {/* <Col span={8}></Col> */}
-      {/* <Col span={8}> */}
       <div className="FormHome">
         <div className="FormHome1">
-          {/* <h1>Hello</h1> */}
-          <div className="FormHome2">
+          <div className="FormUser2">
             <div className="formItemHome" style={{ marginBottom: "24px" }}>
               <Row>
                 <Col span={12}>

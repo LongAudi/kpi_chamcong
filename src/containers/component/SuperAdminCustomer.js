@@ -4,12 +4,9 @@ import { Box, Button, Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Col, Form, Input, Modal, Row } from "antd";
 import React, { useState } from "react";
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 
-const ModalAdd = ({
-  visible,
-  onCancel,
-}) => {
+const ModalAdd = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
 
   const onCloseModal = () => {
@@ -56,11 +53,12 @@ const ModalAdd = ({
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item
-              label="Phone Number"
-              name="Phone"
-            >
-              <Input maxLength={15} pattern="[0-9]*" title="Chỉ nhập ký tự từ 0 đến 9"/>
+            <Form.Item label="Phone Number" name="Phone">
+              <Input
+                maxLength={15}
+                pattern="[0-9]*"
+                title="Chỉ nhập ký tự từ 0 đến 9"
+              />
             </Form.Item>
           </Col>
           <Col span={24}>
@@ -91,17 +89,16 @@ const ModalAdd = ({
           >
             Add new
           </LoadingButton>
-          <Button onClick={onCloseModal} color="error" variant="contained">Exit</Button>
+          <Button onClick={onCloseModal} color="error" variant="contained">
+            Exit
+          </Button>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-const ModalEdit = ({
-  visible,
-  onCancel,
-}) => {
+const ModalEdit = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
 
   const onCloseModal = () => {
@@ -148,11 +145,12 @@ const ModalEdit = ({
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item
-              label="Phone Number"
-              name="Phone"
-            >
-              <Input maxLength={15} pattern="[0-9]*" title="Chỉ nhập ký tự từ 0 đến 9"/>
+            <Form.Item label="Phone Number" name="Phone">
+              <Input
+                maxLength={15}
+                pattern="[0-9]*"
+                title="Chỉ nhập ký tự từ 0 đến 9"
+              />
             </Form.Item>
           </Col>
           <Col span={24}>
@@ -183,7 +181,9 @@ const ModalEdit = ({
           >
             Update
           </LoadingButton>
-          <Button onClick={onCloseModal} color="error" variant="contained">Exit</Button>
+          <Button onClick={onCloseModal} color="error" variant="contained">
+            Exit
+          </Button>
         </Form.Item>
       </Form>
     </Modal>
@@ -204,15 +204,15 @@ function SuperAdminCustomer() {
 
   const onShowModalEdit = (record) => {
     // GetProjectEditApi(record.id)
-      // .then((res) => {
-        // setDataInforUser(res.data);
-        setIsEditing(true);
-      // })
-      // .catch((err) => {
-        // if (err.data.error) {
-          // openNotificationWithIcon("error", err.data.error);
-        // }
-      // });
+    // .then((res) => {
+    // setDataInforUser(res.data);
+    setIsEditing(true);
+    // })
+    // .catch((err) => {
+    // if (err.data.error) {
+    // openNotificationWithIcon("error", err.data.error);
+    // }
+    // });
   };
 
   const renderDetailsButton = (record) => {
@@ -275,7 +275,12 @@ function SuperAdminCustomer() {
   ];
 
   const data = [
-    { id: 1, customer: "Công Ty Tnhh Thin Group", Number_of_members: "1", age: 35 },
+    {
+      id: 1,
+      customer: "Công Ty Tnhh Thin Group",
+      Number_of_members: "1",
+      age: 35,
+    },
     {
       id: 2,
       customer: "CÔNG TY TNHH VẬN TẢI QUANG MINH CHI",
@@ -325,6 +330,18 @@ function SuperAdminCustomer() {
       Number_of_members: "9",
       age: 65,
     },
+    {
+      id: 10,
+      customer: "CÔNG TY TNHH DU LỊCH DỊCH VỤ THƯƠNG MẠI ĐẠI HOA",
+      Number_of_members: "9",
+      age: 65,
+    },
+    {
+      id: 11,
+      customer: "CÔNG TY TNHH DU LỊCH DỊCH VỤ THƯƠNG MẠI ĐẠI HOA",
+      Number_of_members: "9",
+      age: 65,
+    },
   ];
 
   return (
@@ -340,7 +357,7 @@ function SuperAdminCustomer() {
                   type="primary"
                   onClick={() => setIsShowAddProject(true)}
                 >
-                  <ControlPointIcon style={{marginRight: "5px"}}/> Add New
+                  <ControlPointIcon style={{ marginRight: "5px" }} /> Add New
                 </Button>
               </Col>
             </Row>

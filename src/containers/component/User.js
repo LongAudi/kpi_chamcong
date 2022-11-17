@@ -702,23 +702,6 @@ function User() {
             </Row>
           </div>
 
-          {/* <Table
-            rowKey="id"
-            columns={columns}
-            dataSource={data}
-            size="middle"
-            loading={loading}
-            scroll={{ x: 500 }}
-            onChange={handleChange}
-            // className="tableUser"
-            pagination={{
-              current: pager.current,
-              pageSize: pager.pageSize,
-              total: data.count,
-              showSizeChanger: true,
-              pageSizeOptions: ["10", "15", "25", "50"],
-            }}
-          /> */}
           <div className="tableAdmin">
             <DataGrid
               loading={loading}

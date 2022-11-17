@@ -10,14 +10,12 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-// import { Link } from "react-router-dom";
 
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import { Row, Col, Card, Dropdown, Button } from "antd";
 import "./navbar.css";
 import Logo from "../../images/LOGO ITIS.png";
-import logoLogin from "../../images/logo ITIIS.png"
 import { authAxios } from "../../api/axiosClient";
 import { logout } from "../../app/Actions/auth";
 import {
@@ -33,16 +31,17 @@ import { Link } from "react-router-dom";
 import { getPushNotification } from "../Function";
 import moment from "moment";
 import { SurroundSoundTwoTone } from "@mui/icons-material";
-import { Drawer } from "@mui/material";
+import { Badge, Drawer } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import { BellFilled, LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import CloseIcon from '@mui/icons-material/Close';
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import CloseIcon from "@mui/icons-material/Close";
+import HomeIcon from "@mui/icons-material/Home";
+import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
+import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
+import StoreIcon from "@mui/icons-material/Store";
+import EmailIcon from "@mui/icons-material/Email";
 
 const cookies = new Cookies();
 
@@ -56,6 +55,16 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-start",
 }));
+
+function notificationsLabel(count) {
+  if (count === 0) {
+    return "no notifications";
+  }
+  if (count > 99) {
+    return "more than 99 notifications";
+  }
+  return `${count} notifications`;
+}
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -72,15 +81,8 @@ function Navbar() {
     setOpen(false);
   };
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -246,19 +248,12 @@ function Navbar() {
         ""
       );
 
-    // useEffect(() => {
-    //   const toggleIcon = document.querySelector(".toggleMenu");
-    //   toggleIcon.addEventListener("click", () => {
-    //     document.querySelector(".menuNavbar").classList.toggle("active");
-    //   });
-    // }, []);
-
     return (
       <>
         <Col span={22}>
           <Card
             className={"notification-card"}
-            style={{ width: "360px", height: "410px" }}
+            style={{ width: "360px", height: "410px", borderRadius: "20px" }}
             // onScroll="true"
             title="Thông báo"
             extra={hasReadAll}
@@ -276,14 +271,74 @@ function Navbar() {
     );
   };
 
+  const [selectedIndex, setSelectedIndex] = useState("");
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
+
+  const SidebarData = [
+    {
+      id: 1,
+      group_role: 1,
+      link: "/admin",
+      name: "Admin",
+      icon: <PeopleOutlinedIcon />,
+    },
+    {
+      id: 2,
+      group_role: 2,
+      link: "/",
+      name: "Home",
+      icon: <HomeIcon />,
+    },
+    {
+      id: 3,
+      group_role: 2,
+      link: "/working_details",
+      name: "Working Details",
+      icon: <AutoAwesomeMotionIcon />,
+    },
+    {
+      id: 4,
+      group_role: 1,
+      link: "/project_management",
+      name: "Project Management",
+      icon: <ReceiptOutlinedIcon />,
+    },
+    {
+      id: 5,
+      group_role: 3,
+      link: "/super_admin_user",
+      name: "Super Admin User",
+      icon: <PeopleOutlinedIcon />,
+    },
+    {
+      id: 6,
+      group_role: 3,
+      link: "/super_admin_customer",
+      name: "Super Admin Customer",
+      icon: <StoreIcon />,
+    },
+    {
+      id: 7,
+      group_role: 1,
+      link: "/working_details",
+      name: "Working Details",
+      icon: <AutoAwesomeMotionIcon />,
+    },
+    {
+      id: 8,
+      group_role: 1,
+      link: "/mail",
+      name: "Mail",
+      icon: <EmailIcon />,
+    },
+  ];
+
   return (
     <AppBar position="static" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
-          {/* <Link to="/" className="Logo1">
-            <img src={Logo} alt="" style={{ height: "50px" }} />
-          </Link> */}
           <Typography
             variant="h6"
             noWrap
@@ -322,86 +377,40 @@ function Navbar() {
               anchor="left"
               open={open}
             >
-              <DrawerHeader >
-                <img src={logoLogin} alt=""  className="imgLogoDrawer"/>
-                <IconButton onClick={handleDrawerClose} className="IconButton_ChevronRightIcon">
-                  {theme.direction === "rtl" ? (
-                    <CloseIcon />
-                  ) : (
-                    <CloseIcon />
-                  )}
+              <DrawerHeader>
+                {/* <img src={logoLogin} alt="" className="imgLogoDrawer" /> */}
+                <IconButton
+                  onClick={handleDrawerClose}
+                  className="IconButton_ChevronRightIcon"
+                >
+                  {theme.direction === "rtl" ? <CloseIcon /> : <CloseIcon />}
                 </IconButton>
               </DrawerHeader>
               <Divider />
-              <List>
-                {/* {["Inbox", "Starred", "Send email", "Drafts"].map(
-                  (text, index) => (
-                    <ListItem key={text} disablePadding>
-                      <ListItemButton>
-                        <ListItemIcon>
-                          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                      </ListItemButton>
-                    </ListItem>
-                  )
-                )} */}
-                {userInfo.group_role === 1 ? (
-                  <ListItem key="Admin" disablePadding>
-                    <ListItemButton>
-                      <Link to="/admin">Admin</Link>
-                    </ListItemButton>
-                  </ListItem>
-                ) : (
-                  ""
-                )}
-                <ListItem key="working_details" disablePadding>
-                  <ListItemButton>
-                    <Link to="/working_details">Working Details</Link>
-                  </ListItemButton>
-                </ListItem>
-                {userInfo.group_role === 2 ? (
-                  <ListItem key="Home" disablePadding>
-                    <ListItemButton>
-                      <Link to="/home">Home</Link>
-                    </ListItemButton>
-                  </ListItem>
-                ) : (
-                  ""
-                )}
-                {userInfo.group_role === 1 ? (
-                  <ListItem key="project_management" disablePadding>
-                    <ListItemButton>
-                      <Link to="/project_management">Project Management</Link>
-                    </ListItemButton>
-                  </ListItem>
-                ) : (
-                  ""
-                )}
-                {userInfo.group_role === 1 ? (
-                  <ListItem key="super_admin_user" disablePadding>
-                    <ListItemButton>
-                      <Link to="/super_admin_user">Super Admin User</Link>
-                    </ListItemButton>
-                  </ListItem>
-                ) : (
-                  ""
-                )}
-                {userInfo.group_role === 1 ? (
-                  <ListItem key="super_admin_customer" disablePadding>
-                    <ListItemButton>
-                      <Link to="/super_admin_customer">Super Admin Customer</Link>
-                    </ListItemButton>
-                  </ListItem>
-                ) : (
-                  ""
-                )}
-              </List>
+
+              {SidebarData.filter(
+                (value) => value.group_role === userInfo.group_role
+              ).map((option, index) => (
+                // console.log(option)
+                <Link to={option.link} onClick={handleDrawerClose}>
+                  <MenuItem
+                    key={option.id}
+                    selected={index === selectedIndex}
+                    onClick={(event) => handleMenuItemClick(event, index)}
+                    sx={{ color: "white", display: "block" }}
+                  >
+                    <IconButton size="large" color="inherit">
+                      {option.icon}
+                    </IconButton>
+                    {option.name}
+                  </MenuItem>
+                </Link>
+              ))}
               <Divider />
             </Drawer>
           </Box>
           <Link to="/">
-            <img src={Logo} alt="" style={{ height: "50px" }} />
+            <img src={Logo} alt="" className="logoNavbar" />
           </Link>
           {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
           <Typography
@@ -421,73 +430,47 @@ function Navbar() {
             }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {userInfo.group_role === 1 ? (
-              <MenuItem sx={{ my: 2, color: "white", display: "block" }}>
-                <Link to="/admin">Admin</Link>
-              </MenuItem>
-            ) : (
-              ""
-            )}
-            {userInfo.group_role === 2 ? (
-              <MenuItem
-                // onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <Link to="/home">Home</Link>
-              </MenuItem>
-            ) : (
-              ""
-            )}
-
-            <MenuItem
-              // onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              <Link to="/working_details">Working Details</Link>
-            </MenuItem>
-            {userInfo.group_role === 1 ? (
-              <MenuItem
-                // onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <Link to="/project_management">Project Management</Link>
-              </MenuItem>
-            ) : (
-              ""
-            )}
-            {userInfo.group_role === 1 ? (
-              <MenuItem sx={{ my: 2, color: "white", display: "block" }}>
-                <Link to="/super_admin_user">Super Admin User</Link>
-              </MenuItem>
-            ) : (
-              ""
-            )}
-            {userInfo.group_role === 1 ? (
-              <MenuItem
-                key="SuperAdminCustomer"
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <Link to="/super_admin_customer">Super Admin Customer</Link>
-              </MenuItem>
-            ) : (
-              ""
-            )}
+            {/* menu chinh */}
+            {SidebarData.filter(
+              (value) => value.group_role === userInfo.group_role
+            ).map((option, index) => (
+              // console.log(option)
+              <Link to={option.link}>
+                <MenuItem
+                  key={option.id}
+                  selected={index === selectedIndex}
+                  onClick={(event) => handleMenuItemClick(event, index)}
+                  sx={{ color: "white", display: "block" }}
+                  className="MenuItemFontSize"
+                >
+                  <IconButton size="small" color="inherit" >
+                    {option.icon}
+                  </IconButton>
+                  {option.name}
+                </MenuItem>
+              </Link>
+            ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0.1 }} style={{ alignItems: "center" }}>
             <Dropdown
               overlay={<NotificationsCard data={lsNotification} />}
               onVisibleChange={(e) => fetchNotification()}
               overlayStyle={{ height: 400 }}
             >
-              <Button className="btnNoti">
+              {/* <Button className="btnNoti">
                 <BellFilled style={{ fontSize: 20 }} />
                 <span style={{ color: "#ff0000" }}>{countNoti}</span>
-              </Button>
+              </Button> */}
+              <IconButton aria-label={notificationsLabel(100)}>
+                <Badge badgeContent={countNoti} color="error">
+                  <BellFilled />
+                </Badge>
+              </IconButton>
             </Dropdown>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
@@ -508,24 +491,26 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
               <MenuItem>
                 <Typography textAlign="center">
-                  <UserOutlined style={{ marginRight: "5px" }} />
-                  <Link to={"/personal_information"}>
-                    Xem thông tin tài khoản
+                  <UserOutlined />
+                  <Link
+                    to={"/personal_information"}
+                    style={{ marginLeft: "5px" }}
+                  >
+                    See all profiles
                   </Link>
                 </Typography>
               </MenuItem>
               <MenuItem onClick={() => logout_new()}>
                 <Typography textAlign="center">
-                  <LogoutOutlined style={{ marginRight: "5px" }} />
-                  <a target="_blank" rel="noopener noreferrer">
-                    Đăng xuất
+                  <LogoutOutlined />
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ marginLeft: "5px" }}
+                  >
+                    Log Out
                   </a>
                 </Typography>
               </MenuItem>

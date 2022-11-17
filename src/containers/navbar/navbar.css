@@ -1,53 +1,3 @@
-.wrapper {
-    /* box-shadow: 0px 1px 1px rgb(0 0 0 / 12%); */
-    display: flex;
-    justify-content: center;
-    /* background: linear-gradient(0.13deg,rgba(255, 255, 255, 0.637),#bbdef2 99.76%); */
-    background-size: cover;
-    background: rgba(16, 13, 13, 1);
-}
-
-.RowNavbar {
-    width: 100%;
-}
-
-.wrapper {
-    justify-content: left;
-    width: 100%;
-}
-
-.menuNavbar {
-    background: none;
-    border-bottom: none;
-}
-
-.menuNavbar li.ant-menu-overflow-item.ant-menu-item {
-    color: white;
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.navbarUser {
-    color: #fff;
-}
-
-.ant-row-rtl .ant-btn {
-    margin-right: 0;
-    margin-bottom: 8px;
-    margin-left: 8px;
-}
-
-.avatarNavbar {
-    cursor: pointer;
-}
-
-.nameNavbar {
-    margin-left: 8px;
-    /* font-size: 15px; */
-    font-weight: 600;
-    cursor: pointer;
-}
-
 .toggleMenu {
     transform: rotate(90deg);
 }
@@ -59,6 +9,7 @@
 
 .MuiBox-root.css-1t6c9ts a {
     color: #fff;
+    font-size: 15px;
     font-weight: 400;
 }
 
@@ -77,6 +28,47 @@
     position: relative;
 }
 
-.IconButton_ChevronRightIcon{
+.IconButton_ChevronRightIcon {
     position: fixed !important;
+    color: white !important;
+}
+
+/* /////////////////// */
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation0.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+    background-color: #333333f1;
+}
+
+.css-1o6fhzm-MuiButtonBase-root-MuiMenuItem-root.Mui-selected {
+    background-color: rgb(25 118 210 / 91%) !important;
+    border-radius: 20px;
+}
+
+button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeMedium.ant-dropdown-trigger.css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+    color: #fff;
+}
+
+.DropdownTB{
+    border-radius: 20px;
+}
+
+.css-19r6kue-MuiContainer-root{
+    padding-left: 0 !important;
+    padding-right: 5px !important;
+}
+
+.MenuItemFontSize {
+    font-size: 0.8571428571428571rem !important;
+}
+
+.logoNavbar{
+    height: 50px;
+}
+
+@media (max-width: 1024px) {
+    .MenuItemFontSize {
+        font-size: 10px !important;
+    }
+    .logoNavbar{
+        height: 40px;
+    }
 }

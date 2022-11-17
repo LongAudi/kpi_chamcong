@@ -327,7 +327,7 @@ function WorkingDetails() {
         <div className="FormHome2">
           <div className="HeaderContentUser"></div>
           <Row>
-            <Col span={5}>
+            <Col className="SelectWorkingDetails">
               <Select
                 allowClear
                 style={{ width: "100%" }}
@@ -341,7 +341,7 @@ function WorkingDetails() {
                 ))}
               </Select>
             </Col>
-            <Col span={5} offset={1}>
+            <Col className="SelectWorkingDetails" offset={1}>
               <Select
                 allowClear
                 style={{ width: "100%" }}

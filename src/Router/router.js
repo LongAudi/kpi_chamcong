@@ -25,6 +25,7 @@ import WorkingDetails from "../containers/component/WorkingDetails";
 import ProjectManagement from "../containers/component/ProjectManagement";
 import SuperAdminUser from "../containers/component/SuperAdminUser";
 import SuperAdminCustomer from "../containers/component/SuperAdminCustomer";
+import Mail from "../containers/component/Mail";
 
 const cookies = new Cookies();
 
@@ -32,6 +33,7 @@ function Main() {
   const dispatch = useDispatch();
   // const userInfo = useSelector((state) => state.getUserInfo.userInfo);
   const [isValid, setIsValid] = useState(true);
+  const [isSuperA, setIsSuperA] = useState(false);
   const [lsPermissions, setLsPermissions] = useState(["Member"]);
 
   const token = cookies.get("token");
@@ -48,6 +50,8 @@ function Main() {
 
   useEffect(() => {
     if (userInfo) {
+      // console.log(userInfo.group_name);
+      setIsSuperA(userInfo.is_superuser);
       setLsPermissions([userInfo.group_name]);
 
       //     if (userInfo.team_permissions){
@@ -91,6 +95,7 @@ function Main() {
           permission={["Admin", "Member"]}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={User}
@@ -102,6 +107,7 @@ function Main() {
           permission={["Admin"]}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={SuperAdminUser}
@@ -110,9 +116,10 @@ function Main() {
           path="/super_admin_user"
           isPrivate={true}
           lsPermissions={lsPermissions}
-          permission={["Admin"]}
+          permission={["Super_Admin"]}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={SuperAdminCustomer}
@@ -121,9 +128,10 @@ function Main() {
           path="/super_admin_customer"
           isPrivate={true}
           lsPermissions={lsPermissions}
-          permission={["Admin"]}
+          permission={["Super_Admin"]}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={ProjectManagement}
@@ -135,6 +143,7 @@ function Main() {
           permission={["Admin"]}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={WorkingDetails}
@@ -146,6 +155,7 @@ function Main() {
           permission={["Member","Admin"]}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={Home}
@@ -157,6 +167,7 @@ function Main() {
           permission={["Member"]}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={ThongTinCaNhan}
@@ -168,6 +179,19 @@ function Main() {
           permission={["Admin", "Member"]}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
+        />
+        <RouteWithLayout
+          component={Mail}
+          exact
+          layout={CustomLayout}
+          path="/mail"
+          isPrivate={true}
+          lsPermissions={lsPermissions}
+          permission={["Admin", "Member"]}
+          isLogged={auth}
+          isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={NotPermission}
@@ -179,6 +203,7 @@ function Main() {
           permission={"403"}
           isLogged={auth}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
         <RouteWithLayout
           component={NotFoundLayout}
@@ -189,6 +214,7 @@ function Main() {
           isLogged={auth}
           permission={"404"}
           isValid={isValid}
+          isSuperA={isSuperA}
         />
       </Switch>
     </Router>
@@ -205,6 +231,7 @@ const RouteWithLayout = (props) => {
     lsPermissions: lsPermissions,
     permission: permission,
     path: path,
+    isSuperA: isSuperA,
     ...rest
   } = props;
 
@@ -227,23 +254,35 @@ const RouteWithLayout = (props) => {
         isValid ? (
           isPrivate ? (
             isLogged ? (
-              lsPermissions && lsPermissions.length > 0 ? (
-                lsPermissions.some((r) => permission.includes(r)) ? (
-                  // Nếu là Admin thì chuyển về /admin
-                  path == "/" && lsPermissions.includes("Admin") ? (
-                    <Redirect to="/admin"></Redirect>
-                  ) : (
-                    <Layout isLogged={isLogged}>
-                      <Component {...props} />
-                    </Layout>
-                  )
-                ) : (
-                  getRejectRoute(permission)
-                  // lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> : getRejectRoute(permission)
-                )
+              isSuperA && path === "/"? (
+                <Redirect to="/super_admin_user"></Redirect>
               ) : (
-                <span></span>
+                permission.includes("Super_Admin") ?
+                  <Layout isLogged={isLogged}>
+                    <Component {...props} />
+                  </Layout>
+                  :
+                  (
+                    lsPermissions && lsPermissions.length > 0 ? (
+                      lsPermissions.some((r) => permission.includes(r)) ? (
+                        // Nếu là Admin thì chuyển về /admin
+                        path === "/" && lsPermissions.includes("Admin") ? (
+                          <Redirect to="/admin"></Redirect>
+                        ) : (
+                          <Layout isLogged={isLogged}>
+                            <Component {...props} />
+                          </Layout>
+                        )
+                      ) : (
+                        getRejectRoute(permission)
+                        // lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> : getRejectRoute(permission)
+                      ) 
+                    ) : (
+                      <span></span>
+                    ) 
+                  )
               )
+
             ) : (
               <Redirect
                 to={{

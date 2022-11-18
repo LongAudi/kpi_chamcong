@@ -19,7 +19,6 @@ const CustomLayoutFC =({children})=>{
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

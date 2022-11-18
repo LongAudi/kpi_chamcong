@@ -155,11 +155,11 @@ function Navbar() {
     const tabList = [
       {
         key: "tab1",
-        tab: "Mới",
+        tab: "New",
       },
       {
         key: "tab2",
-        tab: "Tất cả",
+        tab: "All",
       },
     ];
     const ReadAllNotification = () => {
@@ -242,7 +242,7 @@ function Navbar() {
     const hasReadAll =
       data.data.filter((item) => !item.is_view).length > 0 ? (
         <a type={"primary"} onClick={(e) => ReadAllNotification()}>
-          Đánh dấu đã đọc
+          Mark as read
         </a>
       ) : (
         ""
@@ -255,7 +255,7 @@ function Navbar() {
             className={"notification-card"}
             style={{ width: "360px", height: "410px", borderRadius: "20px" }}
             // onScroll="true"
-            title="Thông báo"
+            title="Notification"
             extra={hasReadAll}
             tabList={tabList}
             activeTabKey={currentKey}
@@ -355,7 +355,7 @@ function Navbar() {
             }}
           ></Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }} >
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }} role="presentation">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -452,7 +452,7 @@ function Navbar() {
               </Link>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0.1 }} style={{ alignItems: "center" }}>
+          <Box sx={{ flexGrow: 0.05 }} style={{ alignItems: "center" }}>
             <Dropdown
               overlay={<NotificationsCard data={lsNotification} />}
               onVisibleChange={(e) => fetchNotification()}

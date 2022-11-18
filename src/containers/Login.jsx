@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Modal, Col, Row } from 'antd';
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
     UserOutlined, LockOutlined, CloseCircleOutlined, EyeTwoTone, EyeInvisibleOutlined
 } from '@ant-design/icons';
@@ -171,7 +171,8 @@ class LoginForm extends React.Component {
                                 />
                             </Form.Item>
                             <Form.Item className="FormItem">
-                                <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot " style={{ cursor: "pointer", color: "#0078d7" }}>Don't remember your password?</span>
+                                <Link to={"/forgot"} className="login-form-forgot" style={{ cursor: "pointer", color: "#0078d7" }}>Don't remember your password?</Link>
+                                {/* <span onClick={() =>this.setState({ modalVisibleRestPass: true })} className="login-form-forgot " style={{ cursor: "pointer", color: "#0078d7" }}></span> */}
                             </Form.Item>
                             <Form.Item className="FormItem">
                                 

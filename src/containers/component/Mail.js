@@ -12,6 +12,7 @@ import {
 import moment from "moment";
 import { DataGrid } from "@mui/x-data-grid";
 import {
+  Alert,
   Box,
   Button,
   DialogActions,
@@ -30,8 +31,8 @@ import FormControl from "@mui/material/FormControl";
 import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
-import SendIcon from '@mui/icons-material/Send';
-import EditIcon from '@mui/icons-material/Edit';
+import SendIcon from "@mui/icons-material/Send";
+import EditIcon from "@mui/icons-material/Edit";
 
 const { Option } = Select;
 const validateMessages = {
@@ -203,8 +204,8 @@ function Mail() {
 
   const styles = {
     // position: "fixed",
-    width: 400,
-    height: 500,
+    width: 500,
+    height: 600,
     // top: "73%",
     // left: "84%",
     // transform: "translate(-50%, -50%)",
@@ -271,14 +272,17 @@ function Mail() {
                               className="TextareaAutosizeMail style-6"
                               aria-label="maximum height"
                               placeholder="Content"
+                              maxLength={500}
                             />
                           </Form.Item>
+                          <Alert severity="error">
+                            Use 500 characters or less!
+                          </Alert>
                         </DialogContent>
                       </Form>
 
                       <DialogActions>
-                        <Form.Item
-                        >
+                        <Form.Item>
                           <LoadingButton
                             type="success"
                             // htmlType="submit"

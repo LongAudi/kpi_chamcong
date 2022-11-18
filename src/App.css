@@ -5,13 +5,14 @@
     margin: 0;
 }
 
+
 .logoLogin {
     margin-top: 40px;
 }
 
 .login-form-forgot {
     font-weight: 500;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .inputPageLogin {
@@ -48,7 +49,7 @@ div#layout-wrapper {
     margin: auto;
     width: 45%;
     margin-top: 20px;
-    background: linear-gradient(90.13deg, #d1aad7 0.11%, #c88bc4 25.06%, #7b8fdd 50%, #86bff2 74.8%, #bbdef2 99.76%);
+    background: linear-gradient(to top,#fbc2eb 0%,#a18cd1 100%);
     border-radius: 1.5rem;
 }
 
@@ -116,13 +117,11 @@ div#layout-wrapper {
 
 .layoutUserLogin {
     /* background: url("./images/image_2022_10_24T03_58_02_594Z.png") no-repeat center center; */
-    background: radial-gradient(55.87%55.87%at 35.49%-18.37%, #333 0%, rgba(255, 255, 255, 0) 100%),
-        radial-gradient(91.61%92.58%at 104.86%-43.36%, #fd9d52 0%, rgba(255, 255, 255, 0) 100%),
-        radial-gradient(50.59%55.55%at -2.99%-8.69%, #dd45d3 9.06%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to top,#fbc2eb 0%,#a18cd1 100%);
     background-size: cover;
 }
 
-.ant-col.ant-col-sm-6 {
+.ant-col.ant-col-sm-7 {
     text-align: center;
 }
 
@@ -320,12 +319,13 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
 
 .TextareaAutosizeMail{
     width: 100%;
-    height: 290px !important;
+    height: 340px !important;
     border: none;
     overflow: auto !important;
     outline: none !important;
     resize: none ;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .style-6::-webkit-scrollbar-track
@@ -386,7 +386,7 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     button.ant-btn.ant-btn-dashed.ant-btn-block.textContent {
         font-size: 10px;
     }
-    .ant-col.FormLogin.ant-col-sm-6 {
+    .ant-col.FormLogin.ant-col-sm-7 {
         width: 80%;
     }
     .formItemHome .ant-col.ant-form-item-control {
@@ -395,13 +395,13 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     .SelectWorkingDetails {
         width: 40%;
     }
-    .BoxMail.MuiBox-root.css-1x5v2y {
-        width: 350px;
-        height: 450px;
+    .BoxMail.MuiBox-root.css-1nhsbpx {
+        width: 350px !important;
+        height: 480px !important;
     }
     .TextareaAutosizeMail{
         width: 100%;
-        height: 240px !important;
+        height: 220px !important;
         border: none;
     }
 }

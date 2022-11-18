@@ -50,7 +50,6 @@ function Home() {
   const fetchProjectWithUser = (params = {}) => {
     GetProjectWithUserAPI()
       .then((res) => {
-        console.log(res.data);
         setLsProjectWithUser(res.data);
       })
       .catch((err) => {
@@ -386,6 +385,8 @@ function Home() {
     setFileUpload(fileList);
   };
 
+  const format = 'HH:mm:ss';
+
   return (
     <Row>
       <div className="FormHome">
@@ -420,7 +421,7 @@ function Home() {
                         .filter((item) => item.id == selectProjectID)[0]
                         .thoi_gian_lam.map((item, index) => (
                           <Select.Option key={item.id} value={item.id}>
-                            {item.gio_vao} - {item.gio_ra}
+                            {(item.gio_vao).slice(0,5)} - {(item.gio_ra).slice(0,5)}
                           </Select.Option>
                         ))}
                   </Select>

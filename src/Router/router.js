@@ -26,6 +26,7 @@ import ProjectManagement from "../containers/component/ProjectManagement";
 import SuperAdminUser from "../containers/component/SuperAdminUser";
 import SuperAdminCustomer from "../containers/component/SuperAdminCustomer";
 import Mail from "../containers/component/Mail";
+import Forgot from "../containers/Forgot";
 
 const cookies = new Cookies();
 
@@ -74,6 +75,7 @@ function Main() {
   return (
     <Router>
       <Switch>
+      <Route path="/forgot" component={Forgot}/>
         <ProtectLoginRoute
           exact
           path="/Login"
@@ -84,7 +86,6 @@ function Main() {
             <Login />
           </UserLayout>
         </ProtectLoginRoute>
-
         <RouteWithLayout
           component={Home}
           exact
@@ -152,7 +153,7 @@ function Main() {
           path="/working_details"
           isPrivate={true}
           lsPermissions={lsPermissions}
-          permission={["Member","Admin"]}
+          permission={["Member", "Admin"]}
           isLogged={auth}
           isValid={isValid}
           isSuperA={isSuperA}
@@ -254,35 +255,29 @@ const RouteWithLayout = (props) => {
         isValid ? (
           isPrivate ? (
             isLogged ? (
-              isSuperA && path === "/"? (
+              isSuperA && path === "/" ? (
                 <Redirect to="/super_admin_user"></Redirect>
-              ) : (
-                permission.includes("Super_Admin") ?
-                  <Layout isLogged={isLogged}>
-                    <Component {...props} />
-                  </Layout>
-                  :
-                  (
-                    lsPermissions && lsPermissions.length > 0 ? (
-                      lsPermissions.some((r) => permission.includes(r)) ? (
-                        // Nếu là Admin thì chuyển về /admin
-                        path === "/" && lsPermissions.includes("Admin") ? (
-                          <Redirect to="/admin"></Redirect>
-                        ) : (
-                          <Layout isLogged={isLogged}>
-                            <Component {...props} />
-                          </Layout>
-                        )
-                      ) : (
-                        getRejectRoute(permission)
-                        // lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> : getRejectRoute(permission)
-                      ) 
-                    ) : (
-                      <span></span>
-                    ) 
+              ) : permission.includes("Super_Admin") ? (
+                <Layout isLogged={isLogged}>
+                  <Component {...props} />
+                </Layout>
+              ) : lsPermissions && lsPermissions.length > 0 ? (
+                lsPermissions.some((r) => permission.includes(r)) ? (
+                  // Nếu là Admin thì chuyển về /admin
+                  path === "/" && lsPermissions.includes("Admin") ? (
+                    <Redirect to="/admin"></Redirect>
+                  ) : (
+                    <Layout isLogged={isLogged}>
+                      <Component {...props} />
+                    </Layout>
                   )
+                ) : (
+                  getRejectRoute(permission)
+                  // lsPermissions.includes('Admin') ? <Redirect to="/admin"></Redirect> : getRejectRoute(permission)
+                )
+              ) : (
+                <span></span>
               )
-
             ) : (
               <Redirect
                 to={{

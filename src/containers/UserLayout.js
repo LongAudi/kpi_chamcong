@@ -15,9 +15,9 @@ class UserLayout extends React.Component {
           type="flex"
           justify="center"
           align="middle"
-          style={{ height: "92vh" }}
+          style={{ height: "94vh" }}
         >
-          <Col sm={6} className="FormLogin">
+          <Col sm={7} className="FormLogin">
             <Login />
           </Col>
         </Row>

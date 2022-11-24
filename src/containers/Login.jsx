@@ -176,7 +176,7 @@ class LoginForm extends React.Component {
                             </Form.Item>
                             <Form.Item className="FormItem">
                                 
-                                <Button htmlType="submit" className="login-form-button" loading={loading} onClick={() => loadings}>
+                                <Button htmlType="submit" className="bn632-hover bn20" loading={loading} onClick={() => loadings}>
                                     Log In
                                 </Button>
                             </Form.Item>

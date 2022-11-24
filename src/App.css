@@ -5,6 +5,17 @@
     margin: 0;
 }
 
+.FormLogin{
+    /* border: 1px solid black; */
+    background: rgba(0, 0, 0, 0.534);
+    border-radius: 20px;
+    width: 30%;
+    text-align: center;
+}
+
+.content {
+    padding: 80px 0;
+}
 
 .logoLogin {
     margin-top: 40px;
@@ -21,17 +32,74 @@
     border-radius: 10px;
 }
 
-.login-form-button {
-    width: 100%;
+.bn632-hover {
+    /* width: 100%;
     height: 48px;
     border-radius: 10px;
     background: #333 !important;
     font-size: 18px;
     font-weight: 700;
+    background-color: #0078d7;
+    color: white;
+    border: none;
+     */
+
+    width: 100%;
+    height: 48px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 0px 30px;
+    color: white;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+    
+    --moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
 }
+
+.bn632-hover:hover {
+    color: white;
+    background: transparent;
+}
+
+.bn632-hover:hover {
+    background-position: 100% 0;
+    --moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+  
+  .bn632-hover:focus {
+    outline: none;
+  }
+  
+  .bn632-hover.bn20 {
+    background-image: linear-gradient(
+      to right,
+      #667eea,
+      #764ba2,
+      #6b8dd6,
+      #8e37d7
+    );
+    box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+  }
 
 .FooterLogin {
     background: transparent;
+    bottom: 0;
+    /* padding: 20px calc(24px / 2); */
+    position: absolute;
+    right: 0;
+    color: #74788d;
+    /* left: 250px; */
+    height: 9vh;
+    width: 100%;
+    text-align: center;
 }
 
 .container.loginFormInput .ant-form-item-control-input {
@@ -40,16 +108,82 @@
 }
 
 div#layout-wrapper {
-    background: url("./images/image_2022_10_24T03_58_02_594Z.png") no-repeat center center;
+    background: url("./images/2890407d363eef60b62f.jpg") no-repeat center center;
     background-size: cover;
     /* background: #000; */
 }
+
+.ant-btn[disabled]{
+    color: #fff;
+}
+
+.ant-btn[disabled]:hover{
+    color: #fff;
+}
+
+.btnSendHome {
+    border: 5em;
+    cursor: pointer;
+    outline: none;
+    font-size: 16px;
+    -webkit-transform: translate(0);
+    transform: translate(0);
+    background-image: linear-gradient(45deg, #4568dc, #b06ab3);
+    border-radius: 65px;
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.438);
+    -webkit-transition: box-shadow 0.25s;
+    transition: box-shadow 0.25s;
+    color: white;
+    height: 40px;
+  }
+  
+  .btnSendHome .text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(45deg, #4568dc, #b06ab3);
+  }
+  
+  .btnSendHome:after {
+    content: "";
+    border-radius: 18px;
+    position: absolute;
+    margin: 4px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background: #0e0e10;
+  }
+  
+  .btnSendHome:hover {
+    background-image: linear-gradient(-45deg, #4568dc, #b06ab3);
+    box-shadow: 0 12px 24px rgba(128, 128, 128, 0.1);
+    color: white;
+  }
+  
+  .btnSendHome:hover .text {
+    background-image: linear-gradient(-45deg, #4568dc, #b06ab3);
+  }
+
+/* .btnSendHome{
+    background: #9854CB;
+    border: none;
+    color: #fff;
+}
+
+.btnSendHome:hover{
+    background: #9854CB !important;
+    color: #fff;
+} */
 
 .FormHome {
     margin: auto;
     width: 45%;
     margin-top: 20px;
-    background: linear-gradient(to top,#fbc2eb 0%,#a18cd1 100%);
+    /* background: linear-gradient(to top,#fbc2eb 0%,#a18cd1 100%); */
+    background: rgba(0, 0, 0, 0.534);
     border-radius: 1.5rem;
 }
 
@@ -117,7 +251,9 @@ div#layout-wrapper {
 
 .layoutUserLogin {
     /* background: url("./images/image_2022_10_24T03_58_02_594Z.png") no-repeat center center; */
-    background: linear-gradient(to top,#fbc2eb 0%,#a18cd1 100%);
+    /* background: linear-gradient(to top,#fbc2eb 0%,#a18cd1 100%); */
+    background: url("./images/2890407d363eef60b62f.jpg") no-repeat center center;
+
     background-size: cover;
 }
 
@@ -125,17 +261,11 @@ div#layout-wrapper {
     text-align: center;
 }
 
-.login-form-button {
-    background-color: #0078d7;
-    color: white;
+.DialogContentMail .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     border: none;
-    padding: 0px 30px;
+    border-bottom: 1px solid #333 !important;
 }
 
-.login-form-button:hover {
-    color: white;
-    background-color: #008cff;
-}
 
 .logo-login h1 {
     color: #333;
@@ -179,19 +309,19 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
     border-radius: 8px;
     font-size: 12px;
     font-weight: bold;
-    border: 1px solid #fff;
+    border: 1px solid rgba(0, 0, 0, 0.541);
 }
 
 button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.btnAddUser.css-1e6y48t-MuiButtonBase-root-MuiButton-root:hover {
-    background-color: #4895ef;
+    background-color: #9854CB;
     color: #fff;
-    border: 1px solid #4895ef;
+    border: 1px solid #9854CB;
 }
 
 button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
-    background: #4895ef;
+    background: #9854CB;
     color: #fff;
-    border: 1px solid #4895ef;
+    border: 1px solid #9854CB;
 }
 
 .showModal {
@@ -319,7 +449,7 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
 
 .TextareaAutosizeMail{
     width: 100%;
-    height: 340px !important;
+    height: 310px !important;
     border: none;
     overflow: auto !important;
     outline: none !important;
@@ -353,7 +483,21 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
                                             transparent)
 }
 
+.css-1a4cg4j-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    color: #fff !important;
+    background: #333;
+    font-weight: 600;
+}
+
+.css-1a4cg4j-MuiButtonBase-root-MuiTab-root{
+    color: #fff !important;
+    font-weight: 600 !important;
+}
+
 @media (max-width: 768px) {
+    .FormLogin{
+        width: 70% !important;
+    }
     .ant-row.ant-form-item.formItemHome,
     .ant-col.ant-col-9.ant-form-item-label,
     .ant-col.ant-col-15.ant-form-item-control {
@@ -367,13 +511,13 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
         width: 100%;
     }
     .FormHome1 {
-        width: 100% !important;
+        width: 90% !important;
         margin: auto;
         padding: 0;
     }
     .FormHome2 {
         width: 100%;
-        background: none;
+        /* background: none; */
     }
     .FormProject1 {
         width: 100% !important;
@@ -401,15 +545,12 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     }
     .TextareaAutosizeMail{
         width: 100%;
-        height: 220px !important;
+        height: 160px !important;
         border: none;
     }
 }
 
 @media (max-width: 992px) {
-    .FormHome {
-        width: 100% !important;
-    }
     .container.loginFormInput .ant-form-item-control-input {
         width: 100%;
         margin: auto;
@@ -417,8 +558,14 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
 }
 
 @media (max-width: 1024px) {
+    .FormLogin{
+        width: 55%;
+    }
+    .content {
+        padding: 50px 20px;
+    }
     .FormHome {
-        width: 100% !important;
+        width: 80% !important;
         margin-top: 20px;
     }
     .FormProject1 {
@@ -440,8 +587,3 @@ button.ant-btn.ant-btn-dashed.ant-btn-block.textContent:hover {
     }
 }
 
-@media (max-width: 1440px) {
-    .FormHome {
-        width: 100% !important;
-    }
-}

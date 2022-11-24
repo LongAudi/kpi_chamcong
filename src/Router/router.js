@@ -27,6 +27,7 @@ import SuperAdminUser from "../containers/component/SuperAdminUser";
 import SuperAdminCustomer from "../containers/component/SuperAdminCustomer";
 import Mail from "../containers/component/Mail";
 import Forgot from "../containers/Forgot";
+import GoiHD from "../containers/component/goiHoaDon/GoiHD";
 
 const cookies = new Cookies();
 
@@ -75,7 +76,7 @@ function Main() {
   return (
     <Router>
       <Switch>
-      <Route path="/forgot" component={Forgot}/>
+        <Route path="/forgot" component={Forgot} />
         <ProtectLoginRoute
           exact
           path="/Login"
@@ -190,6 +191,18 @@ function Main() {
           isPrivate={true}
           lsPermissions={lsPermissions}
           permission={["Admin", "Member"]}
+          isLogged={auth}
+          isValid={isValid}
+          isSuperA={isSuperA}
+        />
+        <RouteWithLayout
+          component={GoiHD}
+          exact
+          layout={CustomLayout}
+          path="/invoice_package"
+          isPrivate={true}
+          lsPermissions={lsPermissions}
+          permission={["Admin"]}
           isLogged={auth}
           isValid={isValid}
           isSuperA={isSuperA}

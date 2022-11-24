@@ -389,9 +389,9 @@ function Home() {
 
   return (
     <Row>
-      <div className="FormHome">
+      <div className="FormHome" style={{width: "40%"}}>
         <div className="FormHome1">
-          <div className="FormUser2">
+          {/* <div className="FormUser2"> */}
             <div className="formItemHome" style={{ marginBottom: "24px" }}>
               <Row>
                 <Col span={12}>
@@ -671,7 +671,6 @@ function Home() {
                 style={{ textAlign: "center" }}
               >
                 <Button
-                  type="primary"
                   shape="round"
                   className="btnSendHome"
                   htmlType="submit"
@@ -688,7 +687,7 @@ function Home() {
             </Form>
           </div>
         </div>
-      </div>
+      {/* </div> */}
       {/* </Col> */}
       {/* <Col span={8}></Col> */}
     </Row>

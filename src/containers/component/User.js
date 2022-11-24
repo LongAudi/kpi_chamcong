@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Table,
-  Tooltip,
-  // Button,
   Modal,
   Form,
   Input,
@@ -10,9 +7,6 @@ import {
   Col,
   Select,
   DatePicker,
-  Tag,
-  Drawer,
-  TimePicker,
   Popconfirm,
 } from "antd";
 import { errorHandle, openNotificationWithIcon, toSlug } from "../Function";

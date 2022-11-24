@@ -10,6 +10,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { ListItemButton, ListItemText  } from '@mui/material';
 
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
@@ -333,7 +334,16 @@ function Navbar() {
       name: "Mail",
       icon: <EmailIcon />,
     },
+    {
+      id: 9,
+      group_role: 1,
+      link: "/invoice_package",
+      name: "Invoice package",
+      icon: <EmailIcon />,
+    },
   ];
+
+  
 
   return (
     <AppBar position="static" color="primary">
@@ -355,14 +365,16 @@ function Navbar() {
             }}
           ></Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }} role="presentation">
+          <Box
+            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            role="presentation"
+          >
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="end"
               onClick={handleDrawerOpen}
               sx={{ ...(open && { display: "none" }) }}
-              
             >
               <MenuIcon />
             </IconButton>
@@ -432,10 +444,25 @@ function Navbar() {
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {/* menu chinh */}
+
+             
+            {/* <ListItemButton component="a" href="#simple-list">
+              <ListItemText primary="Spam" />
+            </ListItemButton>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon>
+                    <StarBorder />
+                  </ListItemIcon>
+                  <ListItemText primary="Starred" />
+                </ListItemButton>
+              </List>
+            </Collapse> */}
+
             {SidebarData.filter(
               (value) => value.group_role === userInfo.group_role
             ).map((option, index) => (
-              // console.log(option)
               <Link to={option.link}>
                 <MenuItem
                   key={option.id}
@@ -444,10 +471,11 @@ function Navbar() {
                   sx={{ color: "white", display: "block" }}
                   className="MenuItemFontSize"
                 >
-                  <IconButton size="small" color="inherit" >
+                  <IconButton size="small" color="inherit">
                     {option.icon}
                   </IconButton>
                   {option.name}
+                
                 </MenuItem>
               </Link>
             ))}
@@ -473,7 +501,11 @@ function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt={userInfo.username}
+                  src="/static/images/avatar/2.jpg"
+                />
+                {/* <span style={{color: "#fff", fontSize: "15px", marginLeft: "5px"}}>{userInfo.username}</span> */}
               </IconButton>
             </Tooltip>
             <Menu
@@ -491,7 +523,7 @@ function Navbar() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-              key= "Menu"
+              key="Menu"
             >
               <MenuItem key="UserOutlined">
                 <Typography textAlign="center">

@@ -250,18 +250,26 @@ function Mail() {
                         }}
                       >
                         <DialogContent dividers className="DialogContentMail">
-                          <Form.Item
-                            name="Email"
-                            rules={[{ required: true, type: "string" }]}
-                          >
-                            <Input
-                              id="input-with-icon-adornment"
-                              startAdornment={
-                                <InputAdornment position="start">
-                                  To
-                                </InputAdornment>
-                              }
-                            />
+                          <Form.Item label="Email" name="Email" rules={[{ required: true }]} >
+                            <Select
+                              mode="multiple"
+                              placeholder="Please select"
+                              size={"middle"}
+                              style={{
+                                width: "100%",
+                              }}
+                              allowClear
+                            >
+                              {/* {children} */}
+                              {lsNameUser
+                                .map((item, index) =>
+                                  item.group_name === "Admin" ? null : (
+                                    <Option key={item.id} value={item.username}>
+                                      {item.username}
+                                    </Option>
+                                  )
+                                )}
+                            </Select>
                           </Form.Item>
                           <Form.Item
                             name="comment"

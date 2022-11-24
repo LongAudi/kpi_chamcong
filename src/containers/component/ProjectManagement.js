@@ -311,7 +311,7 @@ const ModalAddProject = ({
                   .filter((item) => item.id !== nameLeader)
                   .map((item, index) =>
                     item.group_name === "Admin" ? null : (
-                      <Option key={item.id} value={item.id}>
+                      <Option key={item.id} value={item.username}>
                         {item.username}
                       </Option>
                     )
@@ -617,7 +617,7 @@ const ModalEditProject = ({
               rules={[{ required: true }]}
             >
               <Select
-                // mode="multiple"
+                mode="multiple"
                 placeholder="Please select"
                 size={"middle"}
                 style={{
@@ -659,7 +659,7 @@ const ModalEditProject = ({
                   .filter((item) => item.id !== nameLeader)
                   .map((item, index) =>
                     item.group_name === "Admin" ? null : (
-                      <Option key={item.username} value={item.id}>
+                      <Option key={item.username} value={item.username}>
                         {item.username}
                       </Option>
                     )
